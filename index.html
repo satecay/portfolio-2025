@@ -86,22 +86,21 @@
 
     <!-- Navbar: Minimal & Transparent -->
     <nav class="fixed w-full z-50 mix-blend-difference text-white/90"> 
-        <!-- Note: Using mix-blend-difference allows navbar to be visible on both light/dark backgrounds automatically -->
         <div class="max-w-screen-2xl mx-auto px-6 py-6 flex justify-between items-center">
             <a href="#" class="text-2xl font-serif font-bold tracking-widest uppercase">Dzung.</a>
             
             <div class="hidden md:flex space-x-12 text-sm tracking-widest font-light uppercase">
                 <a href="#home" class="hover:text-gray-400 transition">Home</a>
                 <a href="#work" class="hover:text-gray-400 transition">Selected Work</a>
+                <a href="#services" class="hover:text-gray-400 transition">Services</a> <!-- Thêm link Services -->
                 <a href="#studio" class="hover:text-gray-400 transition">AI Studio</a>
                 <a href="#about" class="hover:text-gray-400 transition">Profile</a>
-                <!-- Thêm dòng này, thay LINK_GOOGLE_DRIVE bằng link bạn vừa copy -->
                 <a href="LINK_GOOGLE_DRIVE_CUA_BAN" target="_blank" class="hover:text-primary dark:hover:text-white transition font-bold border-b border-stone-500 pb-1">Resume</a>
             </div>
 
             <div class="flex items-center space-x-6">
                 <button id="theme-toggle" class="hover:text-gray-400 transition text-lg">
-                    <i class="fas fa-adjust"></i> <!-- Minimal icon -->
+                    <i class="fas fa-adjust"></i> 
                 </button>
                 <button id="mobile-menu-btn" class="md:hidden text-lg">
                     <i class="fas fa-bars"></i>
@@ -109,37 +108,32 @@
             </div>
         </div>
         
-        <!-- Mobile Menu (Background filled) -->
+        <!-- Mobile Menu -->
         <div id="mobile-menu" class="hidden absolute top-full left-0 w-full bg-paper dark:bg-dark text-primary dark:text-white border-b border-stone-200 dark:border-stone-800">
             <div class="flex flex-col p-6 space-y-4 font-serif text-xl">
                 <a href="#home" class="block">Home</a>
                 <a href="#work" class="block">Work</a>
+                <a href="#services" class="block">Services</a>
                 <a href="#studio" class="block">AI Studio</a>
                 <a href="#contact" class="block">Contact</a>
             </div>
         </div>
     </nav>
 
-    <!-- Hero Section: Editorial Style -->
+    <!-- Hero Section -->
     <section id="home" class="min-h-screen flex items-center justify-center relative pt-20 px-6">
-        <!-- Background Noise Texture -->
         <div class="absolute inset-0 bg-noise opacity-50 pointer-events-none"></div>
-        
         <div class="max-w-5xl mx-auto text-center z-10">
             <p class="text-sm md:text-base tracking-[0.3em] uppercase text-accent mb-6 animate-fade-in-up">Portfolio 2025</p>
-            
             <h1 class="text-6xl md:text-9xl font-serif leading-none mb-8 tracking-tighter">
                 <span class="block">Visual</span>
                 <span class="block italic text-stone-400 dark:text-stone-600">Storyteller</span>
             </h1>
-
             <div class="h-px w-24 bg-primary dark:bg-white mx-auto mb-8"></div>
-
             <p class="text-lg md:text-2xl font-light max-w-2xl mx-auto leading-relaxed mb-12">
                 I am <span id="typing-text" class="font-normal italic"></span>.<br>
                 Crafting emotions through frames and pixels.
             </p>
-
             <div class="flex flex-col md:flex-row justify-center items-center gap-6">
                 <a href="#work" class="group relative px-8 py-3 overflow-hidden border border-primary dark:border-stone-200 transition-all hover:bg-primary hover:text-white dark:hover:bg-white dark:hover:text-black">
                     <span class="relative z-10 text-sm tracking-widest uppercase">View Selected Work</span>
@@ -149,7 +143,6 @@
                 </a>
             </div>
         </div>
-        
         <!-- Scroll Indicator -->
         <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce">
             <span class="text-xs tracking-widest uppercase rotate-90 block origin-left translate-y-12 translate-x-1">Scroll</span>
@@ -157,7 +150,7 @@
         </div>
     </section>
 
-    <!-- Selected Work: Gallery Grid Style -->
+    <!-- Selected Work -->
     <section id="work" class="py-32 px-6 bg-white dark:bg-darkPaper">
         <div class="max-w-screen-xl mx-auto">
             <div class="flex flex-col md:flex-row justify-between items-end mb-20 border-b border-stone-200 dark:border-stone-800 pb-8">
@@ -167,18 +160,24 @@
                 </div>
                 <div class="mt-6 md:mt-0 flex gap-4 text-sm font-bold text-stone-400">
                     <a href="#" class="text-primary dark:text-white border-b border-primary dark:border-white pb-1">All</a>
-                    <a href="https://www.youtube.com" target="_blank" class="hover:text-primary dark:hover:text-white transition">Film</a>
-                    <a href="https://www.behance.net" target="_blank" class="hover:text-primary dark:hover:text-white transition">Design</a>
+                    <a href="#" class="hover:text-primary dark:hover:text-white transition">Film</a>
+                    <a href="#" class="hover:text-primary dark:hover:text-white transition">Design</a>
                 </div>
             </div>
 
             <!-- Grid Layout -->
             <div class="grid md:grid-cols-2 gap-x-8 gap-y-16">
-                <!-- Project 1 -->
-                <div class="group cursor-pointer">
-                    <div class="relative overflow-hidden aspect-[4/3] mb-6 bg-stone-100">
+                <!-- Project 1: Video (Có nút Play) -->
+                <!-- Thêm class 'video-trigger' và data-video-id -->
+                <div class="group cursor-pointer video-trigger" data-video-id="tgbNymZ7vqY"> 
+                    <div class="relative overflow-hidden aspect-[16/9] mb-6 bg-stone-100">
                         <img src="https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?w=800&auto=format&fit=crop&q=80" alt="Work 1" class="object-cover w-full h-full transform transition duration-700 group-hover:scale-105 filter grayscale group-hover:grayscale-0">
-                        <div class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition duration-500"></div>
+                        <!-- Nút Play overlay -->
+                        <div class="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition duration-500 flex items-center justify-center">
+                            <div class="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center group-hover:scale-110 transition duration-300">
+                                <i class="fas fa-play text-white text-xl pl-1"></i>
+                            </div>
+                        </div>
                     </div>
                     <div class="flex justify-between items-start">
                         <div>
@@ -189,24 +188,30 @@
                     </div>
                 </div>
 
-                <!-- Project 2 (Offset top for masonry feel) -->
+                <!-- Project 2: Image -->
                 <div class="group cursor-pointer md:mt-20">
                     <div class="relative overflow-hidden aspect-[3/4] mb-6 bg-stone-100">
-                        <img src="images/web-show-1.jpg" alt="Work 2" class="object-cover w-full h-full transform transition duration-700 group-hover:scale-105 filter grayscale group-hover:grayscale-0">
+                        <img src="https://images.unsplash.com/photo-1626785774573-4b7993143d23?w=800&auto=format&fit=crop&q=80" alt="Work 2" class="object-cover w-full h-full transform transition duration-700 group-hover:scale-105 filter grayscale group-hover:grayscale-0">
                     </div>
                     <div class="flex justify-between items-start">
                         <div>
                             <span class="text-xs font-bold tracking-widest uppercase text-accent mb-1 block">Brand Identity</span>
-                            <h3 class="text-2xl italic group-hover:translate-x-2 transition duration-300">Web design</h3>
+                            <h3 class="text-2xl italic group-hover:translate-x-2 transition duration-300">The Coffee House</h3>
                         </div>
                         <span class="text-xs border border-stone-300 px-2 py-1 rounded-full text-stone-500">2023</span>
                     </div>
                 </div>
 
-                <!-- Project 3 -->
-                <div class="group cursor-pointer">
+                 <!-- Project 3: Video -->
+                 <div class="group cursor-pointer video-trigger" data-video-id="LXb3EKWsInQ">
                     <div class="relative overflow-hidden aspect-[16/9] mb-6 bg-stone-100">
                         <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=800&auto=format&fit=crop&q=80" alt="Work 3" class="object-cover w-full h-full transform transition duration-700 group-hover:scale-105 filter grayscale group-hover:grayscale-0">
+                        <!-- Nút Play overlay -->
+                        <div class="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition duration-500 flex items-center justify-center">
+                            <div class="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center group-hover:scale-110 transition duration-300">
+                                <i class="fas fa-play text-white text-xl pl-1"></i>
+                            </div>
+                        </div>
                     </div>
                     <div class="flex justify-between items-start">
                         <div>
@@ -216,8 +221,8 @@
                         <span class="text-xs border border-stone-300 px-2 py-1 rounded-full text-stone-500">2024</span>
                     </div>
                 </div>
-                
-                 <!-- Project 4 -->
+
+                 <!-- Project 4: Image -->
                  <div class="group cursor-pointer md:mt-20">
                     <div class="relative overflow-hidden aspect-[4/5] mb-6 bg-stone-100">
                         <img src="https://images.unsplash.com/photo-1600607686527-6fb886090705?w=800&auto=format&fit=crop&q=80" alt="Work 4" class="object-cover w-full h-full transform transition duration-700 group-hover:scale-105 filter grayscale group-hover:grayscale-0">
@@ -234,21 +239,79 @@
         </div>
     </section>
 
-     <!-- NEW SECTION: Client Logos (Marquee) -->
+    <!-- NEW SECTION: Services (Bổ sung mới) -->
+    <section id="services" class="py-24 px-6 bg-paper dark:bg-dark border-t border-stone-100 dark:border-stone-800">
+        <div class="max-w-screen-xl mx-auto">
+            <div class="mb-16 md:w-1/2">
+                <span class="text-xs font-bold tracking-[0.2em] uppercase text-accent">What I do</span>
+                <h2 class="text-4xl md:text-5xl mt-4 mb-6">Services</h2>
+                <p class="font-light text-lg text-stone-600 dark:text-stone-400">
+                    Comprehensive visual solutions tailored for brands that value aesthetics and storytelling.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Service 1 -->
+                <div class="p-8 border border-stone-200 dark:border-stone-800 hover:bg-white dark:hover:bg-stone-900 transition duration-500 group">
+                    <div class="w-12 h-12 bg-stone-200 dark:bg-stone-800 rounded-full flex items-center justify-center mb-6 text-xl group-hover:bg-primary group-hover:text-white transition">
+                        <i class="fas fa-video"></i>
+                    </div>
+                    <h3 class="text-2xl font-serif italic mb-4">Post-Production</h3>
+                    <p class="text-stone-500 text-sm leading-relaxed mb-6">
+                        Professional editing, sound design, and color grading for commercials, music videos, and documentaries.
+                    </p>
+                    <ul class="text-sm font-bold text-stone-400 space-y-2">
+                        <li>— Offline & Online Editing</li>
+                        <li>— Color Grading (DaVinci)</li>
+                        <li>— Sound Mixing</li>
+                    </ul>
+                </div>
+
+                <!-- Service 2 -->
+                <div class="p-8 border border-stone-200 dark:border-stone-800 hover:bg-white dark:hover:bg-stone-900 transition duration-500 group">
+                    <div class="w-12 h-12 bg-stone-200 dark:bg-stone-800 rounded-full flex items-center justify-center mb-6 text-xl group-hover:bg-primary group-hover:text-white transition">
+                        <i class="fas fa-layer-group"></i>
+                    </div>
+                    <h3 class="text-2xl font-serif italic mb-4">Motion & VFX</h3>
+                    <p class="text-stone-500 text-sm leading-relaxed mb-6">
+                        Elevating visuals with 2D/3D motion graphics, compositing, and visual effects that captivate.
+                    </p>
+                    <ul class="text-sm font-bold text-stone-400 space-y-2">
+                        <li>— Title Sequences</li>
+                        <li>— Logo Animation</li>
+                        <li>— Clean-up & Rotoscoping</li>
+                    </ul>
+                </div>
+
+                <!-- Service 3 -->
+                <div class="p-8 border border-stone-200 dark:border-stone-800 hover:bg-white dark:hover:bg-stone-900 transition duration-500 group">
+                    <div class="w-12 h-12 bg-stone-200 dark:bg-stone-800 rounded-full flex items-center justify-center mb-6 text-xl group-hover:bg-primary group-hover:text-white transition">
+                        <i class="fas fa-pencil-ruler"></i>
+                    </div>
+                    <h3 class="text-2xl font-serif italic mb-4">Art Direction</h3>
+                    <p class="text-stone-500 text-sm leading-relaxed mb-6">
+                        Defining the visual language and aesthetic strategy for brands, ensuring consistency across all media.
+                    </p>
+                    <ul class="text-sm font-bold text-stone-400 space-y-2">
+                        <li>— Brand Identity</li>
+                        <li>— Moodboards & Styleframes</li>
+                        <li>— Visual Strategy</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Client Logos (Marquee) -->
     <section class="py-16 border-t border-stone-100 dark:border-stone-800 bg-paper dark:bg-dark overflow-hidden">
         <div class="max-w-screen-xl mx-auto px-6 mb-8 text-center">
             <p class="text-xs font-bold tracking-[0.2em] uppercase text-stone-400">Trusted Partners</p>
         </div>
-        
         <div class="relative flex overflow-x-hidden group">
-            <!-- Gradient Masks (Lớp mờ 2 bên) -->
             <div class="absolute top-0 bottom-0 left-0 w-24 z-10 bg-gradient-to-r from-paper dark:from-dark to-transparent"></div>
             <div class="absolute top-0 bottom-0 right-0 w-24 z-10 bg-gradient-to-l from-paper dark:from-dark to-transparent"></div>
-
-            <!-- Logo Track (Nhân đôi logo để chạy lặp vô tận) -->
             <div class="py-4 animate-infinite-scroll whitespace-nowrap flex items-center gap-16 md:gap-24 pl-6">
-                <!-- LOGO SET 1 -->
-                <!-- Sử dụng filter: grayscale(100%) opacity(50%) để đồng bộ màu sắc -->
+                <!-- LOGOS -->
                 <img src="https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg" class="h-8 w-auto object-contain grayscale opacity-40 hover:grayscale-0 hover:opacity-100 transition duration-300 cursor-pointer" alt="Google">
                 <img src="https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg" class="h-8 w-auto object-contain grayscale opacity-40 hover:grayscale-0 hover:opacity-100 transition duration-300 cursor-pointer" alt="Netflix">
                 <img src="https://upload.wikimedia.org/wikipedia/commons/a/a6/Logo_NIKE.svg" class="h-6 w-auto object-contain grayscale opacity-40 hover:grayscale-0 hover:opacity-100 transition duration-300 cursor-pointer" alt="Nike">
@@ -256,8 +319,7 @@
                 <img src="https://upload.wikimedia.org/wikipedia/commons/7/7b/Meta_Platforms_Inc._logo.svg" class="h-8 w-auto object-contain grayscale opacity-40 hover:grayscale-0 hover:opacity-100 transition duration-300 cursor-pointer" alt="Meta">
                 <img src="https://upload.wikimedia.org/wikipedia/commons/5/51/IBM_logo.svg" class="h-8 w-auto object-contain grayscale opacity-40 hover:grayscale-0 hover:opacity-100 transition duration-300 cursor-pointer" alt="IBM">
                 <img src="https://upload.wikimedia.org/wikipedia/commons/4/47/Samsung.svg" class="h-8 w-auto object-contain grayscale opacity-40 hover:grayscale-0 hover:opacity-100 transition duration-300 cursor-pointer" alt="Samsung">
-
-                <!-- LOGO SET 2 (Clone y hệt Set 1 để tạo vòng lặp) -->
+                <!-- Duplicate -->
                 <img src="https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg" class="h-8 w-auto object-contain grayscale opacity-40 hover:grayscale-0 hover:opacity-100 transition duration-300 cursor-pointer" alt="Google">
                 <img src="https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg" class="h-8 w-auto object-contain grayscale opacity-40 hover:grayscale-0 hover:opacity-100 transition duration-300 cursor-pointer" alt="Netflix">
                 <img src="https://upload.wikimedia.org/wikipedia/commons/a/a6/Logo_NIKE.svg" class="h-6 w-auto object-contain grayscale opacity-40 hover:grayscale-0 hover:opacity-100 transition duration-300 cursor-pointer" alt="Nike">
@@ -269,8 +331,7 @@
         </div>
     </section>
 
-    
-    <!-- AI Studio: Minimalist Interface -->
+    <!-- AI Studio -->
     <section id="studio" class="py-32 px-6 bg-paper dark:bg-dark relative">
         <div class="absolute inset-0 bg-noise opacity-30 pointer-events-none"></div>
         <div class="max-w-4xl mx-auto relative z-10">
@@ -371,7 +432,7 @@
         </div>
     </section>
 
-    <!-- Footer: Simple -->
+    <!-- Footer -->
     <footer class="bg-primary text-white py-20 px-6">
         <div class="max-w-screen-xl mx-auto flex flex-col md:flex-row justify-between items-center">
             <div class="mb-8 md:mb-0 text-center md:text-left">
@@ -390,6 +451,14 @@
         </div>
     </footer>
 
+    <!-- VIDEO MODAL (Bổ sung mới - Ẩn mặc định) -->
+    <div id="video-modal" class="fixed inset-0 z-[100] hidden bg-black/90 backdrop-blur-md flex items-center justify-center p-4">
+        <button id="close-modal" class="absolute top-6 right-6 text-white text-4xl hover:text-stone-400 transition focus:outline-none">&times;</button>
+        <div class="w-full max-w-5xl aspect-video bg-black shadow-2xl relative">
+            <iframe id="video-iframe" class="w-full h-full" src="" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+    </div>
+
     <!-- Scripts -->
     <script>
         const apiKey = ""; 
@@ -398,7 +467,6 @@
         const themeToggleBtn = document.getElementById('theme-toggle');
         const html = document.documentElement;
         
-        // Initial Check
         if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
             html.classList.add('dark');
         }
@@ -417,7 +485,7 @@
 
         // Typing Effect
         const textElement = document.getElementById('typing-text');
-        const phrases = ['DzungLayout', 'an Video Editor', 'a Designer', 'a Minimalist'];
+        const phrases = ['DzungLayout', 'a Video Editor', 'a Designer', 'a Minimalist'];
         let phraseIndex = 0;
         let charIndex = 0;
         let isDeleting = false;
@@ -445,7 +513,41 @@
         }
         document.addEventListener('DOMContentLoaded', type);
 
-        // --- GEMINI API (Cleaned up for new UI) ---
+        // --- VIDEO MODAL LOGIC (Mới) ---
+        const modal = document.getElementById('video-modal');
+        const iframe = document.getElementById('video-iframe');
+        const closeBtn = document.getElementById('close-modal');
+        const videoTriggers = document.querySelectorAll('.video-trigger');
+
+        videoTriggers.forEach(trigger => {
+            trigger.addEventListener('click', () => {
+                const videoId = trigger.getAttribute('data-video-id');
+                if (videoId) {
+                    // Dùng link embed của YouTube, autoplay=1 để tự chạy
+                    iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`;
+                    modal.classList.remove('hidden');
+                }
+            });
+        });
+
+        const closeModal = () => {
+            modal.classList.add('hidden');
+            iframe.src = ''; // Dừng video khi đóng
+        };
+
+        closeBtn.addEventListener('click', closeModal);
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) closeModal(); // Đóng khi click ra ngoài
+        });
+        
+        // Đóng khi nhấn ESC
+        document.addEventListener('keydown', (e) => {
+            if (e.key === "Escape" && !modal.classList.contains('hidden')) {
+                closeModal();
+            }
+        });
+
+        // --- GEMINI API ---
         async function callGemini(prompt) {
             const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
             const payload = { contents: [{ parts: [{ text: prompt }] }] };
@@ -504,7 +606,6 @@
             const text = await callGemini(prompt);
             resultDiv.innerText = text;
             
-            // Auto expand textarea
             const ta = document.getElementById('email-input');
             ta.value = ""; 
             ta.placeholder = "Anything else?";
@@ -514,12 +615,3 @@
     </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
