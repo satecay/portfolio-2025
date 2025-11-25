@@ -67,6 +67,19 @@
         .dark .prose h3 { color: #e7e5e4; }
         .prose ul { list-style-type: none; padding-left: 0; margin-bottom: 1rem; }
         .prose li::before { content: "—"; margin-right: 0.5rem; color: #a8a29e; }
+
+        /* Animation cho Logo Marquee */
+        @keyframes scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        .animate-infinite-scroll {
+            animation: scroll 40s linear infinite;
+        }
+        /* Tạm dừng khi di chuột vào để khách xem rõ hơn */
+        .animate-infinite-scroll:hover {
+            animation-play-state: paused;
+        }
     </style>
 </head>
 <body class="bg-paper text-primary dark:bg-dark dark:text-stone-200 transition-colors duration-500 font-sans antialiased">
@@ -219,6 +232,42 @@
         </div>
     </section>
 
+     <!-- NEW SECTION: Client Logos (Marquee) -->
+    <section class="py-16 border-t border-stone-100 dark:border-stone-800 bg-paper dark:bg-dark overflow-hidden">
+        <div class="max-w-screen-xl mx-auto px-6 mb-8 text-center">
+            <p class="text-xs font-bold tracking-[0.2em] uppercase text-stone-400">Trusted Partners</p>
+        </div>
+        
+        <div class="relative flex overflow-x-hidden group">
+            <!-- Gradient Masks (Lớp mờ 2 bên) -->
+            <div class="absolute top-0 bottom-0 left-0 w-24 z-10 bg-gradient-to-r from-paper dark:from-dark to-transparent"></div>
+            <div class="absolute top-0 bottom-0 right-0 w-24 z-10 bg-gradient-to-l from-paper dark:from-dark to-transparent"></div>
+
+            <!-- Logo Track (Nhân đôi logo để chạy lặp vô tận) -->
+            <div class="py-4 animate-infinite-scroll whitespace-nowrap flex items-center gap-16 md:gap-24 pl-6">
+                <!-- LOGO SET 1 -->
+                <!-- Sử dụng filter: grayscale(100%) opacity(50%) để đồng bộ màu sắc -->
+                <img src="https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg" class="h-8 w-auto object-contain grayscale opacity-40 hover:grayscale-0 hover:opacity-100 transition duration-300 cursor-pointer" alt="Google">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg" class="h-8 w-auto object-contain grayscale opacity-40 hover:grayscale-0 hover:opacity-100 transition duration-300 cursor-pointer" alt="Netflix">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/a/a6/Logo_NIKE.svg" class="h-6 w-auto object-contain grayscale opacity-40 hover:grayscale-0 hover:opacity-100 transition duration-300 cursor-pointer" alt="Nike">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/2/20/Adidas_Logo.svg" class="h-10 w-auto object-contain grayscale opacity-40 hover:grayscale-0 hover:opacity-100 transition duration-300 cursor-pointer" alt="Adidas">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/7/7b/Meta_Platforms_Inc._logo.svg" class="h-8 w-auto object-contain grayscale opacity-40 hover:grayscale-0 hover:opacity-100 transition duration-300 cursor-pointer" alt="Meta">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/5/51/IBM_logo.svg" class="h-8 w-auto object-contain grayscale opacity-40 hover:grayscale-0 hover:opacity-100 transition duration-300 cursor-pointer" alt="IBM">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/4/47/Samsung.svg" class="h-8 w-auto object-contain grayscale opacity-40 hover:grayscale-0 hover:opacity-100 transition duration-300 cursor-pointer" alt="Samsung">
+
+                <!-- LOGO SET 2 (Clone y hệt Set 1 để tạo vòng lặp) -->
+                <img src="https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg" class="h-8 w-auto object-contain grayscale opacity-40 hover:grayscale-0 hover:opacity-100 transition duration-300 cursor-pointer" alt="Google">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg" class="h-8 w-auto object-contain grayscale opacity-40 hover:grayscale-0 hover:opacity-100 transition duration-300 cursor-pointer" alt="Netflix">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/a/a6/Logo_NIKE.svg" class="h-6 w-auto object-contain grayscale opacity-40 hover:grayscale-0 hover:opacity-100 transition duration-300 cursor-pointer" alt="Nike">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/2/20/Adidas_Logo.svg" class="h-10 w-auto object-contain grayscale opacity-40 hover:grayscale-0 hover:opacity-100 transition duration-300 cursor-pointer" alt="Adidas">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/7/7b/Meta_Platforms_Inc._logo.svg" class="h-8 w-auto object-contain grayscale opacity-40 hover:grayscale-0 hover:opacity-100 transition duration-300 cursor-pointer" alt="Meta">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/5/51/IBM_logo.svg" class="h-8 w-auto object-contain grayscale opacity-40 hover:grayscale-0 hover:opacity-100 transition duration-300 cursor-pointer" alt="IBM">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/4/47/Samsung.svg" class="h-8 w-auto object-contain grayscale opacity-40 hover:grayscale-0 hover:opacity-100 transition duration-300 cursor-pointer" alt="Samsung">
+            </div>
+        </div>
+    </section>
+
+    
     <!-- AI Studio: Minimalist Interface -->
     <section id="studio" class="py-32 px-6 bg-paper dark:bg-dark relative">
         <div class="absolute inset-0 bg-noise opacity-30 pointer-events-none"></div>
@@ -463,6 +512,7 @@
     </script>
 </body>
 </html>
+
 
 
 
