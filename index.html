@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="vi" class="scroll-smooth">
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,8 +8,8 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts: Playfair Display (Serif) & Lato (Sans) -->
-    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <!-- Google Fonts: Be Vietnam Pro & Playfair Display -->
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@100;200;300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
     <!-- Markdown Parser -->
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     
@@ -19,15 +19,14 @@
             theme: {
                 extend: {
                     fontFamily: {
-                        sans: ['Lato', 'sans-serif'],
+                        sans: ['"Be Vietnam Pro"', 'sans-serif'],
                         serif: ['Playfair Display', 'serif'],
                     },
                     colors: {
-                        // Palette: Stone/Charcoal/Gold
-                        primary: '#1c1917',   // Stone 900 (Black-ish)
-                        accent: '#a8a29e',    // Stone 400 (Muted Grey/Gold tone)
-                        paper: '#fafaf9',     // Stone 50 (Off-white)
-                        dark: '#0c0a09',      // Stone 950
+                        primary: '#1c1917',   
+                        accent: '#a8a29e',    
+                        paper: '#fafaf9',     
+                        dark: '#0c0a09',      
                         darkPaper: '#1c1917'
                     },
                     backgroundImage: {
@@ -38,7 +37,6 @@
         }
     </script>
     <style>
-        /* Tinh chỉnh Typography */
         h1, h2, h3, h4 { font-family: 'Playfair Display', serif; }
         
         .typing-effect::after {
@@ -52,23 +50,19 @@
         }
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
         
-        /* Elegant Scrollbar */
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: #d6d3d1; border-radius: 0; }
         ::-webkit-scrollbar-thumb:hover { background: #78716c; }
 
-        /* Custom Selection Color */
         ::selection { background: #1c1917; color: #fff; }
         .dark ::selection { background: #fff; color: #000; }
 
-        /* AI Output Styles - Clean */
         .prose h3 { font-family: 'Playfair Display', serif; font-size: 1.25rem; font-style: italic; margin-bottom: 0.5rem; color: #1c1917; }
         .dark .prose h3 { color: #e7e5e4; }
         .prose ul { list-style-type: none; padding-left: 0; margin-bottom: 1rem; }
         .prose li::before { content: "—"; margin-right: 0.5rem; color: #a8a29e; }
 
-        /* Animation cho Logo Marquee */
         @keyframes scroll {
             0% { transform: translateX(0); }
             100% { transform: translateX(-50%); }
@@ -76,7 +70,6 @@
         .animate-infinite-scroll {
             animation: scroll 40s linear infinite;
         }
-        /* Tạm dừng khi di chuột vào để khách xem rõ hơn */
         .animate-infinite-scroll:hover {
             animation-play-state: paused;
         }
@@ -84,22 +77,27 @@
 </head>
 <body class="bg-paper text-primary dark:bg-dark dark:text-stone-200 transition-colors duration-500 font-sans antialiased">
 
-    <!-- Navbar: Minimal & Transparent -->
-    <nav class="fixed w-full z-50 mix-blend-difference text-white/90"> 
+    <!-- Navbar -->
+    <!-- Đã bỏ mix-blend-difference để tránh chớp giật -->
+    <nav id="main-nav" class="fixed w-full z-50 text-primary dark:text-white transition-all duration-500 border-b border-transparent"> 
         <div class="max-w-screen-2xl mx-auto px-6 py-6 flex justify-between items-center">
             <a href="#" class="text-2xl font-serif font-bold tracking-widest uppercase">Dzung.</a>
             
             <div class="hidden md:flex space-x-12 text-sm tracking-widest font-light uppercase">
-                <a href="#home" class="hover:text-gray-400 transition">Home</a>
-                <a href="#work" class="hover:text-gray-400 transition">Selected Work</a>
-                <a href="#services" class="hover:text-gray-400 transition">Services</a> <!-- Thêm link Services -->
-                <a href="#studio" class="hover:text-gray-400 transition">AI Studio</a>
-                <a href="#about" class="hover:text-gray-400 transition">Profile</a>
-                <a href="LINK_GOOGLE_DRIVE_CUA_BAN" target="_blank" class="hover:text-primary dark:hover:text-white transition font-bold border-b border-stone-500 pb-1">Resume</a>
+                <a href="#home" class="hover:text-accent transition" data-i18n="nav.home">Home</a>
+                <a href="#work" class="hover:text-accent transition" data-i18n="nav.work">Selected Work</a>
+                <a href="#services" class="hover:text-accent transition" data-i18n="nav.services">Services</a>
+                <a href="#studio" class="hover:text-accent transition" data-i18n="nav.studio">AI Studio</a>
+                <a href="#about" class="hover:text-accent transition" data-i18n="nav.profile">Profile</a>
+                <a href="LINK_GOOGLE_DRIVE_CUA_BAN" target="_blank" class="hover:text-primary dark:hover:text-white transition font-bold border-b border-stone-500 pb-1" data-i18n="nav.resume">Resume</a>
             </div>
 
             <div class="flex items-center space-x-6">
-                <button id="theme-toggle" class="hover:text-gray-400 transition text-lg">
+                <!-- Language Toggle Button -->
+                <button id="lang-toggle" class="hover:text-accent transition text-sm font-bold border border-current px-2 py-1 rounded">
+                    EN
+                </button>
+                <button id="theme-toggle" class="hover:text-accent transition text-lg">
                     <i class="fas fa-adjust"></i> 
                 </button>
                 <button id="mobile-menu-btn" class="md:hidden text-lg">
@@ -109,13 +107,13 @@
         </div>
         
         <!-- Mobile Menu -->
-        <div id="mobile-menu" class="hidden absolute top-full left-0 w-full bg-paper dark:bg-dark text-primary dark:text-white border-b border-stone-200 dark:border-stone-800">
+        <div id="mobile-menu" class="hidden absolute top-full left-0 w-full bg-paper dark:bg-dark text-primary dark:text-white border-b border-stone-200 dark:border-stone-800 shadow-xl">
             <div class="flex flex-col p-6 space-y-4 font-serif text-xl">
-                <a href="#home" class="block">Home</a>
-                <a href="#work" class="block">Work</a>
-                <a href="#services" class="block">Services</a>
-                <a href="#studio" class="block">AI Studio</a>
-                <a href="#contact" class="block">Contact</a>
+                <a href="#home" class="block" data-i18n="nav.home">Home</a>
+                <a href="#work" class="block" data-i18n="nav.work">Work</a>
+                <a href="#services" class="block" data-i18n="nav.services">Services</a>
+                <a href="#studio" class="block" data-i18n="nav.studio">AI Studio</a>
+                <a href="#contact" class="block" data-i18n="nav.contact">Contact</a>
             </div>
         </div>
     </nav>
@@ -124,28 +122,27 @@
     <section id="home" class="min-h-screen flex items-center justify-center relative pt-20 px-6">
         <div class="absolute inset-0 bg-noise opacity-50 pointer-events-none"></div>
         <div class="max-w-5xl mx-auto text-center z-10">
-            <p class="text-sm md:text-base tracking-[0.3em] uppercase text-accent mb-6 animate-fade-in-up">Portfolio 2025</p>
+            <p class="text-sm md:text-base tracking-[0.3em] uppercase text-accent mb-6 animate-fade-in-up" data-i18n="hero.subtitle">Portfolio 2025</p>
             <h1 class="text-6xl md:text-9xl font-serif leading-none mb-8 tracking-tighter">
-                <span class="block">Visual</span>
-                <span class="block italic text-stone-400 dark:text-stone-600">Storyteller</span>
+                <span class="block" data-i18n="hero.title1">Visual</span>
+                <span class="block italic text-stone-400 dark:text-stone-600" data-i18n="hero.title2">Storyteller</span>
             </h1>
             <div class="h-px w-24 bg-primary dark:bg-white mx-auto mb-8"></div>
             <p class="text-lg md:text-2xl font-light max-w-2xl mx-auto leading-relaxed mb-12">
-                I am <span id="typing-text" class="font-normal italic"></span>.<br>
-                Crafting emotions through frames and pixels.
+                <span data-i18n="hero.intro">I am</span> <span id="typing-text" class="font-normal italic"></span>.<br>
+                <span data-i18n="hero.desc">Crafting emotions through frames and pixels.</span>
             </p>
             <div class="flex flex-col md:flex-row justify-center items-center gap-6">
                 <a href="#work" class="group relative px-8 py-3 overflow-hidden border border-primary dark:border-stone-200 transition-all hover:bg-primary hover:text-white dark:hover:bg-white dark:hover:text-black">
-                    <span class="relative z-10 text-sm tracking-widest uppercase">View Selected Work</span>
+                    <span class="relative z-10 text-sm tracking-widest uppercase" data-i18n="hero.cta_work">View Selected Work</span>
                 </a>
-                <a href="#contact" class="text-sm tracking-widest uppercase border-b border-transparent hover:border-primary dark:hover:border-white transition-all pb-1">
+                <a href="#contact" class="text-sm tracking-widest uppercase border-b border-transparent hover:border-primary dark:hover:border-white transition-all pb-1" data-i18n="hero.cta_contact">
                     Get in touch
                 </a>
             </div>
         </div>
-        <!-- Scroll Indicator -->
         <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce">
-            <span class="text-xs tracking-widest uppercase rotate-90 block origin-left translate-y-12 translate-x-1">Scroll</span>
+            <span class="text-xs tracking-widest uppercase rotate-90 block origin-left translate-y-12 translate-x-1" data-i18n="hero.scroll">Scroll</span>
             <div class="h-16 w-px bg-stone-300 mx-auto mt-4"></div>
         </div>
     </section>
@@ -155,11 +152,11 @@
         <div class="max-w-screen-xl mx-auto">
             <div class="flex flex-col md:flex-row justify-between items-end mb-20 border-b border-stone-200 dark:border-stone-800 pb-8">
                 <div>
-                    <h2 class="text-4xl md:text-5xl mb-2">Selected Work</h2>
-                    <p class="text-stone-500 font-light">A collection of moments & brands.</p>
+                    <h2 class="text-4xl md:text-5xl mb-2" data-i18n="work.title">Selected Work</h2>
+                    <p class="text-stone-500 font-light" data-i18n="work.subtitle">A collection of moments & brands.</p>
                 </div>
                 <div class="mt-6 md:mt-0 flex gap-4 text-sm font-bold text-stone-400">
-                    <a href="#" class="text-primary dark:text-white border-b border-primary dark:border-white pb-1">All</a>
+                    <a href="#" class="text-primary dark:text-white border-b border-primary dark:border-white pb-1" data-i18n="work.filter_all">All</a>
                     <a href="#" class="hover:text-primary dark:hover:text-white transition">Film</a>
                     <a href="#" class="hover:text-primary dark:hover:text-white transition">Design</a>
                 </div>
@@ -167,12 +164,10 @@
 
             <!-- Grid Layout -->
             <div class="grid md:grid-cols-2 gap-x-8 gap-y-16">
-                <!-- Project 1: Video (Có nút Play) -->
-                <!-- Thêm class 'video-trigger' và data-video-id -->
+                <!-- Project 1 -->
                 <div class="group cursor-pointer video-trigger" data-video-id="tgbNymZ7vqY"> 
                     <div class="relative overflow-hidden aspect-[16/9] mb-6 bg-stone-100">
                         <img src="https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?w=800&auto=format&fit=crop&q=80" alt="Work 1" class="object-cover w-full h-full transform transition duration-700 group-hover:scale-105 filter grayscale group-hover:grayscale-0">
-                        <!-- Nút Play overlay -->
                         <div class="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition duration-500 flex items-center justify-center">
                             <div class="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center group-hover:scale-110 transition duration-300">
                                 <i class="fas fa-play text-white text-xl pl-1"></i>
@@ -182,16 +177,16 @@
                     <div class="flex justify-between items-start">
                         <div>
                             <span class="text-xs font-bold tracking-widest uppercase text-accent mb-1 block">Travel Film</span>
-                            <h3 class="text-2xl italic group-hover:translate-x-2 transition duration-300">Northwest Journey</h3>
+                            <h3 class="text-2xl italic group-hover:translate-x-2 transition duration-300" data-i18n="project1.title">Northwest Journey</h3>
                         </div>
                         <span class="text-xs border border-stone-300 px-2 py-1 rounded-full text-stone-500">2024</span>
                     </div>
                 </div>
 
-                <!-- Project 2: Image -->
+                <!-- Project 2 -->
                 <div class="group cursor-pointer md:mt-20">
                     <div class="relative overflow-hidden aspect-[3/4] mb-6 bg-stone-100">
-                        <img src="https://images.unsplash.com/photo-1626785774573-4b7993143d23?w=800&auto=format&fit=crop&q=80" alt="Work 2" class="object-cover w-full h-full transform transition duration-700 group-hover:scale-105 filter grayscale group-hover:grayscale-0">
+                        <img src="https://imagesweb-show-1.jpg" alt="Work 2" class="object-cover w-full h-full transform transition duration-700 group-hover:scale-105 filter grayscale group-hover:grayscale-0">
                     </div>
                     <div class="flex justify-between items-start">
                         <div>
@@ -202,11 +197,10 @@
                     </div>
                 </div>
 
-                 <!-- Project 3: Video -->
+                 <!-- Project 3 -->
                  <div class="group cursor-pointer video-trigger" data-video-id="LXb3EKWsInQ">
                     <div class="relative overflow-hidden aspect-[16/9] mb-6 bg-stone-100">
                         <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=800&auto=format&fit=crop&q=80" alt="Work 3" class="object-cover w-full h-full transform transition duration-700 group-hover:scale-105 filter grayscale group-hover:grayscale-0">
-                        <!-- Nút Play overlay -->
                         <div class="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition duration-500 flex items-center justify-center">
                             <div class="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center group-hover:scale-110 transition duration-300">
                                 <i class="fas fa-play text-white text-xl pl-1"></i>
@@ -222,7 +216,7 @@
                     </div>
                 </div>
 
-                 <!-- Project 4: Image -->
+                 <!-- Project 4 -->
                  <div class="group cursor-pointer md:mt-20">
                     <div class="relative overflow-hidden aspect-[4/5] mb-6 bg-stone-100">
                         <img src="https://images.unsplash.com/photo-1600607686527-6fb886090705?w=800&auto=format&fit=crop&q=80" alt="Work 4" class="object-cover w-full h-full transform transition duration-700 group-hover:scale-105 filter grayscale group-hover:grayscale-0">
@@ -239,64 +233,96 @@
         </div>
     </section>
 
-    <!-- NEW SECTION: Services (Bổ sung mới) -->
+    <!-- Services (Cinematic Cards) -->
     <section id="services" class="py-24 px-6 bg-paper dark:bg-dark border-t border-stone-100 dark:border-stone-800">
         <div class="max-w-screen-xl mx-auto">
             <div class="mb-16 md:w-1/2">
-                <span class="text-xs font-bold tracking-[0.2em] uppercase text-accent">What I do</span>
-                <h2 class="text-4xl md:text-5xl mt-4 mb-6">Services</h2>
-                <p class="font-light text-lg text-stone-600 dark:text-stone-400">
+                <span class="text-xs font-bold tracking-[0.2em] uppercase text-accent" data-i18n="services.label">What I do</span>
+                <h2 class="text-4xl md:text-5xl mt-4 mb-6" data-i18n="services.title">Services</h2>
+                <p class="font-light text-lg text-stone-600 dark:text-stone-400" data-i18n="services.desc">
                     Comprehensive visual solutions tailored for brands that value aesthetics and storytelling.
                 </p>
             </div>
 
-            <div class="grid md:grid-cols-3 gap-8">
-                <!-- Service 1 -->
-                <div class="p-8 border border-stone-200 dark:border-stone-800 hover:bg-white dark:hover:bg-stone-900 transition duration-500 group">
-                    <div class="w-12 h-12 bg-stone-200 dark:bg-stone-800 rounded-full flex items-center justify-center mb-6 text-xl group-hover:bg-primary group-hover:text-white transition">
-                        <i class="fas fa-video"></i>
+            <div class="grid md:grid-cols-3 gap-6">
+                <!-- Service 1: Post-Production (Cinematic Card) -->
+                <div class="group relative h-[500px] overflow-hidden cursor-pointer">
+                    <!-- Background Image (Editing Timeline/Film) -->
+                    <img src="https://images.unsplash.com/photo-1696389500422-d48223c77d5f?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTZ8fGRhdmluY2klMjByZXNvbHZlfGVufDB8fDB8fHww" 
+                         class="absolute inset-0 w-full h-full object-cover transition duration-700 group-hover:scale-110 filter grayscale group-hover:grayscale-0 brightness-50 group-hover:brightness-55" 
+                         alt="Editing">
+                    
+                    <!-- Content Overlay -->
+                    <div class="absolute inset-0 p-8 flex flex-col justify-end">
+                        <div class="relative z-10 transform translate-y-4 group-hover:translate-y-0 transition duration-500">
+                            <span class="text-xs font-bold tracking-widest text-white/60 mb-2 block border-b border-white/20 pb-2 w-8">01</span>
+                            <h3 class="text-3xl font-serif italic text-white mb-4" data-i18n="services.s1_title">Post-Production</h3>
+                            
+                            <!-- Hidden description revealed on hover -->
+                            <div class="h-0 opacity-0 group-hover:h-auto group-hover:opacity-100 overflow-hidden transition-all duration-500 delay-75">
+                                <p class="text-white/90 text-sm leading-relaxed mb-4" data-i18n="services.s1_desc">
+                                    Professional editing, sound design, and color grading for commercials, music videos, and documentaries.
+                                </p>
+                                <ul class="text-xs font-bold text-white/70 space-y-1">
+                                    <li>+ Offline & Online Editing</li>
+                                    <li>+ Color Grading (DaVinci)</li>
+                                    <li>+ Sound Mixing</li>
+                                </ul>
+                            </div>
+                        </div>
                     </div>
-                    <h3 class="text-2xl font-serif italic mb-4">Post-Production</h3>
-                    <p class="text-stone-500 text-sm leading-relaxed mb-6">
-                        Professional editing, sound design, and color grading for commercials, music videos, and documentaries.
-                    </p>
-                    <ul class="text-sm font-bold text-stone-400 space-y-2">
-                        <li>— Offline & Online Editing</li>
-                        <li>— Color Grading (DaVinci)</li>
-                        <li>— Sound Mixing</li>
-                    </ul>
                 </div>
 
-                <!-- Service 2 -->
-                <div class="p-8 border border-stone-200 dark:border-stone-800 hover:bg-white dark:hover:bg-stone-900 transition duration-500 group">
-                    <div class="w-12 h-12 bg-stone-200 dark:bg-stone-800 rounded-full flex items-center justify-center mb-6 text-xl group-hover:bg-primary group-hover:text-white transition">
-                        <i class="fas fa-layer-group"></i>
+                <!-- Service 2: Motion & VFX (Cinematic Card) -->
+                <div class="group relative h-[500px] overflow-hidden cursor-pointer">
+                    <!-- Background Image (Abstract Light/Neon) -->
+                    <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=600&auto=format&fit=crop&q=80" 
+                         class="absolute inset-0 w-full h-full object-cover transition duration-700 group-hover:scale-110 filter grayscale group-hover:grayscale-0 brightness-50 group-hover:brightness-55" 
+                         alt="Motion">
+                    
+                    <div class="absolute inset-0 p-8 flex flex-col justify-end">
+                        <div class="relative z-10 transform translate-y-4 group-hover:translate-y-0 transition duration-500">
+                            <span class="text-xs font-bold tracking-widest text-white/60 mb-2 block border-b border-white/20 pb-2 w-8">02</span>
+                            <h3 class="text-3xl font-serif italic text-white mb-4" data-i18n="services.s2_title">VFX</h3>
+                            
+                            <div class="h-0 opacity-0 group-hover:h-auto group-hover:opacity-100 overflow-hidden transition-all duration-500 delay-75">
+                                <p class="text-white/90 text-sm leading-relaxed mb-4" data-i18n="services.s2_desc">
+                                    Elevating visuals with 2D/3D motion graphics, compositing, and visual effects that captivate.
+                                </p>
+                                <ul class="text-xs font-bold text-white/70 space-y-1">
+                                    <li>+ Title Sequences</li>
+                                    <li>+ Logo Animation</li>
+                                    <li>+ Clean-up & Rotoscoping</li>
+                                </ul>
+                            </div>
+                        </div>
                     </div>
-                    <h3 class="text-2xl font-serif italic mb-4">Motion & VFX</h3>
-                    <p class="text-stone-500 text-sm leading-relaxed mb-6">
-                        Elevating visuals with 2D/3D motion graphics, compositing, and visual effects that captivate.
-                    </p>
-                    <ul class="text-sm font-bold text-stone-400 space-y-2">
-                        <li>— Title Sequences</li>
-                        <li>— Logo Animation</li>
-                        <li>— Clean-up & Rotoscoping</li>
-                    </ul>
                 </div>
 
-                <!-- Service 3 -->
-                <div class="p-8 border border-stone-200 dark:border-stone-800 hover:bg-white dark:hover:bg-stone-900 transition duration-500 group">
-                    <div class="w-12 h-12 bg-stone-200 dark:bg-stone-800 rounded-full flex items-center justify-center mb-6 text-xl group-hover:bg-primary group-hover:text-white transition">
-                        <i class="fas fa-pencil-ruler"></i>
+                <!-- Service 3: Art Direction (Cinematic Card) -->
+                <div class="group relative h-[500px] overflow-hidden cursor-pointer">
+                    <!-- Background Image (Abstract Texture/Design) -->
+                    <img src="https://images.unsplash.com/photo-1509343256512-d77a5cb3791b?w=600&auto=format&fit=crop&q=80" 
+                         class="absolute inset-0 w-full h-full object-cover transition duration-700 group-hover:scale-110 filter grayscale group-hover:grayscale-0 brightness-50 group-hover:brightness-55" 
+                         alt="Art Direction">
+                    
+                    <div class="absolute inset-0 p-8 flex flex-col justify-end">
+                        <div class="relative z-10 transform translate-y-4 group-hover:translate-y-0 transition duration-500">
+                            <span class="text-xs font-bold tracking-widest text-white/60 mb-2 block border-b border-white/20 pb-2 w-8">03</span>
+                            <h3 class="text-3xl font-serif italic text-white mb-4" data-i18n="services.s3_title">Art Direction</h3>
+                            
+                            <div class="h-0 opacity-0 group-hover:h-auto group-hover:opacity-100 overflow-hidden transition-all duration-500 delay-75">
+                                <p class="text-white/90 text-sm leading-relaxed mb-4" data-i18n="services.s3_desc">
+                                    Defining the visual language and aesthetic strategy for brands, ensuring consistency across all media.
+                                </p>
+                                <ul class="text-xs font-bold text-white/70 space-y-1">
+                                    <li>+ Brand Identity</li>
+                                    <li>+ Moodboards</li>
+                                    <li>+ Visual Strategy</li>
+                                </ul>
+                            </div>
+                        </div>
                     </div>
-                    <h3 class="text-2xl font-serif italic mb-4">Art Direction</h3>
-                    <p class="text-stone-500 text-sm leading-relaxed mb-6">
-                        Defining the visual language and aesthetic strategy for brands, ensuring consistency across all media.
-                    </p>
-                    <ul class="text-sm font-bold text-stone-400 space-y-2">
-                        <li>— Brand Identity</li>
-                        <li>— Moodboards & Styleframes</li>
-                        <li>— Visual Strategy</li>
-                    </ul>
                 </div>
             </div>
         </div>
@@ -305,7 +331,7 @@
     <!-- Client Logos (Marquee) -->
     <section class="py-16 border-t border-stone-100 dark:border-stone-800 bg-paper dark:bg-dark overflow-hidden">
         <div class="max-w-screen-xl mx-auto px-6 mb-8 text-center">
-            <p class="text-xs font-bold tracking-[0.2em] uppercase text-stone-400">Trusted Partners</p>
+            <p class="text-xs font-bold tracking-[0.2em] uppercase text-stone-400" data-i18n="logos.label">Trusted Partners</p>
         </div>
         <div class="relative flex overflow-x-hidden group">
             <div class="absolute top-0 bottom-0 left-0 w-24 z-10 bg-gradient-to-r from-paper dark:from-dark to-transparent"></div>
@@ -336,9 +362,9 @@
         <div class="absolute inset-0 bg-noise opacity-30 pointer-events-none"></div>
         <div class="max-w-4xl mx-auto relative z-10">
             <div class="text-center mb-16">
-                <span class="text-xs font-bold tracking-[0.2em] uppercase text-accent">Experimental</span>
-                <h2 class="text-4xl md:text-5xl mt-2 mb-6">AI Creative Studio</h2>
-                <p class="font-light text-lg text-stone-600 dark:text-stone-400 max-w-xl mx-auto">
+                <span class="text-xs font-bold tracking-[0.2em] uppercase text-accent" data-i18n="ai.label">Experimental</span>
+                <h2 class="text-4xl md:text-5xl mt-2 mb-6" data-i18n="ai.title">AI Creative Studio</h2>
+                <p class="font-light text-lg text-stone-600 dark:text-stone-400 max-w-xl mx-auto" data-i18n="ai.desc">
                     Merging human intuition with machine intelligence. A suite of tools I use to spark inspiration.
                 </p>
             </div>
@@ -348,17 +374,17 @@
                 <div class="bg-white dark:bg-[#1a1a1a] p-8 md:p-10 shadow-sm hover:shadow-xl transition duration-500 border border-stone-100 dark:border-stone-800">
                     <div class="mb-8">
                         <i class="fas fa-lightbulb text-2xl text-stone-400 mb-4 block"></i>
-                        <h3 class="text-2xl font-serif italic mb-2">Concept Generator</h3>
-                        <p class="text-sm text-stone-500 font-light">Generate art direction & visual mood.</p>
+                        <h3 class="text-2xl font-serif italic mb-2" data-i18n="ai.t1_title">Concept Generator</h3>
+                        <p class="text-sm text-stone-500 font-light" data-i18n="ai.t1_desc">Generate art direction & visual mood.</p>
                     </div>
                     
                     <div class="space-y-6">
-                        <input type="text" id="idea-input" class="w-full bg-transparent border-b border-stone-300 dark:border-stone-700 py-3 text-lg focus:outline-none focus:border-primary dark:focus:border-white transition placeholder-stone-400 font-serif" placeholder="Enter a subject (e.g. Noir City)...">
+                        <input type="text" id="idea-input" class="w-full bg-transparent border-b border-stone-300 dark:border-stone-700 py-3 text-lg focus:outline-none focus:border-primary dark:focus:border-white transition placeholder-stone-400 font-serif" placeholder="Enter a subject (e.g. Noir City)..." data-i18n-placeholder="ai.t1_placeholder">
                         
                         <div id="idea-result" class="hidden text-sm leading-relaxed text-stone-600 dark:text-stone-300 prose dark:prose-invert"></div>
 
                         <button id="btn-generate-idea" class="group flex items-center text-sm font-bold tracking-widest uppercase hover:text-stone-500 transition">
-                            <span>Ignite Spark</span>
+                            <span data-i18n="ai.t1_btn">Ignite Spark</span>
                             <span class="ml-2 transform group-hover:translate-x-1 transition"><i class="fas fa-arrow-right"></i></span>
                         </button>
                     </div>
@@ -368,17 +394,17 @@
                 <div class="bg-white dark:bg-[#1a1a1a] p-8 md:p-10 shadow-sm hover:shadow-xl transition duration-500 border border-stone-100 dark:border-stone-800">
                     <div class="mb-8">
                         <i class="fas fa-pen-fancy text-2xl text-stone-400 mb-4 block"></i>
-                        <h3 class="text-2xl font-serif italic mb-2">Draft Assistant</h3>
-                        <p class="text-sm text-stone-500 font-light">Compose professional inquiries.</p>
+                        <h3 class="text-2xl font-serif italic mb-2" data-i18n="ai.t2_title">Draft Assistant</h3>
+                        <p class="text-sm text-stone-500 font-light" data-i18n="ai.t2_desc">Compose professional inquiries.</p>
                     </div>
                     
                     <div class="space-y-6">
-                        <textarea id="email-input" rows="1" class="w-full bg-transparent border-b border-stone-300 dark:border-stone-700 py-3 text-lg focus:outline-none focus:border-primary dark:focus:border-white transition placeholder-stone-400 font-serif resize-none" placeholder="Brief requirements..."></textarea>
+                        <textarea id="email-input" rows="1" class="w-full bg-transparent border-b border-stone-300 dark:border-stone-700 py-3 text-lg focus:outline-none focus:border-primary dark:focus:border-white transition placeholder-stone-400 font-serif resize-none" placeholder="Brief requirements..." data-i18n-placeholder="ai.t2_placeholder"></textarea>
                         
                         <div id="email-result" class="hidden relative p-6 bg-stone-50 dark:bg-black/20 text-sm font-mono text-stone-600 dark:text-stone-300 border-l-2 border-stone-300"></div>
 
                         <button id="btn-generate-email" class="group flex items-center text-sm font-bold tracking-widest uppercase hover:text-stone-500 transition">
-                            <span>Compose</span>
+                            <span data-i18n="ai.t2_btn">Compose</span>
                             <span class="ml-2 transform group-hover:translate-x-1 transition"><i class="fas fa-arrow-right"></i></span>
                         </button>
                     </div>
@@ -396,22 +422,24 @@
                     <div class="mt-4 flex justify-between items-end">
                         <div>
                             <h3 class="text-xl font-serif">DzungLayout</h3>
-                            <p class="text-xs tracking-widest text-stone-500 uppercase mt-1">Ho Chi Minh City</p>
+                            <p class="text-xs tracking-widest text-stone-500 uppercase mt-1" data-i18n="about.location">Ho Chi Minh City</p>
                         </div>
-                        <img src="https://api.dicebear.com/9.x/initials/svg?seed=DL&backgroundColor=1c1917&textColor=ffffff" class="w-10 h-10 rounded-full" alt="Logo">
+                        <!-- SỬA Ở ĐÂY: Thay src="..." bằng đường dẫn ảnh logo của bạn -->
+                        <!-- Ví dụ nếu upload lên GitHub: src="images/logo-cua-toi.png" -->
+                        <img src="https://drive.google.com/uc?export=view&id=11bYKWwMcHkXDyRSDUxsqsP7dFpGusoso" class="w-10 h-10 rounded-full shadow-lg" alt="Logo">
                     </div>
                  </div>
             </div>
             
             <div class="md:w-2/3">
-                <h2 class="text-3xl md:text-4xl mb-8">DzungLayout</h2>
-                <p class="text-lg md:text-xl font-light leading-relaxed text-stone-700 dark:text-stone-300 mb-12">
+                <h2 class="text-3xl md:text-4xl mb-8" data-i18n="about.title">Dzung Layout</h2>
+                <p class="text-lg md:text-xl font-light leading-relaxed text-stone-700 dark:text-stone-300 mb-12" data-i18n="about.philosophy">
                     "Design is not just what it looks like and feels like. Design is how it works. I believe in minimalism that speaks volumes, and motion that evokes emotion."
                 </p>
 
                 <div class="grid grid-cols-2 gap-y-12 gap-x-8">
                     <div>
-                        <h4 class="font-bold tracking-widest uppercase text-xs mb-4 border-b border-stone-200 dark:border-stone-800 pb-2">Expertise</h4>
+                        <h4 class="font-bold tracking-widest uppercase text-xs mb-4 border-b border-stone-200 dark:border-stone-800 pb-2" data-i18n="about.expertise">Expertise</h4>
                         <ul class="space-y-2 font-light text-stone-600 dark:text-stone-400">
                             <li>Art Direction</li>
                             <li>Video Editing (Premiere/DaVinci)</li>
@@ -420,7 +448,7 @@
                         </ul>
                     </div>
                     <div>
-                        <h4 class="font-bold tracking-widest uppercase text-xs mb-4 border-b border-stone-200 dark:border-stone-800 pb-2">Recognition</h4>
+                        <h4 class="font-bold tracking-widest uppercase text-xs mb-4 border-b border-stone-200 dark:border-stone-800 pb-2" data-i18n="about.recognition">Recognition</h4>
                         <ul class="space-y-2 font-light text-stone-600 dark:text-stone-400">
                             <li>Behance Featured 2023</li>
                             <li>Vimeo Staff Pick</li>
@@ -436,7 +464,7 @@
     <footer class="bg-primary text-white py-20 px-6">
         <div class="max-w-screen-xl mx-auto flex flex-col md:flex-row justify-between items-center">
             <div class="mb-8 md:mb-0 text-center md:text-left">
-                <h2 class="text-4xl font-serif italic mb-2">Let's create something timeless.</h2>
+                <h2 class="text-4xl font-serif italic mb-2" data-i18n="footer.text">Let's create something timeless.</h2>
                 <a href="mailto:contact@dzung.com" class="text-stone-400 hover:text-white transition border-b border-stone-600 pb-1">contact@dzunglayout.com</a>
             </div>
             
@@ -446,12 +474,20 @@
                 <a href="#" class="hover:text-stone-400 transition"><i class="fab fa-linkedin"></i></a>
             </div>
         </div>
-        <div class="text-center mt-20 text-xs text-stone-600 uppercase tracking-widest">
+
+        <!-- Scroll to Top Button (Mới thêm) -->
+        <div class="flex justify-center mt-16 mb-4">
+            <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="text-stone-600 hover:text-stone-300 transition duration-500 p-2 animate-bounce opacity-50 hover:opacity-100" title="Back to Top">
+                <i class="fas fa-chevron-up text-xl"></i>
+            </button>
+        </div>
+
+        <div class="text-center text-xs text-stone-600 uppercase tracking-widest">
             © 2025 DzungLayout. All Rights Reserved.
         </div>
     </footer>
 
-    <!-- VIDEO MODAL (Bổ sung mới - Ẩn mặc định) -->
+    <!-- VIDEO MODAL -->
     <div id="video-modal" class="fixed inset-0 z-[100] hidden bg-black/90 backdrop-blur-md flex items-center justify-center p-4">
         <button id="close-modal" class="absolute top-6 right-6 text-white text-4xl hover:text-stone-400 transition focus:outline-none">&times;</button>
         <div class="w-full max-w-5xl aspect-video bg-black shadow-2xl relative">
@@ -463,91 +499,332 @@
     <script>
         const apiKey = ""; 
 
-        // Theme Toggle
-        const themeToggleBtn = document.getElementById('theme-toggle');
-        const html = document.documentElement;
-        
-        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-            html.classList.add('dark');
-        }
-
-        themeToggleBtn.addEventListener('click', () => {
-            html.classList.toggle('dark');
-            localStorage.theme = html.classList.contains('dark') ? 'dark' : 'light';
-        });
-
-        // Mobile Menu
-        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
-        const mobileMenu = document.getElementById('mobile-menu');
-        mobileMenuBtn.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
-        });
-
-        // Typing Effect
-        const textElement = document.getElementById('typing-text');
-        const phrases = ['DzungLayout', 'a Video Editor', 'a Designer', 'a Minimalist'];
-        let phraseIndex = 0;
-        let charIndex = 0;
-        let isDeleting = false;
-
-        function type() {
-            const currentPhrase = phrases[phraseIndex];
-            if (isDeleting) {
-                textElement.textContent = currentPhrase.substring(0, charIndex - 1);
-                charIndex--;
-            } else {
-                textElement.textContent = currentPhrase.substring(0, charIndex + 1);
-                charIndex++;
+        // --- TRANSLATION DATA ---
+        const translations = {
+            en: {
+                nav: { home: "Home", work: "Selected Work", services: "Services", studio: "AI Studio", profile: "Profile", resume: "Resume", contact: "Contact" },
+                hero: {
+                    subtitle: "Portfolio 2025",
+                    title1: "Visual",
+                    title2: "Storyteller",
+                    intro: "I am",
+                    desc: "Crafting emotions through frames and pixels.",
+                    cta_work: "View Selected Work",
+                    cta_contact: "Get in touch",
+                    scroll: "Scroll"
+                },
+                work: { title: "Selected Work", subtitle: "A collection of moments & brands.", filter_all: "All" },
+                project1: { title: "Northwest Journey" },
+                services: {
+                    label: "What I do",
+                    title: "Services",
+                    desc: "Comprehensive visual solutions tailored for brands that value aesthetics and storytelling.",
+                    s1_title: "Post-Production",
+                    s1_desc: "Professional editing, sound design, and color grading for commercials, music videos, and documentaries.",
+                    s2_title: "Motion & VFX",
+                    s2_desc: "Elevating visuals with 2D/3D motion graphics, compositing, and visual effects that captivate.",
+                    s3_title: "Art Direction",
+                    s3_desc: "Defining the visual language and aesthetic strategy for brands, ensuring consistency across all media."
+                },
+                logos: { label: "Trusted Partners" },
+                ai: {
+                    label: "Experimental",
+                    title: "AI Creative Studio",
+                    desc: "Merging human intuition with machine intelligence. A suite of tools I use to spark inspiration.",
+                    t1_title: "Concept Generator",
+                    t1_desc: "Generate art direction & visual mood.",
+                    t1_placeholder: "Enter a subject (e.g. Noir City)...",
+                    t1_btn: "Ignite Spark",
+                    t2_title: "Draft Assistant",
+                    t2_desc: "Compose professional inquiries.",
+                    t2_placeholder: "Brief requirements...",
+                    t2_btn: "Compose"
+                },
+                about: {
+                    location: "Ho Chi Minh City",
+                    title: "Philosophy",
+                    philosophy: "\"Design is not just what it looks like and feels like. Design is how it works. I believe in minimalism that speaks volumes, and motion that evokes emotion.\"",
+                    expertise: "Expertise",
+                    recognition: "Recognition"
+                },
+                footer: { text: "Let's create something timeless." },
+                typing: ['DzungLayout', 'a Video Editor', 'a Designer', 'a Minimalist']
+            },
+            vi: {
+                nav: { home: "Trang chủ", work: "Dự án", services: "Dịch vụ", studio: "AI Studio", profile: "Về tôi", resume: "Hồ sơ", contact: "Liên hệ" },
+                hero: {
+                    subtitle: "Portfolio 2025",
+                    title1: "Nghệ thuật",
+                    title2: "kể chuyện",
+                    intro: "Tôi là",
+                    desc: "Chạm tới cảm xúc bằng hình ảnh và từng khung hình.",
+                    cta_work: "Xem Dự Án",
+                    cta_contact: "Liên hệ ngay",
+                    scroll: "Cuộn"
+                },
+                work: { title: "Dự án tiêu biểu", subtitle: "Bộ sưu tập những khoảnh khắc & thương hiệu.", filter_all: "Tất cả" },
+                project1: { title: "Hành trình Tây Bắc" },
+                services: {
+                    label: "Lĩnh vực chuyên môn",
+                    title: "Dịch vụ",
+                    desc: "Giải pháp hình ảnh toàn diện dành cho những thương hiệu đề cao tính thẩm mỹ và câu chuyện.",
+                    s1_title: "Dựng Phim (Post-Production)",
+                    s1_desc: "Biên tập chuyên nghiệp, thiết kế âm thanh và chỉnh màu (Color Grading) cho TVC, MV và phim tài liệu.",
+                    s2_title: "Chuyển động & VFX",
+                    s2_desc: "Nâng tầm hình ảnh với đồ họa chuyển động 2D/3D, kỹ xảo điện ảnh đầy mê hoặc.",
+                    s3_title: "Chỉ đạo Nghệ thuật",
+                    s3_desc: "Định hình ngôn ngữ hình ảnh và chiến lược thẩm mỹ cho thương hiệu, đảm bảo sự nhất quán trên mọi nền tảng."
+                },
+                logos: { label: "Đối tác tin cậy" },
+                ai: {
+                    label: "Thử nghiệm",
+                    title: "AI Creative Studio",
+                    desc: "Kết hợp trực giác con người và trí tuệ nhân tạo. Bộ công cụ tôi dùng để khơi nguồn cảm hứng.",
+                    t1_title: "Tạo Concept",
+                    t1_desc: "Gợi ý chỉ đạo nghệ thuật & mood hình ảnh.",
+                    t1_placeholder: "Nhập chủ đề (VD: Sài Gòn xưa)...",
+                    t1_btn: "Tạo ý tưởng",
+                    t2_title: "Trợ lý Soạn thảo",
+                    t2_desc: "Soạn email liên hệ chuyên nghiệp.",
+                    t2_placeholder: "Yêu cầu ngắn gọn...",
+                    t2_btn: "Soạn thảo"
+                },
+                about: {
+                    location: "TP. Hồ Chí Minh",
+                    title: "Triết lý",
+                    philosophy: "\"Thiết kế không chỉ là trông nó như thế nào. Thiết kế là cách nó vận hành. Tôi tin vào sự tối giản nhưng sâu sắc, và những chuyển động khơi gợi cảm xúc.\"",
+                    expertise: "Chuyên môn",
+                    recognition: "Giải thưởng"
+                },
+                footer: { text: "Cùng tạo nên những giá trị vượt thời gian." },
+                typing: ['DzungLayout', 'Video Editor', 'Designer', 'Người yêu tối giản']
             }
-
-            if (!isDeleting && charIndex === currentPhrase.length) {
-                isDeleting = true;
-                setTimeout(type, 2000);
-            } else if (isDeleting && charIndex === 0) {
-                isDeleting = false;
-                phraseIndex = (phraseIndex + 1) % phrases.length;
-                setTimeout(type, 500);
-            } else {
-                setTimeout(type, isDeleting ? 50 : 100);
-            }
-        }
-        document.addEventListener('DOMContentLoaded', type);
-
-        // --- VIDEO MODAL LOGIC (Mới) ---
-        const modal = document.getElementById('video-modal');
-        const iframe = document.getElementById('video-iframe');
-        const closeBtn = document.getElementById('close-modal');
-        const videoTriggers = document.querySelectorAll('.video-trigger');
-
-        videoTriggers.forEach(trigger => {
-            trigger.addEventListener('click', () => {
-                const videoId = trigger.getAttribute('data-video-id');
-                if (videoId) {
-                    // Dùng link embed của YouTube, autoplay=1 để tự chạy
-                    iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`;
-                    modal.classList.remove('hidden');
-                }
-            });
-        });
-
-        const closeModal = () => {
-            modal.classList.add('hidden');
-            iframe.src = ''; // Dừng video khi đóng
         };
 
-        closeBtn.addEventListener('click', closeModal);
-        modal.addEventListener('click', (e) => {
-            if (e.target === modal) closeModal(); // Đóng khi click ra ngoài
-        });
-        
-        // Đóng khi nhấn ESC
-        document.addEventListener('keydown', (e) => {
-            if (e.key === "Escape" && !modal.classList.contains('hidden')) {
-                closeModal();
+        // --- WRAP ALL LOGIC IN DOMContentLoaded (FIX ERROR) ---
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // --- SCROLL EFFECT FOR NAV ---
+            const nav = document.getElementById('main-nav');
+            let isScrolled = false; // Flag để tránh cập nhật DOM liên tục
+
+            if (nav) {
+                window.addEventListener('scroll', () => {
+                    const scrolled = window.scrollY > 50;
+                    
+                    if (scrolled && !isScrolled) {
+                        isScrolled = true;
+                        // Khi cuộn xuống: Thêm nền mờ
+                        nav.classList.add('bg-white/80', 'dark:bg-dark/80', 'backdrop-blur-md', 'border-b', 'border-stone-200', 'dark:border-stone-800', 'shadow-sm');
+                    } else if (!scrolled && isScrolled) {
+                        isScrolled = false;
+                        // Khi ở đỉnh trang: Trong suốt
+                        nav.classList.remove('bg-white/80', 'dark:bg-dark/80', 'backdrop-blur-md', 'border-b', 'border-stone-200', 'dark:border-stone-800', 'shadow-sm');
+                    }
+                });
+            }
+
+            // --- LANGUAGE LOGIC ---
+            let currentLang = localStorage.getItem('lang') || 'en';
+            const langBtn = document.getElementById('lang-toggle');
+            
+            function updateContent() {
+                // Update Text
+                document.querySelectorAll('[data-i18n]').forEach(el => {
+                    const key = el.getAttribute('data-i18n');
+                    const keys = key.split('.');
+                    let val = translations[currentLang];
+                    keys.forEach(k => { if(val) val = val[k]; });
+                    if (val) el.textContent = val;
+                });
+                
+                // Update Placeholders
+                document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+                    const key = el.getAttribute('data-i18n-placeholder');
+                    const keys = key.split('.');
+                    let val = translations[currentLang];
+                    keys.forEach(k => { if(val) val = val[k]; });
+                    if (val) el.placeholder = val;
+                });
+
+                // Update Button Text
+                if (langBtn) langBtn.textContent = currentLang === 'en' ? 'EN' : 'VN';
+                
+                // Update Typing Effect Phrases (Safe Update)
+                phrases = translations[currentLang].typing;
+            }
+
+            if (langBtn) {
+                langBtn.addEventListener('click', () => {
+                    currentLang = currentLang === 'en' ? 'vi' : 'en';
+                    localStorage.setItem('lang', currentLang);
+                    updateContent();
+                });
+            }
+
+            // --- THEME LOGIC ---
+            const themeToggleBtn = document.getElementById('theme-toggle');
+            const html = document.documentElement;
+            
+            if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                html.classList.add('dark');
+            }
+
+            if (themeToggleBtn) {
+                themeToggleBtn.addEventListener('click', () => {
+                    html.classList.toggle('dark');
+                    localStorage.theme = html.classList.contains('dark') ? 'dark' : 'light';
+                });
+            }
+
+            // --- MOBILE MENU ---
+            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            
+            if (mobileMenuBtn && mobileMenu) {
+                mobileMenuBtn.addEventListener('click', () => {
+                    mobileMenu.classList.toggle('hidden');
+                });
+            }
+
+            // --- TYPING EFFECT ---
+            const textElement = document.getElementById('typing-text');
+            let phrases = translations[currentLang].typing; 
+            let phraseIndex = 0;
+            let charIndex = 0;
+            let isDeleting = false;
+
+            function type() {
+                if (!textElement) return;
+                const currentPhrase = phrases[phraseIndex % phrases.length]; 
+                
+                if (isDeleting) {
+                    textElement.textContent = currentPhrase.substring(0, charIndex - 1);
+                    charIndex--;
+                } else {
+                    textElement.textContent = currentPhrase.substring(0, charIndex + 1);
+                    charIndex++;
+                }
+
+                if (!isDeleting && charIndex === currentPhrase.length) {
+                    isDeleting = true;
+                    setTimeout(type, 2000);
+                } else if (isDeleting && charIndex === 0) {
+                    isDeleting = false;
+                    phraseIndex = (phraseIndex + 1) % phrases.length;
+                    setTimeout(type, 500);
+                } else {
+                    setTimeout(type, isDeleting ? 50 : 100);
+                }
+            }
+            
+            // Start components
+            updateContent();
+            type();
+
+            // --- VIDEO MODAL LOGIC ---
+            const modal = document.getElementById('video-modal');
+            const iframe = document.getElementById('video-iframe');
+            const closeBtn = document.getElementById('close-modal');
+            const videoTriggers = document.querySelectorAll('.video-trigger');
+
+            if (modal && iframe) {
+                videoTriggers.forEach(trigger => {
+                    trigger.addEventListener('click', () => {
+                        const videoId = trigger.getAttribute('data-video-id');
+                        if (videoId) {
+                            iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`;
+                            modal.classList.remove('hidden');
+                        }
+                    });
+                });
+
+                const closeModal = () => {
+                    modal.classList.add('hidden');
+                    iframe.src = '';
+                };
+
+                if (closeBtn) closeBtn.addEventListener('click', closeModal);
+                
+                modal.addEventListener('click', (e) => {
+                    if (e.target === modal) closeModal();
+                });
+                
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === "Escape" && !modal.classList.contains('hidden')) {
+                        closeModal();
+                    }
+                });
+            }
+
+            // --- GEMINI API BUTTONS (With Null Checks) ---
+            const btnIdea = document.getElementById('btn-generate-idea');
+            const btnEmail = document.getElementById('btn-generate-email');
+
+            if (btnIdea) {
+                btnIdea.addEventListener('click', async function() {
+                    const input = document.getElementById('idea-input').value;
+                    const resultDiv = document.getElementById('idea-result');
+                    const btn = this;
+                    
+                    if (!input.trim()) return;
+                    
+                    const loadingText = currentLang === 'en' ? 'Thinking...' : 'Đang suy nghĩ...';
+                    const thinkingText = currentLang === 'en' ? 'Consulting the muse...' : 'Đang tìm cảm hứng...';
+                    const btnText = translations[currentLang].ai.t1_btn;
+
+                    btn.innerHTML = `<span>${loadingText}</span>`;
+                    resultDiv.classList.remove('hidden');
+                    resultDiv.innerHTML = `<span class="animate-pulse">${thinkingText}</span>`;
+
+                    const langInstruction = currentLang === 'en' ? 'Language: English.' : 'Language: Vietnamese.';
+                    const prompt = `Act as an Art Director. Create a sophisticated visual concept for: "${input}". 
+                    Format: Markdown. Keep it brief, poetic, and professional. 
+                    Structure: 
+                    ### [Concept Name]
+                    * **Mood:** ...
+                    * **Visuals:** ...
+                    ${langInstruction}`;
+
+                    const text = await callGemini(prompt);
+                    resultDiv.innerHTML = marked.parse(text);
+                    btn.innerHTML = `<span data-i18n="ai.t1_btn">${btnText}</span><span class="ml-2"><i class="fas fa-arrow-right"></i></span>`;
+                });
+            }
+
+            if (btnEmail) {
+                btnEmail.addEventListener('click', async function() {
+                    const input = document.getElementById('email-input').value;
+                    const resultDiv = document.getElementById('email-result');
+                    const btn = this;
+                    
+                    if (!input.trim()) return;
+
+                    const loadingText = currentLang === 'en' ? 'Drafting...' : 'Đang viết...';
+                    const thinkingText = currentLang === 'en' ? 'Composing...' : 'Đang soạn thảo...';
+                    const btnText = translations[currentLang].ai.t2_btn;
+
+                    btn.innerHTML = `<span>${loadingText}</span>`;
+                    resultDiv.classList.remove('hidden');
+                    resultDiv.innerHTML = `<span class="animate-pulse">${thinkingText}</span>`;
+
+                    const langInstruction = currentLang === 'en' ? 'Language: English.' : 'Language: Vietnamese.';
+                    const prompt = `Write a short, professional inquiry email to DzungLayout based on: "${input}". 
+                    Tone: Elegant, respectful, concise. ${langInstruction}`;
+
+                    const text = await callGemini(prompt);
+                    resultDiv.innerText = text;
+                    
+                    const ta = document.getElementById('email-input');
+                    ta.value = ""; 
+                    ta.placeholder = currentLang === 'en' ? "Anything else?" : "Còn yêu cầu gì khác không?";
+                    
+                    btn.innerHTML = `<span data-i18n="ai.t2_btn">${btnText}</span><span class="ml-2"><i class="fas fa-arrow-right"></i></span>`;
+                });
             }
         });
 
-        // --- GEMINI API ---
+        // --- GEMINI API FUNCTION (Global) ---
         async function callGemini(prompt) {
             const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
             const payload = { contents: [{ parts: [{ text: prompt }] }] };
@@ -561,57 +838,10 @@
                 return data.candidates[0].content.parts[0].text;
             } catch (e) {
                 console.error(e);
-                return "Unavailable at the moment.";
+                const currentLang = localStorage.getItem('lang') || 'en';
+                return currentLang === 'en' ? "Unavailable at the moment." : "Hệ thống đang bận.";
             }
         }
-
-        document.getElementById('btn-generate-idea').addEventListener('click', async function() {
-            const input = document.getElementById('idea-input').value;
-            const resultDiv = document.getElementById('idea-result');
-            const btn = this;
-            
-            if (!input.trim()) return;
-            
-            btn.innerHTML = '<span>Thinking...</span>';
-            resultDiv.classList.remove('hidden');
-            resultDiv.innerHTML = '<span class="animate-pulse">Consulting the muse...</span>';
-
-            const prompt = `Act as an Art Director. Create a sophisticated visual concept for: "${input}". 
-            Format: Markdown. Keep it brief, poetic, and professional. 
-            Structure: 
-            ### [Concept Name]
-            * **Mood:** ...
-            * **Visuals:** ...
-            Language: Vietnamese.`;
-
-            const text = await callGemini(prompt);
-            resultDiv.innerHTML = marked.parse(text);
-            btn.innerHTML = `<span>Ignite Spark</span><span class="ml-2"><i class="fas fa-arrow-right"></i></span>`;
-        });
-
-        document.getElementById('btn-generate-email').addEventListener('click', async function() {
-            const input = document.getElementById('email-input').value;
-            const resultDiv = document.getElementById('email-result');
-            const btn = this;
-            
-            if (!input.trim()) return;
-
-            btn.innerHTML = '<span>Drafting...</span>';
-            resultDiv.classList.remove('hidden');
-            resultDiv.innerHTML = '<span class="animate-pulse">Composing...</span>';
-
-            const prompt = `Write a short, professional inquiry email to DzungLayout based on: "${input}". 
-            Tone: Elegant, respectful, concise. Language: Vietnamese.`;
-
-            const text = await callGemini(prompt);
-            resultDiv.innerText = text;
-            
-            const ta = document.getElementById('email-input');
-            ta.value = ""; 
-            ta.placeholder = "Anything else?";
-            
-            btn.innerHTML = `<span>Compose</span><span class="ml-2"><i class="fas fa-arrow-right"></i></span>`;
-        });
     </script>
 </body>
 </html>
