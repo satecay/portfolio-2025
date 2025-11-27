@@ -73,6 +73,21 @@
         .animate-infinite-scroll:hover {
             animation-play-state: paused;
         }
+        /* 1. Khai báo Font mới */
+@font-face {
+    font-family: 'DzungSignature'; /* Tự đặt tên cho font */
+    /* Đường dẫn trỏ vào thư mục fonts bạn vừa tạo */
+    src: url('fonts/Scripture.ttf') format('truetype'); 
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap; /* Giúp hiện chữ mặc định trước khi font tải xong */
+}
+
+/* 2. Tạo class để dùng font này */
+.font-signature-custom {
+    font-family: 'Dzunglayout', cursive; /* cursive là font dự phòng */
+}
+        
     </style>
 </head>
 <body class="bg-paper text-primary dark:bg-dark dark:text-stone-200 transition-colors duration-500 font-sans antialiased">
@@ -410,11 +425,14 @@
                         </div>
                         
                         <!-- Signature -->
-                        <div class="mb-12 opacity-70">
-                            <svg width="200" height="60" viewBox="0 0 200 60" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M10,40 Q30,10 50,40 T90,30 T130,40 T180,20" stroke="currentColor" stroke-width="2" fill="none" class="text-primary dark:text-white" />
-                                <text x="140" y="50" font-family="serif" font-size="12" fill="currentColor" class="text-primary dark:text-white">Dzung.</text>
-                            </svg>
+                       <!-- Signature (Thay thế SVG bằng Font Custom) -->
+                        <div class="mb-12 opacity-80">
+                            <!-- Class font-signature-custom sẽ gọi font bạn vừa cài -->
+                            <!-- text-5xl: Cỡ chữ to -->
+                            <!-- -rotate-6: Xoay nghiêng nhẹ (-6 độ) cho giống viết tay thật -->
+                            <p class="font-signature-custom text-5xl md:text-6xl text-primary dark:text-white transform -rotate-6 origin-left select-none">
+                                Dzung Layout
+                            </p>
                         </div>
                     </div>
 
@@ -922,6 +940,7 @@
     </script>
 </body>
 </html>
+
 
 
 
