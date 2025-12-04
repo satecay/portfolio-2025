@@ -9,7 +9,7 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Google Fonts: Be Vietnam Pro & Playfair Display -->
-    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@100;200;300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@100;200;300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Great+Vibes&display=swap" rel="stylesheet">
     <!-- Markdown Parser -->
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     
@@ -21,8 +21,7 @@
                     fontFamily: {
                         sans: ['"Be Vietnam Pro"', 'sans-serif'],
                         serif: ['Playfair Display', 'serif'],
-                        // CẬP NHẬT: Thêm "Great Vibes" làm font dự phòng nếu Scripture lỗi
-                        scripture: ['Scripture', 'Great Vibes', 'cursive', 'serif'], 
+                        scripture: ['Scripture', '"Great Vibes"', 'cursive', 'serif'], 
                     },
                     colors: {
                         primary: '#1c1917',   
@@ -39,16 +38,15 @@
         }
     </script>
     <style>
-         /* KHAI BÁO FONT FACE */
+        /* KHAI BÁO FONT FACE */
         @font-face {
-            font-family: 'scripture';
-            /* LƯU Ý: Kiểm tra kỹ tên file trên GitHub chính xác từng ký tự hoa/thường */
+            font-family: 'Scripture';
             src: url('fonts/Scripture.ttf') format('truetype'); 
             font-weight: normal;
             font-style: normal;
             font-display: swap;
         }
-        
+
         h1, h2, h3, h4 { font-family: 'Playfair Display', serif; }
         
         .typing-effect::after {
@@ -85,8 +83,17 @@
         .animate-infinite-scroll:hover {
             animation-play-state: paused;
         }
-        /* 1. Khai báo Font mới */
- 
+
+        /* --- HIỆU ỨNG REVEAL ON SCROLL --- */
+        .reveal {
+            opacity: 0;
+            transform: translateY(50px); /* Đẩy xuống dưới 50px */
+            transition: all 1s ease-out; /* Thời gian hiện ra 1 giây */
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0); /* Trở về vị trí cũ */
+        }
     </style>
 </head>
 <body class="bg-paper text-primary dark:bg-dark dark:text-stone-200 transition-colors duration-500 font-sans antialiased">
@@ -177,10 +184,10 @@
 
             <!-- Grid Layout -->
             <div class="grid md:grid-cols-2 gap-x-8 gap-y-16">
-                <!-- Project 1 -->
-                <div class="group cursor-pointer video-trigger" data-video-id="zjUzZNXi2aQ"> 
+                <!-- Project 1 (Thêm class "reveal") -->
+                <div class="group cursor-pointer video-trigger reveal" data-video-id="zjUzZNXi2aQ"> 
                     <div class="relative overflow-hidden aspect-[16/9] mb-6 bg-stone-100">
-                        <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=800&auto=format&fit=crop&q=80" alt="Work 1" class="object-cover w-full h-full transform transition duration-700 group-hover:scale-105 filter grayscale group-hover:grayscale-0">
+                        <img src="https://youtu.be/zjUzZNXi2aQ" alt="Work 1" class="object-cover w-full h-full transform transition duration-700 group-hover:scale-105 filter grayscale group-hover:grayscale-0">
                         <div class="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition duration-500 flex items-center justify-center">
                             <div class="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center group-hover:scale-110 transition duration-300">
                                 <i class="fas fa-play text-white text-xl pl-1"></i>
@@ -196,8 +203,8 @@
                     </div>
                 </div>
 
-                <!-- Project 2 -->
-                <div class="group cursor-pointer md:mt-20">
+                <!-- Project 2 (Thêm class "reveal") -->
+                <div class="group cursor-pointer md:mt-20 reveal">
                     <div class="relative overflow-hidden aspect-[3/4] mb-6 bg-stone-100">
                         <img src="https://satecay.github.io/portfolio-2025/images/web-show-1.jpg$0" alt="Work 2" class="object-cover w-full h-full transform transition duration-700 group-hover:scale-105 filter grayscale group-hover:grayscale-0">
                     </div>
@@ -210,8 +217,8 @@
                     </div>
                 </div>
 
-                 <!-- Project 3 -->
-                 <div class="group cursor-pointer video-trigger" data-video-id="6avPyTcdmtw">
+                 <!-- Project 3 (Thêm class "reveal") -->
+                 <div class="group cursor-pointer video-trigger reveal" data-video-id="LXb3EKWsInQ">
                     <div class="relative overflow-hidden aspect-[16/9] mb-6 bg-stone-100">
                         <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=800&auto=format&fit=crop&q=80" alt="Work 3" class="object-cover w-full h-full transform transition duration-700 group-hover:scale-105 filter grayscale group-hover:grayscale-0">
                         <div class="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition duration-500 flex items-center justify-center">
@@ -229,8 +236,8 @@
                     </div>
                 </div>
 
-                 <!-- Project 4 -->
-                 <div class="group cursor-pointer md:mt-20">
+                 <!-- Project 4 (Thêm class "reveal") -->
+                 <div class="group cursor-pointer md:mt-20 reveal">
                     <div class="relative overflow-hidden aspect-[4/5] mb-6 bg-stone-100">
                         <img src="https://images.unsplash.com/photo-1600607686527-6fb886090705?w=800&auto=format&fit=crop&q=80" alt="Work 4" class="object-cover w-full h-full transform transition duration-700 group-hover:scale-105 filter grayscale group-hover:grayscale-0">
                     </div>
@@ -246,8 +253,7 @@
         </div>
     </section>
 
-    <!-- NEW: FEATURED SHOWREEL (Parallax/Curtain Effect) -->
-    <!-- Video này sẽ dính ở dưới (z-0), các phần khác đè lên (z-10) -->
+    <!-- FEATURED SHOWREEL (Parallax/Curtain Effect) -->
     <section class="sticky top-0 h-screen w-full flex items-center justify-center overflow-hidden -z-10">
         <!-- Video Background -->
         <video autoplay loop muted playsinline class="absolute inset-0 w-full h-full object-cover brightness-75">
@@ -272,7 +278,7 @@
     </section>
 
     <!-- Services (Cinematic Cards) -->
-    <!-- Thêm z-10 và background màu đặc để "che" video khi cuộn lên -->
+    <!-- z-10 để che video khi cuộn lên -->
     <section id="services" class="relative z-10 py-24 px-6 bg-paper dark:bg-dark border-t border-stone-100 dark:border-stone-800 shadow-2xl shadow-stone-900/20">
         <div class="max-w-screen-xl mx-auto">
             <div class="mb-16 md:w-1/2">
@@ -284,8 +290,8 @@
             </div>
 
             <div class="grid md:grid-cols-3 gap-6">
-                <!-- Service 1: Post-Production (Cinematic Card) -->
-                <div class="group relative h-[500px] overflow-hidden cursor-pointer">
+                <!-- Service 1 (Thêm class "reveal") -->
+                <div class="group relative h-[500px] overflow-hidden cursor-pointer reveal">
                     <!-- Background Image (Editing Timeline/Film) -->
                     <img src="https://images.unsplash.com/photo-1696389500422-d48223c77d5f?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTZ8fGRhdmluY2klMjByZXNvbHZlfGVufDB8fDB8fHww" 
                          class="absolute inset-0 w-full h-full object-cover transition duration-700 group-hover:scale-110 filter grayscale group-hover:grayscale-0 brightness-50 group-hover:brightness-55" 
@@ -312,8 +318,8 @@
                     </div>
                 </div>
 
-                <!-- Service 2: Motion & VFX (Cinematic Card) -->
-                <div class="group relative h-[500px] overflow-hidden cursor-pointer">
+                <!-- Service 2 (Thêm class "reveal") -->
+                <div class="group relative h-[500px] overflow-hidden cursor-pointer reveal">
                     <!-- Background Image (Abstract Light/Neon) -->
                     <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=600&auto=format&fit=crop&q=80" 
                          class="absolute inset-0 w-full h-full object-cover transition duration-700 group-hover:scale-110 filter grayscale group-hover:grayscale-0 brightness-50 group-hover:brightness-55" 
@@ -338,8 +344,8 @@
                     </div>
                 </div>
 
-                <!-- Service 3: Art Direction (Cinematic Card) -->
-                <div class="group relative h-[500px] overflow-hidden cursor-pointer">
+                <!-- Service 3 (Thêm class "reveal") -->
+                <div class="group relative h-[500px] overflow-hidden cursor-pointer reveal">
                     <!-- Background Image (Abstract Texture/Design) -->
                     <img src="https://images.unsplash.com/photo-1509343256512-d77a5cb3791b?w=600&auto=format&fit=crop&q=80" 
                          class="absolute inset-0 w-full h-full object-cover transition duration-700 group-hover:scale-110 filter grayscale group-hover:grayscale-0 brightness-50 group-hover:brightness-55" 
@@ -368,7 +374,7 @@
     </section>
 
     <!-- NEW ABOUT SECTION: Editorial Style -->
-    <section id="about" class="py-32 px-6 bg-white dark:bg-darkPaper border-t border-stone-100 dark:border-stone-900 overflow-hidden">
+    <section id="about" class="relative z-10 py-32 px-6 bg-white dark:bg-darkPaper border-t border-stone-100 dark:border-stone-900 overflow-hidden">
         <div class="max-w-5xl mx-auto">
             <!-- Top: Big Headline -->
             <div class="mb-16">
@@ -380,8 +386,8 @@
             </div>
 
             <div class="grid md:grid-cols-12 gap-12 items-start">
-                <!-- Left: Portrait (chiếm 5 cột) -->
-                <div class="md:col-span-5 relative group">
+                <!-- Left: Portrait (chiếm 5 cột) - Thêm class "reveal" -->
+                <div class="md:col-span-5 relative group reveal">
                     <div class="relative overflow-hidden aspect-[3/4]">
                         <img src="https://plus.unsplash.com/premium_photo-1682141028605-b2456e2bab14?q=80&w=687&auto=format&fit=crop" 
                              alt="Portrait" 
@@ -424,14 +430,9 @@
                         </div>
                         
                         <!-- Signature -->
-                       <!-- Signature (Thay thế SVG bằng Font Custom) -->
-                        <div class="mb-12 opacity-80">
-                            <!-- Class font-signature-custom sẽ gọi font bạn vừa cài -->
-                            <!-- text-5xl: Cỡ chữ to -->
-                            <!-- -rotate-6: Xoay nghiêng nhẹ (-6 độ) cho giống viết tay thật -->
-                            <p class="font-signature-custom text-1xl md:text-3xl text-primary dark:text-white transform -rotate-0 origin-left select-none">
-                                DzungLayout
-                            </p>
+                        <div class="mb-12 opacity-80 text-primary dark:text-white">
+                            <!-- SỬ DỤNG FONT MỚI SCRIPTURE CHO CHỮ KÝ -->
+                            <p class="font-scripture text-1xl md:text-3xl transform -rotate-0">Dzunglayout.</p>
                         </div>
                     </div>
 
@@ -449,91 +450,6 @@
                             <span class="block text-4xl font-serif font-bold mb-1">100%</span>
                             <span class="text-xs uppercase tracking-widest text-stone-500" data-i18n="about.stat_happy">Satisfaction</span>
                         </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Client Logos (Marquee) -->
-    <section class="py-16 border-t border-stone-100 dark:border-stone-800 bg-paper dark:bg-dark overflow-hidden">
-        <div class="max-w-screen-xl mx-auto px-6 mb-8 text-center">
-            <p class="text-xs font-bold tracking-[0.2em] uppercase text-stone-400" data-i18n="logos.label">Trusted Partners</p>
-        </div>
-        <div class="relative flex overflow-x-hidden group">
-            <div class="absolute top-0 bottom-0 left-0 w-30 z-10 bg-gradient-to-r from-paper dark:from-dark to-transparent"></div>
-            <div class="absolute top-0 bottom-0 right-0 w-30 z-10 bg-gradient-to-l from-paper dark:from-dark to-transparent"></div>
-            <div class="py-4 animate-infinite-scroll whitespace-nowrap flex items-center gap-16 md:gap-24 pl-6">
-                <!-- LOGOS -->
-                <img src="logo-jobs/KTX-VIET-CLIP-03.png" class="h-8 w-auto object-contain grayscale opacity-40 hover:grayscale-0 hover:opacity-100 transition duration-300 cursor-pointer" alt="Google">
-                <img src="logo-jobs/LOGO-BANKING-2023-01.png" class="h-8 w-auto object-contain grayscale opacity-40 hover:grayscale-0 hover:opacity-100 transition duration-300 cursor-pointer" alt="Netflix">
-                <img src="logo-jobs/ESG-01.png" class="h-6 w-auto object-contain grayscale opacity-40 hover:grayscale-0 hover:opacity-100 transition duration-300 cursor-pointer" alt="Nike">
-                <img src="logo-jobs/scr-logo-white-02.png" class="h-10 w-auto object-contain grayscale opacity-40 hover:grayscale-0 hover:opacity-100 transition duration-300 cursor-pointer" alt="Adidas">
-                <img src="logo-jobs/Signature-Voice.png" class="h-8 w-auto object-contain grayscale opacity-40 hover:grayscale-0 hover:opacity-100 transition duration-300 cursor-pointer" alt="Meta">
-                <img src="logo-jobs/Người-thắp-lửa-quanh-ta-logo.png" class="h-8 w-auto object-contain grayscale opacity-40 hover:grayscale-0 hover:opacity-100 transition duration-300 cursor-pointer" alt="IBM">
-                <img src="logo-jobs/KTX-VIET-CLIP-04.png" class="h-8 w-auto object-contain grayscale opacity-40 hover:grayscale-0 hover:opacity-100 transition duration-300 cursor-pointer" alt="Samsung">
-                <!-- Duplicate -->
-                <img src="https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg" class="h-8 w-auto object-contain grayscale opacity-40 hover:grayscale-0 hover:opacity-100 transition duration-300 cursor-pointer" alt="Google">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg" class="h-8 w-auto object-contain grayscale opacity-40 hover:grayscale-0 hover:opacity-100 transition duration-300 cursor-pointer" alt="Netflix">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/a/a6/Logo_NIKE.svg" class="h-6 w-auto object-contain grayscale opacity-40 hover:grayscale-0 hover:opacity-100 transition duration-300 cursor-pointer" alt="Nike">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/2/20/Adidas_Logo.svg" class="h-10 w-auto object-contain grayscale opacity-40 hover:grayscale-0 hover:opacity-100 transition duration-300 cursor-pointer" alt="Adidas">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/7/7b/Meta_Platforms_Inc._logo.svg" class="h-8 w-auto object-contain grayscale opacity-40 hover:grayscale-0 hover:opacity-100 transition duration-300 cursor-pointer" alt="Meta">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/5/51/IBM_logo.svg" class="h-8 w-auto object-contain grayscale opacity-40 hover:grayscale-0 hover:opacity-100 transition duration-300 cursor-pointer" alt="IBM">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/4/47/Samsung.svg" class="h-8 w-auto object-contain grayscale opacity-40 hover:grayscale-0 hover:opacity-100 transition duration-300 cursor-pointer" alt="Samsung">
-            </div>
-        </div>
-    </section>
-
-    <!-- AI Studio -->
-    <section id="studio" class="py-32 px-6 bg-paper dark:bg-dark relative">
-        <div class="absolute inset-0 bg-noise opacity-30 pointer-events-none"></div>
-        <div class="max-w-4xl mx-auto relative z-10">
-            <div class="text-center mb-16">
-                <span class="text-xs font-bold tracking-[0.2em] uppercase text-accent" data-i18n="ai.label">Experimental</span>
-                <h2 class="text-4xl md:text-5xl mt-2 mb-6" data-i18n="ai.title">AI Creative Studio</h2>
-                <p class="font-light text-lg text-stone-600 dark:text-stone-400 max-w-xl mx-auto" data-i18n="ai.desc">
-                    Merging human intuition with machine intelligence. A suite of tools I use to spark inspiration.
-                </p>
-            </div>
-
-            <div class="grid md:grid-cols-2 gap-12">
-                <!-- Tool 1 -->
-                <div class="bg-white dark:bg-[#1a1a1a] p-8 md:p-10 shadow-sm hover:shadow-xl transition duration-500 border border-stone-100 dark:border-stone-800">
-                    <div class="mb-8">
-                        <i class="fas fa-lightbulb text-2xl text-stone-400 mb-4 block"></i>
-                        <h3 class="text-2xl font-serif italic mb-2" data-i18n="ai.t1_title">Concept Generator</h3>
-                        <p class="text-sm text-stone-500 font-light" data-i18n="ai.t1_desc">Generate art direction & visual mood.</p>
-                    </div>
-                    
-                    <div class="space-y-6">
-                        <input type="text" id="idea-input" class="w-full bg-transparent border-b border-stone-300 dark:border-stone-700 py-3 text-lg focus:outline-none focus:border-primary dark:focus:border-white transition placeholder-stone-400 font-serif" placeholder="Enter a subject (e.g. Noir City)..." data-i18n-placeholder="ai.t1_placeholder">
-                        
-                        <div id="idea-result" class="hidden text-sm leading-relaxed text-stone-600 dark:text-stone-300 prose dark:prose-invert"></div>
-
-                        <button id="btn-generate-idea" class="group flex items-center text-sm font-bold tracking-widest uppercase hover:text-stone-500 transition">
-                            <span data-i18n="ai.t1_btn">Ignite Spark</span>
-                            <span class="ml-2 transform group-hover:translate-x-1 transition"><i class="fas fa-arrow-right"></i></span>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Tool 2 -->
-                <div class="bg-white dark:bg-[#1a1a1a] p-8 md:p-10 shadow-sm hover:shadow-xl transition duration-500 border border-stone-100 dark:border-stone-800">
-                    <div class="mb-8">
-                        <i class="fas fa-pen-fancy text-2xl text-stone-400 mb-4 block"></i>
-                        <h3 class="text-2xl font-serif italic mb-2" data-i18n="ai.t2_title">Draft Assistant</h3>
-                        <p class="text-sm text-stone-500 font-light" data-i18n="ai.t2_desc">Compose professional inquiries.</p>
-                    </div>
-                    
-                    <div class="space-y-6">
-                        <textarea id="email-input" rows="1" class="w-full bg-transparent border-b border-stone-300 dark:border-stone-700 py-3 text-lg focus:outline-none focus:border-primary dark:focus:border-white transition placeholder-stone-400 font-serif resize-none" placeholder="Brief requirements..." data-i18n-placeholder="ai.t2_placeholder"></textarea>
-                        
-                        <div id="email-result" class="hidden relative p-6 bg-stone-50 dark:bg-black/20 text-sm font-mono text-stone-600 dark:text-stone-300 border-l-2 border-stone-300"></div>
-
-                        <button id="btn-generate-email" class="group flex items-center text-sm font-bold tracking-widest uppercase hover:text-stone-500 transition">
-                            <span data-i18n="ai.t2_btn">Compose</span>
-                            <span class="ml-2 transform group-hover:translate-x-1 transition"><i class="fas fa-arrow-right"></i></span>
-                        </button>
                     </div>
                 </div>
             </div>
@@ -717,6 +633,24 @@
                     }
                 });
             }
+
+            // --- REVEAL ON SCROLL OBSERVER ---
+            const revealElements = document.querySelectorAll('.reveal');
+            
+            const revealObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if(entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                        // Nếu muốn hiệu ứng chỉ chạy 1 lần duy nhất thì bỏ comment dòng dưới
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, {
+                threshold: 0.15 // Kích hoạt khi phần tử xuất hiện 15% trong khung hình
+            });
+
+            revealElements.forEach(el => revealObserver.observe(el));
+
 
             // --- LANGUAGE LOGIC ---
             let currentLang = localStorage.getItem('lang') || 'en';
@@ -939,22 +873,3 @@
     </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
