@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<!-- BỎ class scroll-smooth ở đây để dùng JS xử lý mượt hơn -->
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -107,7 +108,7 @@
                 <a href="#home" class="hover:text-accent transition" data-i18n="nav.home">Home</a>
                 <a href="#work" class="hover:text-accent transition" data-i18n="nav.work">Selected Work</a>
                 <a href="#services" class="hover:text-accent transition" data-i18n="nav.services">Services</a>
-            <!--   <a href="#studio" class="hover:text-accent transition" data-i18n="nav.studio">AI Studio</a> -->
+                
                 <a href="#about" class="hover:text-accent transition" data-i18n="nav.profile">Profile</a>
                 <a href="LINK_GOOGLE_DRIVE_CUA_BAN" target="_blank" class="hover:text-primary dark:hover:text-white transition font-bold border-b border-stone-500 pb-1" data-i18n="nav.resume">Resume</a>
             </div>
@@ -258,22 +259,21 @@
         <!-- Video Background -->
         <video autoplay loop muted playsinline class="absolute inset-0 w-full h-full object-cover brightness-75">
             <!-- Dùng video mẫu visual art/abstract -->
-            <source src="video/Ecopack1.mp4" type="video/mp4">
-          <!--  "https://videos.pexels.com/video-files/3129957/3129957-uhd_2560_1440_25fps.mp4" type="video/mp4"> -->
+            <source src="https://videos.pexels.com/video-files/3129957/3129957-uhd_2560_1440_25fps.mp4" type="video/mp4">
             Your browser does not support the video tag.
         </video>
         
         <!-- Overlay Content -->
-     <!--  <div class="relative z-20 text-center text-white mix-blend-overlay px-0">  
+        <div class="relative z-20 text-center text-white mix-blend-overlay px-6">
             <p class="text-sm md:text-base font-bold tracking-[0.5em] uppercase mb-4 animate-pulse">Showreel 2025</p>
             <h2 class="text-6xl md:text-9xl font-serif italic tracking-tighter">Emotion &<br>Motion</h2>
-      -->     
+            
             <!-- Play Button -->
-      <!--      <button class="mt-12 w-20 h-20 rounded-full border border-white/30 flex items-center justify-center hover:bg-white hover:text-black transition duration-500 group video-trigger" data-video-id="tgbNymZ7vqY">
+            <button class="mt-12 w-20 h-20 rounded-full border border-white/30 flex items-center justify-center hover:bg-white hover:text-black transition duration-500 group video-trigger" data-video-id="tgbNymZ7vqY">
                 <i class="fas fa-play text-2xl pl-1 group-hover:scale-110 transition"></i>
             </button>
         </div>
-       --> 
+        
         <!-- Gradient Overlay để chuyển tiếp mượt hơn -->
         <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent"></div>
     </section>
@@ -614,12 +614,40 @@
 
         // --- WRAP ALL LOGIC IN DOMContentLoaded (FIX ERROR) ---
         document.addEventListener('DOMContentLoaded', () => {
-
-             // --- DISABLE RIGHT CLICK (KHÓA CHUỘT PHẢI) ---
+            
+            // --- DISABLE RIGHT CLICK (KHÓA CHUỘT PHẢI) ---
             document.addEventListener('contextmenu', (event) => {
                 event.preventDefault();
             });
             
+             // --- SMOOTH SCROLLING FOR NAV LINKS (MỚI THÊM) ---
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault(); // Chặn hành vi nhảy cóc mặc định
+                    
+                    const targetId = this.getAttribute('href');
+                    if (targetId === '#') return;
+                    
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        const headerOffset = 80; // Chiều cao thanh menu
+                        const elementPosition = targetElement.getBoundingClientRect().top;
+                        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                    
+                        window.scrollTo({
+                            top: offsetPosition,
+                            behavior: "smooth"
+                        });
+                        
+                        // Đóng menu mobile nếu đang mở
+                        const mobileMenu = document.getElementById('mobile-menu');
+                        if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
+                            mobileMenu.classList.add('hidden');
+                        }
+                    }
+                });
+            });
+
             // --- SCROLL EFFECT FOR NAV ---
             const nav = document.getElementById('main-nav');
             let isScrolled = false; // Flag để tránh cập nhật DOM liên tục
@@ -657,7 +685,6 @@
 
             revealElements.forEach(el => revealObserver.observe(el));
 
-           
 
             // --- LANGUAGE LOGIC ---
             let currentLang = localStorage.getItem('lang') || 'en';
@@ -880,13 +907,3 @@
     </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
