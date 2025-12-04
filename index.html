@@ -9,7 +9,7 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@100;200;300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Great+Vibes&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@100;200;300;400;500;600;700;900&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Great+Vibes&display=swap" rel="stylesheet">
     <!-- Markdown Parser -->
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     
@@ -117,7 +117,7 @@
 <body class="bg-paper text-primary dark:bg-dark dark:text-stone-200 transition-colors duration-500 font-sans antialiased">
 
     <!-- Navbar (Thêm gpu-accelerated) -->
-    <nav id="main-nav" class="fixed w-full z-50 text-primary dark:text-white transition-all duration-500 border-b border-transparent gpu-accelerated"> 
+    <nav id="main-nav" class="fixed w-full z-50 text-white transition-all duration-500 border-b border-transparent gpu-accelerated mix-blend-difference"> 
         <div class="max-w-screen-2xl mx-auto px-6 py-6 flex justify-between items-center">
             <a href="#" class="text-2xl font-serif font-bold tracking-widest uppercase">Dzung.</a>
             
@@ -127,7 +127,7 @@
                 <a href="#services" class="hover:text-accent transition" data-i18n="nav.services">Services</a>
                 <a href="#studio" class="hover:text-accent transition" data-i18n="nav.studio">AI Studio</a>
                 <a href="#about" class="hover:text-accent transition" data-i18n="nav.profile">Profile</a>
-                <a href="LINK_GOOGLE_DRIVE_CUA_BAN" target="_blank" class="hover:text-primary dark:hover:text-white transition font-bold border-b border-stone-500 pb-1" data-i18n="nav.resume">Resume</a>
+                <a href="LINK_GOOGLE_DRIVE_CUA_BAN" target="_blank" class="hover:text-primary dark:hover:text-white transition font-bold border-b border-white pb-1" data-i18n="nav.resume">Resume</a>
             </div>
 
             <div class="flex items-center space-x-6">
@@ -148,30 +148,87 @@
         </div>
     </nav>
 
-    <!-- Hero Section -->
-    <section id="home" class="min-h-screen flex items-center justify-center relative pt-20 px-6 gpu-accelerated">
-        <div class="absolute inset-0 bg-noise opacity-50 pointer-events-none"></div>
-        <div class="max-w-5xl mx-auto text-center z-10">
-            <p class="text-sm md:text-base tracking-[0.3em] uppercase text-accent mb-6 animate-fade-in-up" data-i18n="hero.subtitle">Portfolio 2025</p>
-            <h1 class="text-6xl md:text-9xl font-serif leading-none mb-8 tracking-tighter">
-                <span class="block" data-i18n="hero.title1">Visual</span>
-                <span class="block italic text-stone-400 dark:text-stone-600" data-i18n="hero.title2">Storyteller</span>
-            </h1>
-            <div class="h-px w-24 bg-primary dark:bg-white mx-auto mb-8"></div>
-            <p class="text-lg md:text-2xl font-light max-w-2xl mx-auto leading-relaxed mb-12">
-                <span data-i18n="hero.intro">I am</span> <span id="typing-text" class="font-normal italic"></span>.<br>
-                <span data-i18n="hero.desc">Crafting emotions through frames and pixels.</span>
-            </p>
-            <div class="flex flex-col md:flex-row justify-center items-center gap-6">
-                <a href="#work" class="group relative px-8 py-3 overflow-hidden border border-primary dark:border-stone-200 transition-all hover:bg-primary hover:text-white dark:hover:bg-white dark:hover:text-black">
-                    <span class="relative z-10 text-sm tracking-widest uppercase" data-i18n="hero.cta_work">View Selected Work</span>
-                </a>
-                <a href="#contact" class="text-sm tracking-widest uppercase border-b border-transparent hover:border-primary dark:hover:border-white transition-all pb-1" data-i18n="hero.cta_contact">Get in touch</a>
+    <!-- NEW HERO SECTION: GRID MOSAIC -->
+    <section id="home" class="relative w-full h-screen overflow-hidden bg-black gpu-accelerated">
+        <!-- Grid Container -->
+        <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 h-full w-full">
+            
+            <!-- ROW 1 -->
+            <div class="group relative w-full h-full overflow-hidden border border-black/10">
+                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=500&auto=format&fit=crop&q=60" class="absolute inset-0 w-full h-full object-cover grayscale transition-all duration-700 ease-out group-hover:grayscale-0 group-hover:scale-110" alt="Grid 1">
+            </div>
+            <div class="group relative w-full h-full overflow-hidden border border-black/10">
+                <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?w=500&auto=format&fit=crop&q=60" class="absolute inset-0 w-full h-full object-cover grayscale transition-all duration-700 ease-out group-hover:grayscale-0 group-hover:scale-110" alt="Grid 2">
+            </div>
+            <div class="group relative w-full h-full overflow-hidden border border-black/10 hidden md:block">
+                <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=500&auto=format&fit=crop&q=60" class="absolute inset-0 w-full h-full object-cover grayscale transition-all duration-700 ease-out group-hover:grayscale-0 group-hover:scale-110" alt="Grid 3">
+            </div>
+            <div class="group relative w-full h-full overflow-hidden border border-black/10 hidden lg:block">
+                <img src="https://images.unsplash.com/photo-1488161628813-99c974fc5fe8?w=500&auto=format&fit=crop&q=60" class="absolute inset-0 w-full h-full object-cover grayscale transition-all duration-700 ease-out group-hover:grayscale-0 group-hover:scale-110" alt="Grid 4">
+            </div>
+            <div class="group relative w-full h-full overflow-hidden border border-black/10 hidden lg:block">
+                <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=500&auto=format&fit=crop&q=60" class="absolute inset-0 w-full h-full object-cover grayscale transition-all duration-700 ease-out group-hover:grayscale-0 group-hover:scale-110" alt="Grid 5">
+            </div>
+            <div class="group relative w-full h-full overflow-hidden border border-black/10">
+                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=500&auto=format&fit=crop&q=60" class="absolute inset-0 w-full h-full object-cover grayscale transition-all duration-700 ease-out group-hover:grayscale-0 group-hover:scale-110" alt="Grid 6">
+            </div>
+
+            <!-- ROW 2 -->
+            <div class="group relative w-full h-full overflow-hidden border border-black/10">
+                <img src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=500&auto=format&fit=crop&q=60" class="absolute inset-0 w-full h-full object-cover grayscale transition-all duration-700 ease-out group-hover:grayscale-0 group-hover:scale-110" alt="Grid 7">
+            </div>
+            <div class="group relative w-full h-full overflow-hidden border border-black/10 hidden lg:block">
+                <img src="https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?w=500&auto=format&fit=crop&q=60" class="absolute inset-0 w-full h-full object-cover grayscale transition-all duration-700 ease-out group-hover:grayscale-0 group-hover:scale-110" alt="Grid 8">
+            </div>
+            <!-- CENTER AREA: Often obscured by text, but kept for full grid feel -->
+             <div class="group relative w-full h-full overflow-hidden border border-black/10 hidden md:block">
+                <img src="https://images.unsplash.com/photo-1500917293891-ef795e70e1f6?w=500&auto=format&fit=crop&q=60" class="absolute inset-0 w-full h-full object-cover grayscale transition-all duration-700 ease-out group-hover:grayscale-0 group-hover:scale-110" alt="Grid 9">
+            </div>
+            <div class="group relative w-full h-full overflow-hidden border border-black/10">
+                <img src="https://images.unsplash.com/photo-1464863979621-258859e62245?w=500&auto=format&fit=crop&q=60" class="absolute inset-0 w-full h-full object-cover grayscale transition-all duration-700 ease-out group-hover:grayscale-0 group-hover:scale-110" alt="Grid 10">
+            </div>
+             <div class="group relative w-full h-full overflow-hidden border border-black/10 hidden lg:block">
+                <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?w=500&auto=format&fit=crop&q=60" class="absolute inset-0 w-full h-full object-cover grayscale transition-all duration-700 ease-out group-hover:grayscale-0 group-hover:scale-110" alt="Grid 11">
+            </div>
+            <div class="group relative w-full h-full overflow-hidden border border-black/10">
+                <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=500&auto=format&fit=crop&q=60" class="absolute inset-0 w-full h-full object-cover grayscale transition-all duration-700 ease-out group-hover:grayscale-0 group-hover:scale-110" alt="Grid 12">
+            </div>
+
+            <!-- ROW 3 -->
+            <div class="group relative w-full h-full overflow-hidden border border-black/10">
+                <img src="https://images.unsplash.com/photo-1529139574466-a302c27e3844?w=500&auto=format&fit=crop&q=60" class="absolute inset-0 w-full h-full object-cover grayscale transition-all duration-700 ease-out group-hover:grayscale-0 group-hover:scale-110" alt="Grid 13">
+            </div>
+            <div class="group relative w-full h-full overflow-hidden border border-black/10 hidden md:block">
+                <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=500&auto=format&fit=crop&q=60" class="absolute inset-0 w-full h-full object-cover grayscale transition-all duration-700 ease-out group-hover:grayscale-0 group-hover:scale-110" alt="Grid 14">
+            </div>
+            <div class="group relative w-full h-full overflow-hidden border border-black/10 hidden lg:block">
+                <img src="https://images.unsplash.com/photo-1503104834685-7205e8607eb9?w=500&auto=format&fit=crop&q=60" class="absolute inset-0 w-full h-full object-cover grayscale transition-all duration-700 ease-out group-hover:grayscale-0 group-hover:scale-110" alt="Grid 15">
+            </div>
+            <div class="group relative w-full h-full overflow-hidden border border-black/10">
+                <img src="https://images.unsplash.com/photo-1539125550301-ade11131e17d?w=500&auto=format&fit=crop&q=60" class="absolute inset-0 w-full h-full object-cover grayscale transition-all duration-700 ease-out group-hover:grayscale-0 group-hover:scale-110" alt="Grid 16">
+            </div>
+            <div class="group relative w-full h-full overflow-hidden border border-black/10 hidden lg:block">
+                <img src="https://images.unsplash.com/photo-1517070208541-6ddc4d3efbcb?w=500&auto=format&fit=crop&q=60" class="absolute inset-0 w-full h-full object-cover grayscale transition-all duration-700 ease-out group-hover:grayscale-0 group-hover:scale-110" alt="Grid 17">
+            </div>
+            <div class="group relative w-full h-full overflow-hidden border border-black/10">
+                <img src="https://images.unsplash.com/photo-1506252374453-ef5237291d83?w=500&auto=format&fit=crop&q=60" class="absolute inset-0 w-full h-full object-cover grayscale transition-all duration-700 ease-out group-hover:grayscale-0 group-hover:scale-110" alt="Grid 18">
             </div>
         </div>
-        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce">
-            <span class="text-xs tracking-widest uppercase rotate-90 block origin-left translate-y-12 translate-x-1" data-i18n="hero.scroll">Scroll</span>
-            <div class="h-16 w-px bg-stone-300 mx-auto mt-4"></div>
+
+        <!-- CENTER TEXT OVERLAY -->
+        <div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none z-20">
+            <h1 class="text-4xl md:text-8xl lg:text-9xl font-black tracking-tighter text-white uppercase drop-shadow-2xl text-center px-4" style="font-family: 'Be Vietnam Pro', sans-serif;">
+                DzungLayout
+            </h1>
+            <p class="text-white/90 text-xs md:text-base lg:text-xl tracking-[0.5em] uppercase mt-4 font-light animate-pulse">
+                Simplicity is Complex
+            </p>
+        </div>
+        
+        <!-- Scroll Indicator -->
+        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 z-30 animate-bounce">
+            <span class="text-xs tracking-widest uppercase rotate-90 block origin-left translate-y-12 translate-x-1 text-white font-bold" data-i18n="hero.scroll">Scroll</span>
+            <div class="h-16 w-px bg-white mx-auto mt-4 shadow-lg"></div>
         </div>
     </section>
 
@@ -494,11 +551,12 @@
                             const scrolled = window.scrollY > 50;
                             if (scrolled && !isScrolled) {
                                 isScrolled = true;
-                                nav.classList.add('bg-white/90', 'dark:bg-dark/90', 'backdrop-blur-sm', 'border-b', 'border-stone-200', 'dark:border-stone-800', 'shadow-sm');
-                                // Giảm blur xuống 'sm' và tăng opacity nền lên 90 để đỡ lag hơn
+                                nav.classList.remove('text-white', 'mix-blend-difference'); // Remove hero specific classes
+                                nav.classList.add('bg-white/90', 'dark:bg-dark/90', 'backdrop-blur-sm', 'border-b', 'border-stone-200', 'dark:border-stone-800', 'shadow-sm', 'text-primary', 'dark:text-white');
                             } else if (!scrolled && isScrolled) {
                                 isScrolled = false;
-                                nav.classList.remove('bg-white/90', 'dark:bg-dark/90', 'backdrop-blur-sm', 'border-b', 'border-stone-200', 'dark:border-stone-800', 'shadow-sm');
+                                nav.classList.remove('bg-white/90', 'dark:bg-dark/90', 'backdrop-blur-sm', 'border-b', 'border-stone-200', 'dark:border-stone-800', 'shadow-sm', 'text-primary', 'dark:text-white');
+                                nav.classList.add('text-white', 'mix-blend-difference'); // Add back hero specific classes
                             }
                             ticking = false;
                         });
@@ -546,7 +604,7 @@
                 });
 
                 if (langBtn) langBtn.textContent = currentLang === 'en' ? 'EN' : 'VN';
-                phrases = translations[currentLang].typing;
+                // phrases = translations[currentLang].typing; // Removing typing effect for this version as hero changed
             }
 
             if (langBtn) {
@@ -581,40 +639,8 @@
                     mobileMenu.classList.toggle('hidden');
                 });
             }
-
-            // --- TYPING EFFECT ---
-            const textElement = document.getElementById('typing-text');
-            let phrases = translations[currentLang].typing; 
-            let phraseIndex = 0;
-            let charIndex = 0;
-            let isDeleting = false;
-
-            function type() {
-                if (!textElement) return;
-                const currentPhrase = phrases[phraseIndex % phrases.length]; 
-                
-                if (isDeleting) {
-                    textElement.textContent = currentPhrase.substring(0, charIndex - 1);
-                    charIndex--;
-                } else {
-                    textElement.textContent = currentPhrase.substring(0, charIndex + 1);
-                    charIndex++;
-                }
-
-                if (!isDeleting && charIndex === currentPhrase.length) {
-                    isDeleting = true;
-                    setTimeout(type, 2000);
-                } else if (isDeleting && charIndex === 0) {
-                    isDeleting = false;
-                    phraseIndex = (phraseIndex + 1) % phrases.length;
-                    setTimeout(type, 500);
-                } else {
-                    setTimeout(type, isDeleting ? 50 : 100);
-                }
-            }
             
             updateContent();
-            type();
 
             // --- VIDEO MODAL LOGIC ---
             const modal = document.getElementById('video-modal');
