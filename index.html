@@ -147,7 +147,8 @@
     </nav>
 
     <!-- NEW HERO SECTION: GRID MOSAIC -->
-    <section id="home" class="relative w-full h-screen overflow-hidden bg-black gpu-accelerated">
+    <!-- Thêm class 'cursor-pointer' để hiển thị biểu tượng bàn tay khi rê chuột vào -->
+    <section id="home" class="relative w-full h-screen overflow-hidden bg-black gpu-accelerated cursor-pointer">
         <!-- Grid Container -->
         <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 h-full w-full">
             
@@ -284,7 +285,7 @@
     </section>
 
      <!-- Hero Section -->
-    <section id="home" class="min-h-screen flex items-center justify-center relative pt-20 px-6 gpu-accelerated">
+    <section id="home2" class="min-h-screen flex items-center justify-center relative pt-20 px-6 gpu-accelerated">
         <div class="absolute inset-0 bg-noise opacity-50 pointer-events-none"></div>
         <div class="max-w-5xl mx-auto text-center z-10">
             <p class="text-sm md:text-base tracking-[0.3em] uppercase text-accent mb-6 animate-fade-in-up" data-i18n="hero.subtitle">Portfolio 2025</p>
@@ -731,6 +732,14 @@
                 });
             });
 
+            // --- SỰ KIỆN CLICK VÀO HERO SECTION (#home) ĐỂ CUỘN XUỐNG #home2 ---
+            const homeSection = document.getElementById('home');
+            if (homeSection) {
+                homeSection.addEventListener('click', function() {
+                    smoothScrollTo('#home2', 1200);
+                });
+            }
+
             // --- OPTIMIZED SCROLL LISTENER (THROTTLING) ---
             const nav = document.getElementById('main-nav');
             let isScrolled = false; 
@@ -822,6 +831,18 @@
                 });
             }
 
+            // --- MOBILE MENU ---
+            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            
+            if (mobileMenuBtn && mobileMenu) {
+                mobileMenuBtn.addEventListener('click', () => {
+                    mobileMenu.classList.toggle('hidden');
+                });
+            }
+            
+            updateContent();
+
              // --- TYPING EFFECT ---
             const textElement = document.getElementById('typing-text');
             let phrases = translations[currentLang].typing; 
@@ -855,19 +876,6 @@
             
             updateContent();
             type();
-
-            
-            // --- MOBILE MENU ---
-            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
-            const mobileMenu = document.getElementById('mobile-menu');
-            
-            if (mobileMenuBtn && mobileMenu) {
-                mobileMenuBtn.addEventListener('click', () => {
-                    mobileMenu.classList.toggle('hidden');
-                });
-            }
-            
-            updateContent();
 
             // --- VIDEO MODAL LOGIC ---
             const modal = document.getElementById('video-modal');
@@ -992,5 +1000,3 @@
     </script>
 </body>
 </html>
-
-
