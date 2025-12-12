@@ -205,7 +205,7 @@
         </div>
     </section>
 
-   <!-- About Section -->
+  <!-- About Section -->
    <!-- Thêm min-h-screen và flex items-center để căn giữa màn hình -->
     <section id="about" class="relative z-10 min-h-screen flex items-center py-20 px-6 bg-white dark:bg-darkPaper border-t border-stone-100 dark:border-stone-900 overflow-hidden">
         <div class="max-w-5xl mx-auto w-full">
@@ -223,19 +223,34 @@
                         <h3 class="text-2xl font-bold mb-4" data-i18n="about.greeting">Hi, I'm DzungLayout.</h3>
                         <p class="text-lg font-light leading-relaxed text-stone-600 dark:text-stone-300 mb-6 text-justify" data-i18n="about.bio">I am a Visual Director focused on storytelling through editing and motion. My approach is simple: strip away the unnecessary until only the essential emotion remains. I don't just edit videos; I engineer feelings.</p>
                         <div class="mb-6 pl-6 border-l-2 border-accent/50 italic text-stone-500 dark:text-stone-400 font-serif text-lg leading-relaxed"><p data-i18n="about.philosophy">"Design is not just what it looks like and feels like. Design is how it works..."</p></div>
-                         <div class="mb-8 opacity-80 text-primary dark:text-white"><p class="font-scripture text-1xl md:text-3xl transform -rotate-0">Dzunglayout.</p></div>
-                        <div class="mb-8"><h4 class="font-bold tracking-widest uppercase text-xs mb-4 text-stone-400" data-i18n="about.expertise">Expertise</h4><div class="grid grid-cols-2 gap-x-4 gap-y-2 text-stone-700 dark:text-stone-300 font-light"><div class="flex items-center"><span class="w-1.5 h-1.5 bg-accent rounded-full mr-2"></span>Art Direction</div><div class="flex items-center"><span class="w-1.5 h-1.5 bg-accent rounded-full mr-2"></span>Video Editing</div><div class="flex items-center"><span class="w-1.5 h-1.5 bg-accent rounded-full mr-2"></span>Motion Graphics</div><div class="flex items-center"><span class="w-1.5 h-1.5 bg-accent rounded-full mr-2"></span>Brand Identity</div></div></div>
-                       
+                    <div class="mb-8"><h4 class="font-bold tracking-widest uppercase text-xs mb-4 text-stone-400" data-i18n="about.expertise">Expertise</h4><div class="grid grid-cols-2 gap-x-4 gap-y-2 text-stone-700 dark:text-stone-300 font-light"><div class="flex items-center"><span class="w-1.5 h-1.5 bg-accent rounded-full mr-2"></span>Art Direction</div><div class="flex items-center"><span class="w-1.5 h-1.5 bg-accent rounded-full mr-2"></span>Video Editing</div><div class="flex items-center"><span class="w-1.5 h-1.5 bg-accent rounded-full mr-2"></span>Motion Graphics</div><div class="flex items-center"><span class="w-1.5 h-1.5 bg-accent rounded-full mr-2"></span>Brand Identity</div></div></div>
+                    <div class="mb-8 opacity-80 text-primary dark:text-white"><p class="font-scripture text-1xl md:text-3xl transform -rotate-0">Dzunglayout.</p></div>
+                </div>
+                <!-- STATS WITH ROLLING EFFECT -->
+                <div class="grid grid-cols-3 gap-8 border-t border-stone-200 dark:border-stone-800 pt-6">
+                    <div>
+                        <span class="block text-4xl font-serif font-bold mb-1">
+                            <span class="counter" data-target="7">0</span>+
+                        </span>
+                        <span class="text-xs uppercase tracking-widest text-stone-500" data-i18n="about.stat_years">Years Exp</span>
                     </div>
-                    <div class="grid grid-cols-3 gap-8 border-t border-stone-200 dark:border-stone-800 pt-6">
-                        <div><span class="block text-4xl font-serif font-bold mb-1">07+</span><span class="text-xs uppercase tracking-widest text-stone-500" data-i18n="about.stat_years">Years Exp</span></div>
-                        <div><span class="block text-4xl font-serif font-bold mb-1">150+</span><span class="text-xs uppercase tracking-widest text-stone-500" data-i18n="about.stat_projects">Projects</span></div>
-                        <div><span class="block text-4xl font-serif font-bold mb-1">100%</span><span class="text-xs uppercase tracking-widest text-stone-500" data-i18n="about.stat_happy">Satisfaction</span></div>
+                    <div>
+                        <span class="block text-4xl font-serif font-bold mb-1">
+                            <span class="counter" data-target="150">0</span>+
+                        </span>
+                        <span class="text-xs uppercase tracking-widest text-stone-500" data-i18n="about.stat_projects">Projects</span>
+                    </div>
+                    <div>
+                        <span class="block text-4xl font-serif font-bold mb-1">
+                            <span class="counter" data-target="100">0</span>%
+                        </span>
+                        <span class="text-xs uppercase tracking-widest text-stone-500" data-i18n="about.stat_happy">Satisfaction</span>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
 
     <!-- Selected Work -->
@@ -775,6 +790,45 @@
             });
         });
 
+         // --- COUNTER ANIMATION (ROLLING NUMBERS) ---
+            const counters = document.querySelectorAll('.counter');
+            const counterObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const counter = entry.target;
+                        const target = +counter.getAttribute('data-target');
+                        const duration = 2000; // Thời gian chạy (ms)
+                        const increment = target / (duration / 16); // Tính bước nhảy (60fps)
+
+                        let current = 0;
+                        const updateCounter = () => {
+                            current += increment;
+                            if (current < target) {
+                                // Nếu số < 10 thì thêm số 0 đằng trước (VD: 01, 02...)
+                                let displayValue = Math.ceil(current);
+                                if (target < 10 && displayValue < 10) {
+                                     displayValue = '0' + displayValue;
+                                }
+                                counter.textContent = displayValue;
+                                requestAnimationFrame(updateCounter);
+                            } else {
+                                // Kết thúc animation, gán giá trị chính xác
+                                let displayValue = target;
+                                if (target < 10) displayValue = '0' + target;
+                                counter.textContent = displayValue;
+                            }
+                        };
+                        updateCounter();
+                        observer.unobserve(counter); // Chỉ chạy 1 lần
+                    }
+                });
+            }, { threshold: 0.5 }); // Khi thấy 50% phần tử thì bắt đầu chạy
+
+            counters.forEach(counter => {
+                counterObserver.observe(counter);
+            });
+        });
+
         async function callGemini(prompt) {
             const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
             const payload = { contents: [{ parts: [{ text: prompt }] }] };
@@ -795,6 +849,7 @@
     </script>
 </body>
 </html>
+
 
 
 
