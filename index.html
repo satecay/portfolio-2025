@@ -847,8 +847,400 @@
             }
         }
     </script>
+
+     <!-- VIEW 2: BLOG MAIN LIST (Default Hidden, will auto-show) -->
+    <div id="blog-view" class="view-section hidden opacity-0 transition-opacity duration-500 pt-28 pb-20 px-6 min-h-screen bg-paper dark:bg-dark absolute inset-0">
+        <div class="max-w-screen-2xl mx-auto">
+            
+            <!-- Blog Header -->
+            <div class="text-center mb-20 animate-fade-in-up">
+                <p class="text-xs font-bold tracking-[0.3em] uppercase text-accent mb-4">Thoughts & Inspirations</p>
+                <h1 class="text-5xl md:text-8xl font-serif italic text-primary dark:text-white mb-6">Visual Diary</h1>
+                <div class="h-px w-16 bg-stone-300 dark:bg-stone-700 mx-auto"></div>
+                <!-- ADD POST BUTTON -->
+                <button id="btn-open-editor" class="mt-8 px-6 py-2 border border-dashed border-stone-400 text-stone-500 hover:text-primary dark:hover:text-white hover:border-primary dark:hover:border-white transition text-xs font-bold uppercase tracking-widest group">
+                    <i class="fas fa-plus mr-2 group-hover:rotate-90 transition"></i> Write Story
+                </button>
+            </div>
+
+            <!-- Blog Categories -->
+            <div class="flex flex-wrap justify-center gap-6 mb-16 text-sm font-bold uppercase tracking-widest text-stone-400">
+                <button class="text-primary dark:text-white border-b border-primary dark:border-white pb-1">All Stories</button>
+                <button class="hover:text-primary dark:hover:text-white transition">Behind The Scenes</button>
+                <button class="hover:text-primary dark:hover:text-white transition">Tutorials</button>
+                <button class="hover:text-primary dark:hover:text-white transition">Inspiration</button>
+            </div>
+
+            <!-- Blog Posts Container (Dynamic) -->
+            <div id="blog-posts-container" class="masonry-grid">
+                <!-- Content will be injected by JS -->
+            </div>
+            
+            <!-- Empty State (Fallback) -->
+            <div id="blog-empty-state" class="hidden text-center py-20">
+                <p class="text-stone-400 text-lg">No stories found yet. Be the first to write one!</p>
+            </div>
+        </div>
+    </div>
+    <!-- END BLOG VIEW -->
+
+    <!-- VIEW 3: BLOG EDITOR (ADD/EDIT) -->
+    <div id="blog-editor-view" class="view-section hidden opacity-0 transition-opacity duration-500 pt-10 pb-10 px-4 min-h-screen bg-black/50 backdrop-blur-sm fixed inset-0 flex items-center justify-center">
+        <div class="w-full max-w-3xl bg-white dark:bg-[#1a1a1a] p-8 md:p-10 shadow-2xl border border-stone-100 dark:border-stone-800 rounded-lg max-h-full overflow-y-auto">
+            <div class="flex justify-between items-center mb-8">
+                <h2 class="text-2xl font-serif italic">Write New Story</h2>
+                <button id="btn-close-editor" class="text-stone-500 hover:text-red-500 transition"><i class="fas fa-times text-xl"></i></button>
+            </div>
+            
+            <div class="space-y-6">
+                <div>
+                    <label class="block text-xs font-bold uppercase tracking-widest mb-2 text-stone-400">Title</label>
+                    <input type="text" id="editor-title" class="w-full bg-transparent border-b border-stone-300 dark:border-stone-700 py-2 text-2xl font-serif focus:outline-none focus:border-primary dark:focus:border-white transition" placeholder="Enter title...">
+                </div>
+                
+                <div class="grid grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-xs font-bold uppercase tracking-widest mb-2 text-stone-400">Category</label>
+                        <select id="editor-category" class="w-full bg-transparent border-b border-stone-300 dark:border-stone-700 py-2 focus:outline-none dark:bg-[#1a1a1a]">
+                            <option value="Inspiration">Inspiration</option>
+                            <option value="Tutorial">Tutorial</option>
+                            <option value="Behind The Scenes">Behind The Scenes</option>
+                            <option value="Personal">Personal</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold uppercase tracking-widest mb-2 text-stone-400">Image URL</label>
+                        <input type="text" id="editor-image" class="w-full bg-transparent border-b border-stone-300 dark:border-stone-700 py-2 focus:outline-none" placeholder="https://...">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold uppercase tracking-widest mb-2 text-stone-400">Content (Markdown supported)</label>
+                    <textarea id="editor-content" rows="8" class="w-full bg-stone-50 dark:bg-black/30 p-4 border border-stone-200 dark:border-stone-700 focus:outline-none focus:border-primary dark:focus:border-white transition font-mono text-sm leading-relaxed" placeholder="Write your story here..."></textarea>
+                </div>
+
+                <div class="flex justify-end gap-4 pt-4">
+                    <button id="btn-cancel-editor" class="px-6 py-2 text-sm font-bold uppercase tracking-widest text-stone-500 hover:text-primary dark:hover:text-white transition">Cancel</button>
+                    <button id="btn-save-post" class="px-8 py-2 bg-primary text-white dark:bg-white dark:text-black text-sm font-bold uppercase tracking-widest hover:opacity-90 transition shadow-lg">Publish</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- END BLOG EDITOR -->
+
+    <!-- VIEW 4: BLOG DETAIL (SINGLE POST) -->
+    <div id="blog-detail-view" class="view-section hidden opacity-0 transition-opacity duration-500 pt-0 pb-0 min-h-screen bg-white dark:bg-darkFixed fixed inset-0 overflow-y-auto">
+        
+        <!-- Navigation for Detail Page -->
+        <div class="fixed top-0 left-0 w-full z-50 p-6 flex justify-between items-center pointer-events-none">
+            <div class="pointer-events-auto">
+                <button id="btn-back-blog" class="group flex items-center gap-3 bg-white/10 backdrop-blur-md px-4 py-2 rounded-full border border-white/20 hover:bg-white hover:text-black transition text-white text-sm font-bold uppercase tracking-widest">
+                    <i class="fas fa-arrow-left group-hover:-translate-x-1 transition"></i> Back
+                </button>
+            </div>
+        </div>
+
+        <!-- Detail Content -->
+        <div class="w-full bg-white dark:bg-[#0c0a09] min-h-screen relative">
+            
+            <!-- Hero Image Full Width -->
+            <div class="h-[60vh] md:h-[70vh] w-full relative">
+                <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-transparent z-10"></div>
+                <img id="detail-image" src="" alt="Blog Cover" class="w-full h-full object-cover">
+                <div class="absolute bottom-0 left-0 w-full p-8 md:p-20 z-20 bg-gradient-to-t from-[#0c0a09] to-transparent">
+                    <div class="max-w-4xl mx-auto">
+                        <span id="detail-category" class="inline-block bg-accent text-white px-3 py-1 text-[10px] font-bold uppercase tracking-widest mb-6">Category</span>
+                        <h1 id="detail-title" class="text-4xl md:text-7xl font-serif italic text-white mb-4 leading-tight">Post Title</h1>
+                        <p id="detail-date" class="text-sm text-stone-400 font-bold uppercase tracking-widest">Date</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="max-w-3xl mx-auto px-6 py-16 md:py-24">
+                <div id="detail-content" class="prose dark:prose-invert max-w-none prose-lg font-light leading-loose text-justify text-stone-700 dark:text-stone-300">
+                    <!-- Content injected here -->
+                </div>
+                
+                <!-- Footer of Detail -->
+                <div class="mt-20 pt-10 border-t border-stone-200 dark:border-stone-800 text-center">
+                    <p class="font-serif italic text-2xl mb-6 text-primary dark:text-white">Thanks for reading.</p>
+                    <button id="btn-back-blog-bottom" class="text-sm font-bold uppercase tracking-widest text-stone-500 hover:text-primary dark:hover:text-white transition underline underline-offset-4">
+                        Read more stories
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- END BLOG DETAIL -->
+
+    <!-- Scripts -->
+    <script>
+        const apiKey = ""; 
+
+        // --- SAMPLE BLOG DATA (Rich Content) ---
+        const samplePosts = [
+            {
+                id: 8,
+                title: "The Psychology of Sound Design",
+                category: "Tutorial",
+                date: "Nov 15, 2024",
+                image: "https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=800&auto=format&fit=crop&q=80",
+                content: "Sound is 50% of the experience. In this breakdown, I explore how sub-bass frequencies can induce anxiety in horror sequences and how silence can be louder than an explosion.\n\n### Key Takeaways\n\n* **Diegetic vs. Non-diegetic:** When to blur the lines between what the characters hear and what the audience feels.\n* **The Shepard Tone:** Creating the illusion of infinite rising tension in your soundtracks.\n* **Silence as a Weapon:** Using negative space in audio to make the impact hits feel heavier."
+            },
+            {
+                id: 7,
+                title: "On Set: 'Neon Nights' Music Video",
+                category: "Behind The Scenes",
+                date: "Nov 02, 2024",
+                image: "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?w=800&auto=format&fit=crop&q=80",
+                content: "Shooting at night is always a challenge. For this project, we relied entirely on practical lighting using neon tubes and street lamps. \n\nWe faced issues with ISO noise on the ARRI Alexa, but decided to embrace the grain as a texture choice rather than fighting it with noise reduction."
+            },
+            {
+                id: 6,
+                title: "Why I Shoot in 4:3 Aspect Ratio",
+                category: "Inspiration",
+                date: "Oct 28, 2024",
+                image: "https://images.unsplash.com/photo-1533577116850-9cc66cad8a9b?w=800&auto=format&fit=crop&q=80",
+                content: "In a world of widescreen, the 4:3 aspect ratio feels intimate and claustrophobic in the best way possible. It forces you to focus on the subject's face and removes the distraction of the environment. It is portraiture in motion, stripping away the unnecessary context."
+            },
+            {
+                id: 5,
+                title: "DaVinci Resolve Workflow for Speed",
+                category: "Tutorial",
+                date: "Oct 20, 2024",
+                image: "https://images.unsplash.com/photo-1574717024653-61fd2cf4d44c?w=800&auto=format&fit=crop&q=80",
+                content: "Time is money. Over the years, I have optimized my node tree in DaVinci Resolve to grade faster without sacrificing quality. I'm sharing my 'PowerGrade' structure that I use for 90% of my commercial work.\n\n1. **Noise Reduction (First Node)**\n2. **Primary Balance**\n3. **Contrast Curve**\n4. **Look / LUT**\n5. **Film Grain (Last Node)**"
+            },
+            {
+                id: 4,
+                title: "Finding Inspiration in Brutalist Architecture",
+                category: "Inspiration",
+                date: "Oct 15, 2024",
+                image: "https://images.unsplash.com/photo-1486739985386-d4fae04ca6f7?w=800&auto=format&fit=crop&q=80",
+                content: "Concrete, sharp angles, and imposing structures. Brutalism teaches us about weight and presence. I often look at architectural photography to understand composition and lighting fall-off before planning a shoot."
+            },
+            {
+                id: 1,
+                title: "Color Grading 101: Teal & Orange",
+                category: "Tutorial",
+                date: "Oct 12, 2024",
+                image: "https://images.unsplash.com/photo-1542204165-65bf26472b9b?w=800&auto=format&fit=crop&q=80",
+                content: "The **Teal and Orange** look is a classic for a reason. It uses complementary colors to make skin tones pop against the background. \n\n### Why it works?\nHuman skin tones fall into the orange spectrum. On the color wheel, the direct opposite of orange is teal (blue-green). By pushing shadows towards teal and highlights towards orange, you create maximum color contrast."
+            },
+            {
+                id: 2,
+                title: "Chasing Light in Northern Vietnam",
+                category: "Inspiration",
+                date: "Sep 28, 2024",
+                image: "https://images.unsplash.com/photo-1464817739973-0128fe77aaa1?w=800&auto=format&fit=crop&q=80",
+                content: "Ha Giang loop is not just a road trip; it's a spiritual journey for any visual artist. The light hits the limestone karsts in a way that feels almost cinematic by default. We spent 3 days chasing the golden hour across the Ma Pi Leng Pass."
+            },
+            {
+                id: 3,
+                title: "Minimalism is not emptiness",
+                category: "Personal",
+                date: "Jun 20, 2024",
+                image: "https://images.unsplash.com/photo-1500462918059-b1a0cb512f1d?w=800&auto=format&fit=crop&q=80",
+                content: "Many beginners mistake minimalism for just 'white space'. But true minimalism is about **intentionality**. It's about removing everything that distracts from the core message. If an element doesn't serve a purpose, it shouldn't be there."
+            }
+        ];
+
+        // --- APP LOGIC ---
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // 1. DATA LOADING (Force V3 to ensure sample data is loaded)
+            let blogPosts = JSON.parse(localStorage.getItem('dzung_blog_posts_v3'));
+            
+            // If empty or null, load sample data
+            if (!blogPosts || blogPosts.length === 0) {
+                blogPosts = samplePosts;
+                localStorage.setItem('dzung_blog_posts_v3', JSON.stringify(blogPosts));
+            }
+
+            function savePosts() {
+                localStorage.setItem('dzung_blog_posts_v3', JSON.stringify(blogPosts));
+            }
+
+            // 2. VIEW MANAGEMENT
+            const mainView = document.getElementById('main-view');
+            const blogView = document.getElementById('blog-view');
+            const editorView = document.getElementById('blog-editor-view');
+            const detailView = document.getElementById('blog-detail-view');
+            const nav = document.getElementById('main-nav');
+
+            function switchView(viewName) {
+                // Hide all views first (fade out)
+                [mainView, blogView].forEach(view => {
+                    view.classList.add('opacity-0');
+                    view.classList.add('pointer-events-none'); // Prevent clicks while fading
+                });
+
+                // Wait for fade out, then hide and show new one
+                setTimeout(() => {
+                    [mainView, blogView].forEach(view => view.classList.add('hidden'));
+                    
+                    if (viewName === 'blog') {
+                        blogView.classList.remove('hidden');
+                        // Slight delay to allow display:block to apply before opacity
+                        setTimeout(() => {
+                            blogView.classList.remove('opacity-0', 'pointer-events-none');
+                            renderBlogGrid(); // Re-render grid
+                        }, 50);
+                        window.scrollTo(0,0);
+                        nav.classList.remove('mix-blend-difference', 'text-white'); // Blog uses standard nav
+                        nav.classList.add('text-primary', 'dark:text-white', 'bg-white/90', 'dark:bg-dark/90', 'backdrop-blur-sm');
+                    } else {
+                        mainView.classList.remove('hidden');
+                        setTimeout(() => {
+                            mainView.classList.remove('opacity-0', 'pointer-events-none');
+                        }, 50);
+                        // Reset Nav style for Home
+                        nav.classList.add('mix-blend-difference', 'text-white');
+                        nav.classList.remove('text-primary', 'dark:text-white', 'bg-white/90', 'dark:bg-dark/90', 'backdrop-blur-sm');
+                    }
+                }, 300);
+            }
+
+            // 3. BLOG RENDERER
+            function renderBlogGrid() {
+                const container = document.getElementById('blog-posts-container');
+                if(!container) return;
+                container.innerHTML = '';
+                
+                // Sort Descending ID
+                const sorted = [...blogPosts].sort((a,b) => b.id - a.id);
+
+                sorted.forEach(post => {
+                    const el = document.createElement('div');
+                    el.className = 'masonry-item group cursor-pointer reveal';
+                    // Inline Click Handler for robust binding
+                    el.onclick = function() { openDetail(post.id); }; 
+                    
+                    // Safe Content Preview (Strip HTML)
+                    const plainText = post.content.replace(/[#*`]/g, '');
+                    
+                    el.innerHTML = `
+                        <div class="relative overflow-hidden mb-4 pointer-events-none">
+                            <img src="${post.image}" alt="${post.title}" class="w-full object-cover transition duration-700 group-hover:scale-105">
+                            <div class="absolute top-4 left-4 bg-black/80 text-white px-3 py-1 text-[10px] font-bold uppercase tracking-widest">${post.category}</div>
+                        </div>
+                        <div class="pr-4 pointer-events-none">
+                            <span class="text-xs text-stone-400 font-serif italic mb-2 block">${post.date}</span>
+                            <h3 class="text-2xl font-serif mb-2 group-hover:text-accent transition">${post.title}</h3>
+                            <p class="text-sm text-stone-500 leading-relaxed line-clamp-3">${plainText}</p>
+                        </div>
+                    `;
+                    container.appendChild(el);
+                    
+                    // Trigger simple animation
+                    setTimeout(() => el.classList.add('active'), 100); 
+                });
+            }
+
+            // 4. EDITOR LOGIC
+            const btnOpenEditor = document.getElementById('btn-open-editor');
+            const btnCloseEditor = document.getElementById('btn-close-editor');
+            const btnCancelEditor = document.getElementById('btn-cancel-editor');
+            const btnSavePost = document.getElementById('btn-save-post');
+
+            if(btnOpenEditor) btnOpenEditor.onclick = () => {
+                editorView.classList.remove('hidden');
+                setTimeout(() => editorView.classList.remove('opacity-0'), 10);
+            };
+
+            function closeEditor() {
+                editorView.classList.add('opacity-0');
+                setTimeout(() => editorView.classList.add('hidden'), 300);
+                // Clear inputs
+                document.getElementById('editor-title').value = '';
+                document.getElementById('editor-content').value = '';
+                document.getElementById('editor-image').value = '';
+            }
+
+            if(btnCloseEditor) btnCloseEditor.onclick = closeEditor;
+            if(btnCancelEditor) btnCancelEditor.onclick = closeEditor;
+
+            if(btnSavePost) btnSavePost.onclick = () => {
+                const title = document.getElementById('editor-title').value;
+                const category = document.getElementById('editor-category').value;
+                const image = document.getElementById('editor-image').value || 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=800&auto=format&fit=crop&q=80';
+                const content = document.getElementById('editor-content').value;
+
+                if(!title || !content) { alert('Please enter title and content'); return; }
+
+                const newPost = {
+                    id: Date.now(),
+                    title, category, image, content,
+                    date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+                };
+
+                blogPosts.push(newPost);
+                savePosts();
+                renderBlogGrid();
+                closeEditor();
+            };
+
+            // 5. DETAIL VIEW LOGIC
+            function openDetail(id) {
+                const post = blogPosts.find(p => p.id === id);
+                if(!post) return;
+
+                document.getElementById('detail-image').src = post.image;
+                document.getElementById('detail-title').innerText = post.title;
+                document.getElementById('detail-category').innerText = post.category;
+                document.getElementById('detail-date').innerText = post.date;
+                document.getElementById('detail-content').innerHTML = marked.parse(post.content);
+
+                detailView.classList.remove('hidden');
+                setTimeout(() => detailView.classList.remove('opacity-0'), 10);
+                detailView.scrollTop = 0;
+            }
+
+            function closeDetail() {
+                detailView.classList.add('opacity-0');
+                setTimeout(() => detailView.classList.add('hidden'), 300);
+            }
+
+            const btnBack = document.getElementById('btn-back-blog');
+            const btnBackBottom = document.getElementById('btn-back-blog-bottom');
+            if(btnBack) btnBack.onclick = closeDetail;
+            if(btnBackBottom) btnBackBottom.onclick = closeDetail;
+
+            // 6. NAVIGATOR
+            const navLinks = document.querySelectorAll('.nav-link');
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    const target = link.getAttribute('data-target');
+                    if(target === 'blog-view') {
+                        e.preventDefault();
+                        switchView('blog');
+                    } else if (target === 'main-view') {
+                        // Let it scroll if it's an anchor, but verify view first
+                        if(mainView.classList.contains('hidden')) {
+                            switchView('main');
+                            // Wait for switch then scroll
+                            const href = link.getAttribute('href');
+                            if(href.startsWith('#')) {
+                                setTimeout(() => {
+                                    document.querySelector(href)?.scrollIntoView({behavior: 'smooth'});
+                                }, 400);
+                            }
+                        }
+                    }
+                });
+            });
+
+            // 7. AUTO-START BLOG FOR DEMO
+            // This line ensures you see the Blog immediately
+            switchView('blog'); 
+
+        });
+    </script>
 </body>
 </html>
+</body>
+</html>
+
 
 
 
