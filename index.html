@@ -255,7 +255,24 @@
     </div>
 </section>
 
-
+!-- MINI BLOG SLIDER (TEASER) -->
+    <section id="mini-blog" class="py-20 px-6 bg-paper dark:bg-dark border-t border-stone-200 dark:border-stone-800 overflow-hidden">
+        <div class="max-w-screen-xl mx-auto">
+            <div class="flex justify-between items-end mb-10">
+                <div>
+                     <span class="text-xs font-bold tracking-[0.2em] uppercase text-accent block mb-2">Journal</span>
+                     <h2 class="text-3xl md:text-4xl font-serif italic">Latest Stories</h2>
+                </div>
+                <a href="blog.html" class="text-sm font-bold uppercase tracking-widest border-b border-stone-400 pb-1 hover:text-accent transition">View All</a>
+            </div>
+            
+            <div id="mini-blog-container" class="overflow-x-auto scrollbar-hide pb-4">
+                <div id="mini-blog-track" class="flex gap-6 md:gap-8 w-max">
+                    <!-- Items will be injected via JS (Lightweight version) -->
+                </div>
+            </div>
+        </div>
+    </section>
     <!-- Selected Work -->
     <section id="work" class="py-32 px-6 bg-white dark:bg-darkPaper">
         <div class="max-w-screen-xl mx-auto">
@@ -554,8 +571,35 @@
             }
         };
 
+       
+
+          // --- 2. MINI DATA FOR SLIDER ONLY (Lightweight) ---
+        const recentPosts = [
+            { id: 8, title: "The Psychology of Sound", image: "https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=400", category: "Tutorial" },
+            { id: 7, title: "On Set: 'Neon Nights'", image: "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?w=400", category: "BTS" },
+            { id: 6, title: "Shooting 4:3 Aspect Ratio", image: "https://images.unsplash.com/photo-1533577116850-9cc66cad8a9b?w=400", category: "Inspiration" },
+            { id: 5, title: "DaVinci Resolve Speed", image: "https://images.unsplash.com/photo-1574717024653-61fd2cf4d44c?w=400", category: "Tutorial" }
+        ];
+
         document.addEventListener('DOMContentLoaded', () => {
-            document.addEventListener('contextmenu', (event) => event.preventDefault());
+            // Render Mini Blog
+            const track = document.getElementById('mini-blog-track');
+            if(track) {
+                recentPosts.forEach(post => {
+                    const div = document.createElement('div');
+                    div.className = "w-[300px] md:w-[400px] flex-shrink-0 group cursor-pointer";
+                    // CLICKING JUMPS TO BLOG.HTML WITH ID
+                    div.onclick = () => { window.location.href = `blog.html?id=${post.id}`; };
+                    div.innerHTML = `
+                        <div class="relative overflow-hidden aspect-[16/9] mb-4 bg-stone-100 dark:bg-stone-800">
+                            <img src="${post.image}" class="w-full h-full object-cover transition duration-700 group-hover:scale-105 filter grayscale group-hover:grayscale-0">
+                            <div class="absolute top-3 left-3 bg-white/90 dark:bg-black/90 text-primary dark:text-white px-2 py-0.5 text-[9px] font-bold uppercase tracking-widest backdrop-blur-sm">${post.category}</div>
+                        </div>
+                        <h3 class="text-xl font-serif italic group-hover:text-accent transition">${post.title}</h3>
+                    `;
+                    track.appendChild(div);
+                });
+            }    
 
             function easeInOutCubic(t, b, c, d) {
                 t /= d / 2;
@@ -852,6 +896,7 @@
     </script>
 </body>
 </html>
+
 
 
 
