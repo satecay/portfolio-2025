@@ -255,24 +255,37 @@
     </div>
 </section>
 
-<!-- MINI BLOG SLIDER (TEASER) -->
-    <section id="mini-blog" class="py-20 px-6 bg-paper dark:bg-dark border-t border-stone-200 dark:border-stone-800 overflow-hidden">
+  <!-- MINI BLOG SLIDER (UPDATED: Navigation Buttons & Sync with Storage) -->
+    <section id="mini-blog" class="py-20 px-6 bg-paper dark:bg-dark border-t border-stone-200 dark:border-stone-800 overflow-hidden relative group">
         <div class="max-w-screen-xl mx-auto">
             <div class="flex justify-between items-end mb-10">
                 <div>
                      <span class="text-xs font-bold tracking-[0.2em] uppercase text-accent block mb-2">Journal</span>
                      <h2 class="text-3xl md:text-4xl font-serif italic">Latest Stories</h2>
                 </div>
-                <a href="blog.html" class="text-sm font-bold uppercase tracking-widest border-b border-stone-400 pb-1 hover:text-accent transition">View All</a>
+                <!-- Navigation Buttons -->
+                <div class="flex gap-4">
+                    <button id="slider-prev" class="w-10 h-10 border border-stone-300 dark:border-stone-700 flex items-center justify-center hover:bg-primary hover:text-white dark:hover:bg-white dark:hover:text-black transition rounded-full">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <button id="slider-next" class="w-10 h-10 border border-stone-300 dark:border-stone-700 flex items-center justify-center hover:bg-primary hover:text-white dark:hover:bg-white dark:hover:text-black transition rounded-full">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
             </div>
             
-            <div id="mini-blog-container" class="overflow-x-auto scrollbar-hide pb-4">
+            <div id="mini-blog-container" class="overflow-x-auto scrollbar-hide pb-4 scroll-smooth">
                 <div id="mini-blog-track" class="flex gap-6 md:gap-8 w-max">
-                    <!-- Items will be injected via JS (Lightweight version) -->
+                    <!-- Items will be injected via JS -->
                 </div>
+            </div>
+            
+            <div class="mt-6 text-center">
+                 <a href="blog.html" class="text-xs font-bold uppercase tracking-widest border-b border-stone-400 pb-1 hover:text-accent transition">View All Stories</a>
             </div>
         </div>
     </section>
+    
     <!-- Selected Work -->
     <section id="work" class="py-32 px-6 bg-white dark:bg-darkPaper">
         <div class="max-w-screen-xl mx-auto">
@@ -573,33 +586,63 @@
 
        
 
-          // --- 2. MINI DATA FOR SLIDER ONLY (Lightweight) ---
-        const recentPosts = [
-            { id: 8, title: "The Psychology of Sound", image: "https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=400", category: "Tutorial" },
-            { id: 7, title: "On Set: 'Neon Nights'", image: "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?w=400", category: "BTS" },
-            { id: 6, title: "Shooting 4:3 Aspect Ratio", image: "https://images.unsplash.com/photo-1533577116850-9cc66cad8a9b?w=400", category: "Inspiration" },
-            { id: 5, title: "DaVinci Resolve Speed", image: "https://images.unsplash.com/photo-1574717024653-61fd2cf4d44c?w=400", category: "Tutorial" }
+                // --- 2. DATA LOADING (UPDATED) ---
+        // Sample data fallback
+        const samplePosts = [
+            { id: 8, title: "The Psychology of Sound", image: "https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=400", category: "Tutorial", date: "Nov 15" },
+            { id: 7, title: "On Set: 'Neon Nights'", image: "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?w=400", category: "BTS", date: "Nov 02" },
+            { id: 6, title: "Shooting 4:3 Aspect Ratio", image: "https://images.unsplash.com/photo-1533577116850-9cc66cad8a9b?w=400", category: "Inspiration", date: "Oct 28" },
+            { id: 5, title: "DaVinci Resolve Speed", image: "https://images.unsplash.com/photo-1574717024653-61fd2cf4d44c?w=400", category: "Tutorial", date: "Oct 20" }
         ];
 
         document.addEventListener('DOMContentLoaded', () => {
+            // TRY TO LOAD FROM LOCALSTORAGE (Sync with Blog Page)
+            // Use the SAME key as in blog.html (dzung_blog_posts_v5)
+            let posts = samplePosts;
+            try {
+                const storedPosts = localStorage.getItem('dzung_blog_posts_v5');
+                if (storedPosts) {
+                    posts = JSON.parse(storedPosts);
+                    // Sort by ID desc (newest first) and take top 6
+                    posts.sort((a,b) => b.id - a.id);
+                    posts = posts.slice(0, 6);
+                }
+            } catch(e) { console.log('Using sample posts'); }
+
             // Render Mini Blog
             const track = document.getElementById('mini-blog-track');
             if(track) {
-                recentPosts.forEach(post => {
+                posts.forEach(post => {
                     const div = document.createElement('div');
-                    div.className = "w-[300px] md:w-[400px] flex-shrink-0 group cursor-pointer";
-                    // CLICKING JUMPS TO BLOG.HTML WITH ID
+                    div.className = "w-[300px] md:w-[400px] flex-shrink-0 group cursor-pointer relative";
                     div.onclick = () => { window.location.href = `blog.html?id=${post.id}`; };
                     div.innerHTML = `
                         <div class="relative overflow-hidden aspect-[16/9] mb-4 bg-stone-100 dark:bg-stone-800">
-                            <img src="${post.image}" class="w-full h-full object-cover transition duration-700 group-hover:scale-105 filter grayscale group-hover:grayscale-0">
+                            <img src="${post.image}" loading="lazy" class="w-full h-full object-cover transition duration-700 group-hover:scale-105 filter grayscale group-hover:grayscale-0">
                             <div class="absolute top-3 left-3 bg-white/90 dark:bg-black/90 text-primary dark:text-white px-2 py-0.5 text-[9px] font-bold uppercase tracking-widest backdrop-blur-sm">${post.category}</div>
                         </div>
-                        <h3 class="text-xl font-serif italic group-hover:text-accent transition">${post.title}</h3>
+                        <div class="flex justify-between items-start">
+                            <h3 class="text-xl font-serif italic group-hover:text-accent transition line-clamp-2 w-3/4">${post.title}</h3>
+                            <span class="text-xs text-stone-400 mt-1">${post.date || ''}</span>
+                        </div>
                     `;
                     track.appendChild(div);
                 });
-            }    
+            }
+
+            // Slider Controls
+            const container = document.getElementById('mini-blog-container');
+            const btnPrev = document.getElementById('slider-prev');
+            const btnNext = document.getElementById('slider-next');
+            
+            if(container && btnPrev && btnNext) {
+                btnNext.addEventListener('click', () => {
+                    container.scrollBy({ left: 350, behavior: 'smooth' });
+                });
+                btnPrev.addEventListener('click', () => {
+                    container.scrollBy({ left: -350, behavior: 'smooth' });
+                });
+            }   
 
             function easeInOutCubic(t, b, c, d) {
                 t /= d / 2;
@@ -896,6 +939,7 @@
     </script>
 </body>
 </html>
+
 
 
 
