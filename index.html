@@ -106,6 +106,9 @@
         #blog-view { z-index: 40; }
         #blog-detail-view { z-index: 55; }
         #blog-editor-view { z-index: 60; }
+        
+        /* Fix for Nav Link Click Area */
+        .nav-link { cursor: pointer; position: relative; z-index: 51; }
     </style>
 </head>
 <body class="bg-paper text-primary dark:bg-dark dark:text-stone-200 transition-colors duration-500 font-sans antialiased">
@@ -118,7 +121,7 @@
                 <a href="#home" class="hover:text-accent transition nav-link" data-target="main-view" data-i18n="nav.home">Home</a>
                 <a href="#work" class="hover:text-accent transition nav-link" data-target="main-view" data-i18n="nav.work">Work</a>
                 <a href="#services" class="hover:text-accent transition nav-link" data-target="main-view" data-i18n="nav.services">Services</a>
-                <!-- BLOG LINK -->
+                <!-- BLOG LINK - Fixed ID and HREF -->
                 <a href="#blog" id="nav-blog-link" class="hover:text-accent transition nav-link font-bold text-accent" data-target="blog-view" data-i18n="nav.blog">Blog</a>
                 <a href="#about" class="hover:text-accent transition nav-link" data-target="main-view" data-i18n="nav.profile">Profile</a>
                 <a href="LINK_GOOGLE_DRIVE_CUA_BAN" target="_blank" class="hover:text-primary dark:hover:text-white transition font-bold border-b border-white pb-1" data-i18n="nav.resume">Resume</a>
@@ -131,168 +134,166 @@
             </div>
         </div>
         <!-- Mobile Menu -->
-        <div id="mobile-menu" class="hidden absolute top-full left-0 w-full bg-paper dark:bg-dark text-primary dark:text-white border-b border-stone-200 dark:border-stone-800 shadow-xl">
+        <div id="mobile-menu" class="hidden absolute top-full left-0 w-full bg-paper dark:bg-dark text-primary dark:text-white border-b border-stone-200 dark:border-stone-800 shadow-xl z-40">
             <div class="flex flex-col p-6 space-y-4 font-serif text-xl">
                 <a href="#home" class="block nav-link" data-target="main-view" data-i18n="nav.home">Home</a>
                 <a href="#work" class="block nav-link" data-target="main-view" data-i18n="nav.work">Work</a>
-                <a href="#blog" class="block nav-link" data-target="blog-view" data-i18n="nav.blog">Blog</a>
+                <!-- Mobile Blog Link -->
+                <a href="#blog" id="mobile-nav-blog-link" class="block nav-link text-accent" data-target="blog-view" data-i18n="nav.blog">Blog</a>
                 <a href="#services" class="block nav-link" data-target="main-view" data-i18n="nav.services">Services</a>
                 <a href="#contact-form" class="block nav-link" data-target="main-view" data-i18n="nav.contact">Contact</a>
             </div>
         </div>
     </nav>
 
-        <!-- VIEW 1: MAIN PORTFOLIO -->
+    <!-- VIEW 1: MAIN PORTFOLIO -->
     <div id="main-view" class="view-section transition-opacity duration-500">
 
-    <!-- NEW HERO SECTION: GRID MOSAIC -->
-    <section id="home" class="relative w-full h-screen overflow-hidden bg-black gpu-accelerated cursor-pointer">
-        <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 h-full w-full">
-            <!-- Images (1-18) -->
-            <div class="group relative w-full h-full overflow-hidden border border-white/5"><img src="Hero-section/1.jpg" class="absolute inset-0 w-full h-full object-cover grayscale brightness-[0.5] transition-all duration-700 ease-out group-hover:grayscale-0 group-hover:brightness-100 group-hover:scale-110" alt="Design"></div>
-            <div class="group relative w-full h-full overflow-hidden border border-white/5"><img src="Hero-section/2.jpg" class="absolute inset-0 w-full h-full object-cover grayscale brightness-[0.5] transition-all duration-700 ease-out group-hover:grayscale-0 group-hover:brightness-100 group-hover:scale-110" alt="Design"></div>
-            <div class="group relative w-full h-full overflow-hidden border border-white/5 hidden md:block"><img src="Hero-section/3.jpg" class="absolute inset-0 w-full h-full object-cover grayscale brightness-[0.5] transition-all duration-700 ease-out group-hover:grayscale-0 group-hover:brightness-100 group-hover:scale-110" alt="Design"></div>
-            <div class="group relative w-full h-full overflow-hidden border border-white/5 hidden lg:block"><img src="Hero-section/7.jpg" class="absolute inset-0 w-full h-full object-cover grayscale brightness-[0.5] transition-all duration-700 ease-out group-hover:grayscale-0 group-hover:brightness-100 group-hover:scale-110" alt="Design"></div>
-            <div class="group relative w-full h-full overflow-hidden border border-white/5 hidden lg:block"><img src="Hero-section/5.jpg" class="absolute inset-0 w-full h-full object-cover grayscale brightness-[0.5] transition-all duration-700 ease-out group-hover:grayscale-0 group-hover:brightness-100 group-hover:scale-110" alt="Design"></div>
-            <div class="group relative w-full h-full overflow-hidden border border-white/5"><img src="Hero-section/6.jpg" class="absolute inset-0 w-full h-full object-cover grayscale brightness-[0.5] transition-all duration-700 ease-out group-hover:grayscale-0 group-hover:brightness-100 group-hover:scale-110" alt="Design"></div>
-            <!-- VIDEO REPLACEMENT (Grid Item 7) -->
-            <div class="group relative w-full h-full overflow-hidden border border-white/5 hidden lg:block">
-                <video autoplay loop muted playsinline class="absolute inset-0 w-full h-full object-cover grayscale brightness-[0.5] transition-all duration-700 ease-out group-hover:grayscale-0 group-hover:brightness-100 group-hover:scale-110">
-                    <source src="Hero-section/Miracle-blue.mp4" type="video/mp4">
-                </video>
-            </div>
-            <div class="group relative w-full h-full overflow-hidden border border-white/5 hidden lg:block"><img src="Hero-section/SkinAqua.png" class="absolute inset-0 w-full h-full object-cover grayscale brightness-[0.2] transition-all duration-700 ease-out group-hover:grayscale-0 group-hover:brightness-100 group-hover:scale-110" alt="Design"></div>
-            <div class="group relative w-full h-full overflow-hidden border border-white/5 hidden md:block"><img src="Hero-section/11.jpg" class="absolute inset-0 w-full h-full object-cover grayscale brightness-[0.2] transition-all duration-700 ease-out group-hover:grayscale-0 group-hover:brightness-100 group-hover:scale-110" alt="Design"></div>
-            <div class="group relative w-full h-full overflow-hidden border border-white/5"><img src="Hero-section/Miracleweb.jpg" class="absolute inset-0 w-full h-full object-cover grayscale brightness-[0.2] transition-all duration-700 ease-out group-hover:grayscale-0 group-hover:brightness-100 group-hover:scale-110" alt="Design"></div>
-            <div class="group relative w-full h-full overflow-hidden border border-white/5 hidden lg:block"><img src="Hero-section/Mobile-Welcome.jpg" class="absolute inset-0 w-full h-full object-cover grayscale brightness-[0.2] transition-all duration-700 ease-out group-hover:grayscale-0 group-hover:brightness-100 group-hover:scale-110" alt="Design"></div>
-            <!-- VIDEO REPLACEMENT (Grid Item 12) -->
-            <div class="group relative w-full h-full overflow-hidden border border-white/5 hidden lg:block">
-                <video autoplay loop muted playsinline class="absolute inset-0 w-full h-full object-cover grayscale brightness-[0.5] transition-all duration-700 ease-out group-hover:grayscale-0 group-hover:brightness-100 group-hover:scale-110">
-                    <source src="Hero-section/9.mp4" type="video/mp4">
-                </video>
-            </div>
-            <div class="group relative w-full h-full overflow-hidden border border-white/5"><img src="Hero-section/NTL1.png" class="absolute inset-0 w-full h-full object-cover grayscale brightness-[0.5] transition-all duration-700 ease-out group-hover:grayscale-0 group-hover:brightness-100 group-hover:scale-110" alt="Video Editor"></div>
-            <div class="group relative w-full h-full overflow-hidden border border-white/5 hidden md:block"><img src="Hero-section/NTL2.jpg" class="absolute inset-0 w-full h-full object-cover grayscale brightness-[0.5] transition-all duration-700 ease-out group-hover:grayscale-0 group-hover:brightness-100 group-hover:scale-110" alt="Video Editor"></div>
-            <div class="group relative w-full h-full overflow-hidden border border-white/5 hidden lg:block"><img src="Hero-section/NTL4.png" class="absolute inset-0 w-full h-full object-cover grayscale brightness-[0.5] transition-all duration-700 ease-out group-hover:grayscale-0 group-hover:brightness-100 group-hover:scale-110" alt="Video Editor"></div>
-            <div class="group relative w-full h-full overflow-hidden border border-white/5"><img src="Hero-section/NTL5.png" class="absolute inset-0 w-full h-full object-cover grayscale brightness-[0.5] transition-all duration-700 ease-out group-hover:grayscale-0 group-hover:brightness-100 group-hover:scale-110" alt="Video Editor"></div>
-            <div class="group relative w-full h-full overflow-hidden border border-white/5 hidden lg:block"><img src="Hero-section/NTL6.png" class="absolute inset-0 w-full h-full object-cover grayscale brightness-[0.5] transition-all duration-700 ease-out group-hover:grayscale-0 group-hover:brightness-100 group-hover:scale-110" alt="Video Editor"></div>
-            <div class="group relative w-full h-full overflow-hidden border border-white/5"><img src="Hero-section/NTL7.jpg" class="absolute inset-0 w-full h-full object-cover grayscale brightness-[0.5] transition-all duration-700 ease-out group-hover:grayscale-0 group-hover:brightness-100 group-hover:scale-110" alt="Video Editor"></div>
-        </div>
-
-        <div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none z-20">
-            <h1 class="text-4xl md:text-8xl lg:text-9xl font-black tracking-tighter text-white uppercase drop-shadow-2xl text-center px-4" style="font-family: 'Be Vietnam Pro', sans-serif;">DzungLayout</h1>
-            <p class="text-white/90 text-xs md:text-base lg:text-xl tracking-[0.5em] uppercase mt-4 font-light animate-pulse">Crafting emotions through frames and pixels.</p>
-        </div>
-        
-        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 z-30 animate-bounce">
-            <span class="text-xs tracking-widest uppercase rotate-90 block origin-left translate-y-12 translate-x-1 text-white font-bold" data-i18n="hero.scroll">Scroll</span>
-            <div class="h-16 w-px bg-white mx-auto mt-4 shadow-lg"></div>
-        </div>
-    </section>
-
-      <!-- Hero Section 2 -->
-    <section id="home2" class="min-h-screen flex items-center justify-center relative px-6 gpu-accelerated">
-        <div class="absolute inset-0 bg-noise opacity-50 pointer-events-none"></div>
-        <div class="max-w-5xl mx-auto text-center z-10">
-            <!-- Giảm mb-6 xuống mb-4 -->
-            <p class="text-sm md:text-base tracking-[0.3em] uppercase text-accent mb-4 animate-fade-in-up" data-i18n="hero.subtitle">Portfolio 2025</p>
-            <!-- Giảm mb-8 xuống mb-6 -->
-            <h1 class="text-6xl md:text-9xl font-serif leading-none mb-6 tracking-tighter">
-                <span class="block" data-i18n="hero.title1">Visual</span>
-                <span class="block italic text-stone-400 dark:text-stone-600" data-i18n="hero.title2">Storyteller</span>
-            </h1>
-            <!-- Giảm mb-8 xuống mb-6 -->
-            <div class="h-px w-24 bg-primary dark:bg-white mx-auto mb-6"></div>
-            <!-- Giảm mb-12 xuống mb-10 -->
-            <p class="text-lg md:text-2xl font-light max-w-2xl mx-auto leading-relaxed mb-10">
-                <span data-i18n="hero.intro">I am</span> <span id="typing-text" class="font-normal italic"></span>.<br>
-                <span data-i18n="hero.desc">Crafting emotions through frames and pixels.</span>
-            </p>
-            <div class="flex flex-col md:flex-row justify-center items-center gap-6">
-                <a href="#work" class="group relative px-8 py-3 overflow-hidden border border-primary dark:border-stone-200 transition-all hover:bg-primary hover:text-white dark:hover:bg-white dark:hover:text-black">
-                    <span class="relative z-10 text-sm tracking-widest uppercase" data-i18n="hero.cta_work">View Selected Work</span>
-                </a>
-                <a href="#about" class="text-sm tracking-widest uppercase border-b border-transparent hover:border-primary dark:hover:border-white transition-all pb-1" data-i18n="hero.cta_contact">Get in touch</a>
-            </div>
-        </div>
-        
-        <!-- ĐIỀU CHỈNH VỊ TRÍ SCROLL: Nâng lên bottom-32 (128px) để không bị mất chữ -->
-        <div class="absolute bottom-32 left-1/2 transform -translate-x-1/2 animate-bounce">
-            <span class="text-xs tracking-widest uppercase rotate-90 block origin-left translate-y-12 translate-x-1" data-i18n="hero.scroll">Scroll</span>
-            <div class="h-12 w-px bg-stone-300 mx-auto mt-4"></div>
-        </div>
-    </section>
-
-  <!-- About Section -->
-   <!-- Thêm min-h-screen và flex items-center để căn giữa màn hình -->
-    <section id="about" class="relative z-10 min-h-screen flex items-center py-20 px-6 bg-white dark:bg-darkPaper border-t border-stone-100 dark:border-stone-900 overflow-hidden">
-        <div class="max-w-5xl mx-auto w-full">
-            <div class="mb-12 md:mb-16">
-                <span class="text-xs font-bold tracking-[0.2em] uppercase text-accent block mb-4" data-i18n="about.intro">The Person Behind</span>
-                <h2 class="text-5xl md:text-7xl font-serif italic leading-tight"><span data-i18n="about.headline_1">Visuals with</span> <br> <span class="ml-12 md:ml-24 text-stone-400 dark:text-stone-600" data-i18n="about.headline_2">Soul & Purpose.</span></h2>
-            </div>
-            <div class="grid md:grid-cols-12 gap-12 items-center"> <!-- items-center để căn giữa hình và chữ -->
-                <div class="md:col-span-5 relative group reveal">
-                    <div class="relative overflow-hidden aspect-[3/4]"><img src="https://plus.unsplash.com/premium_photo-1682141028605-b2456e2bab14?q=80&w=687&auto=format&fit=crop" alt="Portrait" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition duration-1000"><div class="absolute top-4 left-4 right-4 bottom-4 border border-white/20 pointer-events-none"></div></div>
-                    <div class="absolute -bottom-6 -right-6 bg-paper dark:bg-stone-800 p-6 shadow-xl border border-stone-100 dark:border-stone-700 hidden md:block"><p class="text-xs font-bold tracking-widest uppercase text-accent mb-1">Based in</p><p class="font-serif text-xl" data-i18n="about.location">Ho Chi Minh City</p></div>
-                </div>
-                <div class="md:col-span-7 md:pl-12 flex flex-col justify-center h-full">
-                    <div>
-                        <h3 class="text-2xl font-bold mb-4" data-i18n="about.greeting">Hi, I'm DzungLayout.</h3>
-                        <p class="text-lg font-light leading-relaxed text-stone-600 dark:text-stone-300 mb-6 text-justify" data-i18n="about.bio">I am a Visual Director focused on storytelling through editing and motion. My approach is simple: strip away the unnecessary until only the essential emotion remains. I don't just edit videos; I engineer feelings.</p>
-                        <div class="mb-6 pl-6 border-l-2 border-accent/50 italic text-stone-500 dark:text-stone-400 font-serif text-lg leading-relaxed"><p data-i18n="about.philosophy">"Design is not just what it looks like and feels like. Design is how it works..."</p></div>
-                    <div class="mb-8"><h4 class="font-bold tracking-widest uppercase text-xs mb-4 text-stone-400" data-i18n="about.expertise">Expertise</h4><div class="grid grid-cols-2 gap-x-4 gap-y-2 text-stone-700 dark:text-stone-300 font-light"><div class="flex items-center"><span class="w-1.5 h-1.5 bg-accent rounded-full mr-2"></span>Web Design</div><div class="flex items-center"><span class="w-1.5 h-1.5 bg-accent rounded-full mr-2"></span>Video Editing</div><div class="flex items-center"><span class="w-1.5 h-1.5 bg-accent rounded-full mr-2"></span>Motion Graphics</div><div class="flex items-center"><span class="w-1.5 h-1.5 bg-accent rounded-full mr-2"></span>Brand Identity</div></div></div>
-                    <div class="mb-8 opacity-80 text-primary dark:text-white"><p class="font-scripture text-1xl md:text-3xl transform -rotate-0">Dzunglayout.</p></div>
-                </div>
-                <!-- STATS WITH ROLLING EFFECT -->
-                <div class="grid grid-cols-3 gap-8 border-t border-stone-200 dark:border-stone-800 pt-6">
-                    <div>
-                        <span class="block text-4xl font-serif font-bold mb-1">
-                            <span class="counter" data-target="7">0</span>+
-                        </span>
-                        <span class="text-xs uppercase tracking-widest text-stone-500" data-i18n="about.stat_years">Years Exp</span>
-                    </div>
-                    <div>
-                        <span class="block text-4xl font-serif font-bold mb-1">
-                            <span class="counter" data-target="150">0</span>+
-                        </span>
-                        <span class="text-xs uppercase tracking-widest text-stone-500" data-i18n="about.stat_projects">Projects</span>
-                    </div>
-                    <div>
-                        <span class="block text-4xl font-serif font-bold mb-1">
-                            <span class="counter" data-target="100">0</span>%
-                        </span>
-                        <span class="text-xs uppercase tracking-widest text-stone-500" data-i18n="about.stat_happy">Satisfaction</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
- <!-- NEW: MINI BLOG SLIDER SECTION (Placed under Profile) -->
-        <section id="mini-blog" class="py-20 px-6 bg-paper dark:bg-dark border-t border-stone-200 dark:border-stone-800 overflow-hidden">
-            <div class="max-w-screen-xl mx-auto">
-                <div class="flex flex-col md:flex-row justify-between items-end mb-10 gap-6">
-                    <div>
-                         <span class="text-xs font-bold tracking-[0.2em] uppercase text-accent block mb-2" data-i18n="miniblog.label">Journal</span>
-                         <h2 class="text-3xl md:text-4xl font-serif italic" data-i18n="miniblog.title">Latest Stories</h2>
-                    </div>
-                    <div class="flex gap-4">
-                        <button id="btn-prev-blog-mini" class="w-12 h-12 border border-stone-300 dark:border-stone-700 flex items-center justify-center hover:bg-primary hover:text-white dark:hover:bg-white dark:hover:text-black transition rounded-full group"><i class="fas fa-chevron-left group-hover:-translate-x-1 transition"></i></button>
-                        <button id="btn-next-blog-mini" class="w-12 h-12 border border-stone-300 dark:border-stone-700 flex items-center justify-center hover:bg-primary hover:text-white dark:hover:bg-white dark:hover:text-black transition rounded-full group"><i class="fas fa-chevron-right group-hover:translate-x-1 transition"></i></button>
-                    </div>
+        <!-- 1. FULL GRID HERO SECTION -->
+        <section id="home" class="relative w-full h-screen overflow-hidden bg-black gpu-accelerated cursor-pointer">
+            <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 h-full w-full">
+                <!-- Images (1-18) -->
+                <div class="group relative w-full h-full overflow-hidden border border-white/5"><img src="Hero-section/1.jpg" class="absolute inset-0 w-full h-full object-cover grayscale brightness-[0.5] transition-all duration-700 ease-out group-hover:grayscale-0 group-hover:brightness-100 group-hover:scale-110" alt="Design"></div>
+                <div class="group relative w-full h-full overflow-hidden border border-white/5"><img src="Hero-section/2.jpg" class="absolute inset-0 w-full h-full object-cover grayscale brightness-[0.5] transition-all duration-700 ease-out group-hover:grayscale-0 group-hover:brightness-100 group-hover:scale-110" alt="Design"></div>
+                <div class="group relative w-full h-full overflow-hidden border border-white/5 hidden md:block"><img src="Hero-section/3.jpg" class="absolute inset-0 w-full h-full object-cover grayscale brightness-[0.5] transition-all duration-700 ease-out group-hover:grayscale-0 group-hover:brightness-100 group-hover:scale-110" alt="Design"></div>
+                <div class="group relative w-full h-full overflow-hidden border border-white/5 hidden lg:block"><img src="Hero-section/7.jpg" class="absolute inset-0 w-full h-full object-cover grayscale brightness-[0.5] transition-all duration-700 ease-out group-hover:grayscale-0 group-hover:brightness-100 group-hover:scale-110" alt="Design"></div>
+                <div class="group relative w-full h-full overflow-hidden border border-white/5 hidden lg:block"><img src="Hero-section/5.jpg" class="absolute inset-0 w-full h-full object-cover grayscale brightness-[0.5] transition-all duration-700 ease-out group-hover:grayscale-0 group-hover:brightness-100 group-hover:scale-110" alt="Design"></div>
+                <div class="group relative w-full h-full overflow-hidden border border-white/5"><img src="Hero-section/6.jpg" class="absolute inset-0 w-full h-full object-cover grayscale brightness-[0.5] transition-all duration-700 ease-out group-hover:grayscale-0 group-hover:brightness-100 group-hover:scale-110" alt="Design"></div>
+                
+                <div class="group relative w-full h-full overflow-hidden border border-white/5 hidden lg:block">
+                    <video autoplay loop muted playsinline class="absolute inset-0 w-full h-full object-cover grayscale brightness-[0.5] transition-all duration-700 ease-out group-hover:grayscale-0 group-hover:brightness-100 group-hover:scale-110">
+                        <source src="Hero-section/Miracle-blue.mp4" type="video/mp4">
+                    </video>
                 </div>
                 
-                <!-- Horizontal Scroll Container -->
-                <div id="mini-blog-container" class="overflow-x-auto scrollbar-hide pb-4" style="scroll-behavior: smooth; -ms-overflow-style: none; scrollbar-width: none;">
-                    <div id="mini-blog-track" class="flex gap-6 md:gap-8 w-max">
-                        <!-- Items injected by JS -->
-                    </div>
+                <div class="group relative w-full h-full overflow-hidden border border-white/5 hidden lg:block"><img src="Hero-section/SkinAqua.png" class="absolute inset-0 w-full h-full object-cover grayscale brightness-[0.2] transition-all duration-700 ease-out group-hover:grayscale-0 group-hover:brightness-100 group-hover:scale-110" alt="Design"></div>
+                <div class="group relative w-full h-full overflow-hidden border border-white/5 hidden md:block"><img src="Hero-section/11.jpg" class="absolute inset-0 w-full h-full object-cover grayscale brightness-[0.2] transition-all duration-700 ease-out group-hover:grayscale-0 group-hover:brightness-100 group-hover:scale-110" alt="Design"></div>
+                <div class="group relative w-full h-full overflow-hidden border border-white/5"><img src="Hero-section/Miracleweb.jpg" class="absolute inset-0 w-full h-full object-cover grayscale brightness-[0.2] transition-all duration-700 ease-out group-hover:grayscale-0 group-hover:brightness-100 group-hover:scale-110" alt="Design"></div>
+                <div class="group relative w-full h-full overflow-hidden border border-white/5 hidden lg:block"><img src="Hero-section/Mobile-Welcome.jpg" class="absolute inset-0 w-full h-full object-cover grayscale brightness-[0.2] transition-all duration-700 ease-out group-hover:grayscale-0 group-hover:brightness-100 group-hover:scale-110" alt="Design"></div>
+                
+                <div class="group relative w-full h-full overflow-hidden border border-white/5 hidden lg:block">
+                    <video autoplay loop muted playsinline class="absolute inset-0 w-full h-full object-cover grayscale brightness-[0.5] transition-all duration-700 ease-out group-hover:grayscale-0 group-hover:brightness-100 group-hover:scale-110">
+                        <source src="Hero-section/9.mp4" type="video/mp4">
+                    </video>
                 </div>
+                
+                <div class="group relative w-full h-full overflow-hidden border border-white/5"><img src="Hero-section/NTL1.png" class="absolute inset-0 w-full h-full object-cover grayscale brightness-[0.5] transition-all duration-700 ease-out group-hover:grayscale-0 group-hover:brightness-100 group-hover:scale-110" alt="Video Editor"></div>
+                <div class="group relative w-full h-full overflow-hidden border border-white/5 hidden md:block"><img src="Hero-section/NTL2.jpg" class="absolute inset-0 w-full h-full object-cover grayscale brightness-[0.5] transition-all duration-700 ease-out group-hover:grayscale-0 group-hover:brightness-100 group-hover:scale-110" alt="Video Editor"></div>
+                <div class="group relative w-full h-full overflow-hidden border border-white/5 hidden lg:block"><img src="Hero-section/NTL4.png" class="absolute inset-0 w-full h-full object-cover grayscale brightness-[0.5] transition-all duration-700 ease-out group-hover:grayscale-0 group-hover:brightness-100 group-hover:scale-110" alt="Video Editor"></div>
+                <div class="group relative w-full h-full overflow-hidden border border-white/5"><img src="Hero-section/NTL5.png" class="absolute inset-0 w-full h-full object-cover grayscale brightness-[0.5] transition-all duration-700 ease-out group-hover:grayscale-0 group-hover:brightness-100 group-hover:scale-110" alt="Video Editor"></div>
+                <div class="group relative w-full h-full overflow-hidden border border-white/5 hidden lg:block"><img src="Hero-section/NTL6.png" class="absolute inset-0 w-full h-full object-cover grayscale brightness-[0.5] transition-all duration-700 ease-out group-hover:grayscale-0 group-hover:brightness-100 group-hover:scale-110" alt="Video Editor"></div>
+                <div class="group relative w-full h-full overflow-hidden border border-white/5"><img src="Hero-section/NTL7.jpg" class="absolute inset-0 w-full h-full object-cover grayscale brightness-[0.5] transition-all duration-700 ease-out group-hover:grayscale-0 group-hover:brightness-100 group-hover:scale-110" alt="Video Editor"></div>
+            </div>
+
+            <div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none z-20">
+                <h1 class="text-4xl md:text-8xl lg:text-9xl font-black tracking-tighter text-white uppercase drop-shadow-2xl text-center px-4" style="font-family: 'Be Vietnam Pro', sans-serif;">DzungLayout</h1>
+                <p class="text-white/90 text-xs md:text-base lg:text-xl tracking-[0.5em] uppercase mt-4 font-light animate-pulse">Crafting emotions through frames and pixels.</p>
+            </div>
+            
+            <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 z-30 animate-bounce">
+                <span class="text-xs tracking-widest uppercase rotate-90 block origin-left translate-y-12 translate-x-1 text-white font-bold" data-i18n="hero.scroll">Scroll</span>
+                <div class="h-16 w-px bg-white mx-auto mt-4 shadow-lg"></div>
             </div>
         </section>
 
-    <!-- Selected Work -->
+        <!-- 2. Hero Section 2 -->
+        <section id="home2" class="min-h-screen flex items-center justify-center relative px-6 gpu-accelerated">
+            <div class="absolute inset-0 bg-noise opacity-50 pointer-events-none"></div>
+            <div class="max-w-5xl mx-auto text-center z-10">
+                <p class="text-sm md:text-base tracking-[0.3em] uppercase text-accent mb-4 animate-fade-in-up" data-i18n="hero.subtitle">Portfolio 2025</p>
+                <h1 class="text-6xl md:text-9xl font-serif leading-none mb-6 tracking-tighter">
+                    <span class="block" data-i18n="hero.title1">Visual</span>
+                    <span class="block italic text-stone-400 dark:text-stone-600" data-i18n="hero.title2">Storyteller</span>
+                </h1>
+                <div class="h-px w-24 bg-primary dark:bg-white mx-auto mb-6"></div>
+                <p class="text-lg md:text-2xl font-light max-w-2xl mx-auto leading-relaxed mb-10">
+                    <span data-i18n="hero.intro">I am</span> <span id="typing-text" class="font-normal italic"></span>.<br>
+                    <span data-i18n="hero.desc">Crafting emotions through frames and pixels.</span>
+                </p>
+                <div class="flex flex-col md:flex-row justify-center items-center gap-6">
+                    <a href="#work" class="group relative px-8 py-3 overflow-hidden border border-primary dark:border-stone-200 transition-all hover:bg-primary hover:text-white dark:hover:bg-white dark:hover:text-black">
+                        <span class="relative z-10 text-sm tracking-widest uppercase" data-i18n="hero.cta_work">View Selected Work</span>
+                    </a>
+                    <a href="#about" class="text-sm tracking-widest uppercase border-b border-transparent hover:border-primary dark:hover:border-white transition-all pb-1" data-i18n="hero.cta_contact">Get in touch</a>
+                </div>
+            </div>
+            
+            <div class="absolute bottom-32 left-1/2 transform -translate-x-1/2 animate-bounce">
+                <span class="text-xs tracking-widest uppercase rotate-90 block origin-left translate-y-12 translate-x-1" data-i18n="hero.scroll">Scroll</span>
+                <div class="h-12 w-px bg-stone-300 mx-auto mt-4"></div>
+            </div>
+        </section>
+
+        <!-- 3. About Section -->
+        <section id="about" class="relative z-10 min-h-screen flex items-center py-20 px-6 bg-white dark:bg-darkPaper border-t border-stone-100 dark:border-stone-900 overflow-hidden">
+            <div class="max-w-5xl mx-auto w-full">
+                <div class="mb-12 md:mb-16">
+                    <span class="text-xs font-bold tracking-[0.2em] uppercase text-accent block mb-4" data-i18n="about.intro">The Person Behind</span>
+                    <h2 class="text-5xl md:text-7xl font-serif italic leading-tight"><span data-i18n="about.headline_1">Visuals with</span> <br> <span class="ml-12 md:ml-24 text-stone-400 dark:text-stone-600" data-i18n="about.headline_2">Soul & Purpose.</span></h2>
+                </div>
+                <div class="grid md:grid-cols-12 gap-12 items-center">
+                    <div class="md:col-span-5 relative group reveal">
+                        <div class="relative overflow-hidden aspect-[3/4]"><img src="https://plus.unsplash.com/premium_photo-1682141028605-b2456e2bab14?q=80&w=687&auto=format&fit=crop" alt="Portrait" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition duration-1000"><div class="absolute top-4 left-4 right-4 bottom-4 border border-white/20 pointer-events-none"></div></div>
+                        <div class="absolute -bottom-6 -right-6 bg-paper dark:bg-stone-800 p-6 shadow-xl border border-stone-100 dark:border-stone-700 hidden md:block"><p class="text-xs font-bold tracking-widest uppercase text-accent mb-1">Based in</p><p class="font-serif text-xl" data-i18n="about.location">Ho Chi Minh City</p></div>
+                    </div>
+                    <div class="md:col-span-7 md:pl-12 flex flex-col justify-center h-full">
+                        <div>
+                            <h3 class="text-2xl font-bold mb-4" data-i18n="about.greeting">Hi, I'm DzungLayout.</h3>
+                            <p class="text-lg font-light leading-relaxed text-stone-600 dark:text-stone-300 mb-6 text-justify" data-i18n="about.bio">I am a Visual Director focused on storytelling through editing and motion. My approach is simple: strip away the unnecessary until only the essential emotion remains. I don't just edit videos; I engineer feelings.</p>
+                            <div class="mb-6 pl-6 border-l-2 border-accent/50 italic text-stone-500 dark:text-stone-400 font-serif text-lg leading-relaxed"><p data-i18n="about.philosophy">"Design is not just what it looks like and feels like. Design is how it works..."</p></div>
+                        <div class="mb-8"><h4 class="font-bold tracking-widest uppercase text-xs mb-4 text-stone-400" data-i18n="about.expertise">Expertise</h4><div class="grid grid-cols-2 gap-x-4 gap-y-2 text-stone-700 dark:text-stone-300 font-light"><div class="flex items-center"><span class="w-1.5 h-1.5 bg-accent rounded-full mr-2"></span>Web Design</div><div class="flex items-center"><span class="w-1.5 h-1.5 bg-accent rounded-full mr-2"></span>Video Editing</div><div class="flex items-center"><span class="w-1.5 h-1.5 bg-accent rounded-full mr-2"></span>Motion Graphics</div><div class="flex items-center"><span class="w-1.5 h-1.5 bg-accent rounded-full mr-2"></span>Brand Identity</div></div></div>
+                        <div class="mb-8 opacity-80 text-primary dark:text-white"><p class="font-scripture text-1xl md:text-3xl transform -rotate-0">Dzunglayout.</p></div>
+                    </div>
+                    <!-- STATS WITH ROLLING EFFECT -->
+                    <div class="grid grid-cols-3 gap-8 border-t border-stone-200 dark:border-stone-800 pt-6">
+                        <div>
+                            <span class="block text-4xl font-serif font-bold mb-1">
+                                <span class="counter" data-target="7">0</span>+
+                            </span>
+                            <span class="text-xs uppercase tracking-widest text-stone-500" data-i18n="about.stat_years">Years Exp</span>
+                        </div>
+                        <div>
+                            <span class="block text-4xl font-serif font-bold mb-1">
+                                <span class="counter" data-target="150">0</span>+
+                            </span>
+                            <span class="text-xs uppercase tracking-widest text-stone-500" data-i18n="about.stat_projects">Projects</span>
+                        </div>
+                        <div>
+                            <span class="block text-4xl font-serif font-bold mb-1">
+                                <span class="counter" data-target="100">0</span>%
+                            </span>
+                            <span class="text-xs uppercase tracking-widest text-stone-500" data-i18n="about.stat_happy">Satisfaction</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- NEW: MINI BLOG SLIDER SECTION (Placed under Profile) -->
+    <section id="mini-blog" class="py-20 px-6 bg-paper dark:bg-dark border-t border-stone-200 dark:border-stone-800 overflow-hidden">
+        <div class="max-w-screen-xl mx-auto">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-10 gap-6">
+                <div>
+                     <span class="text-xs font-bold tracking-[0.2em] uppercase text-accent block mb-2" data-i18n="miniblog.label">Journal</span>
+                     <h2 class="text-3xl md:text-4xl font-serif italic" data-i18n="miniblog.title">Latest Stories</h2>
+                </div>
+                <div class="flex gap-4">
+                    <button id="btn-prev-blog-mini" class="w-12 h-12 border border-stone-300 dark:border-stone-700 flex items-center justify-center hover:bg-primary hover:text-white dark:hover:bg-white dark:hover:text-black transition rounded-full group"><i class="fas fa-chevron-left group-hover:-translate-x-1 transition"></i></button>
+                    <button id="btn-next-blog-mini" class="w-12 h-12 border border-stone-300 dark:border-stone-700 flex items-center justify-center hover:bg-primary hover:text-white dark:hover:bg-white dark:hover:text-black transition rounded-full group"><i class="fas fa-chevron-right group-hover:translate-x-1 transition"></i></button>
+                </div>
+            </div>
+            
+            <!-- Horizontal Scroll Container -->
+            <div id="mini-blog-container" class="overflow-x-auto scrollbar-hide pb-4" style="scroll-behavior: smooth; -ms-overflow-style: none; scrollbar-width: none;">
+                <div id="mini-blog-track" class="flex gap-6 md:gap-8 w-max">
+                    <!-- Items injected by JS -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. Selected Work -->
     <section id="work" class="py-32 px-6 bg-white dark:bg-darkPaper">
         <div class="max-w-screen-xl mx-auto">
             <div class="flex flex-col md:flex-row justify-between items-end mb-20 border-b border-stone-200 dark:border-stone-800 pb-8">
@@ -300,7 +301,7 @@
                     <h2 class="text-4xl md:text-5xl mb-2" data-i18n="work.title">Selected Work</h2>
                     <p class="text-stone-500 font-light" data-i18n="work.subtitle">A collection of moments & brands.</p>
                 </div>
-                <!-- Filter Buttons (Updated with functionality) -->
+                <!-- Filter Buttons -->
                 <div class="mt-6 md:mt-0 flex gap-4 text-sm font-bold text-stone-400">
                     <button class="filter-btn text-primary dark:text-white border-b border-primary dark:border-white pb-1 transition-all" data-filter="all" data-i18n="work.filter_all">All</button>
                     <button class="filter-btn hover:text-primary dark:hover:text-white border-b border-transparent hover:border-primary dark:hover:border-white pb-1 transition-all" data-filter="film">Film</button>
@@ -312,7 +313,7 @@
                 <!-- Project 1 (Film) -->
                 <div class="work-item group cursor-pointer video-trigger reveal" data-category="film" data-video-id="zjUzZNXi2aQ"> 
                     <div class="relative overflow-hidden aspect-[16/9] mb-6 bg-stone-100">
-                        <img src="https://plus.unsplash.com/premium_photo-1711061959382-0de7a4bddccf?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mzd8fHN0dWRpb3xlbnwwfHwwfHx8MA%3D%3D" alt="Work 1" class="object-cover w-full h-full transform transition duration-700 group-hover:scale-105 filter grayscale group-hover:grayscale-0">
+                        <img src="https://plus.unsplash.com/premium_photo-1711061959382-0de7a4bddccf?w=500&auto=format&fit=crop&q=60" alt="Work 1" class="object-cover w-full h-full transform transition duration-700 group-hover:scale-105 filter grayscale group-hover:grayscale-0">
                         <div class="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition duration-500 flex items-center justify-center">
                             <div class="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center group-hover:scale-110 transition duration-300"><i class="fas fa-play text-white text-xl pl-1"></i></div>
                         </div>
@@ -357,24 +358,8 @@
                     </div>
                 </div>
 
-                 <!-- Project 4 (Design) -->
-              <!--   <div class="work-item group cursor-pointer md:mt-20 reveal" data-category="design">
-                    <div class="relative overflow-hidden aspect-[4/5] mb-6 bg-stone-100">
-                        <img src="https://images.unsplash.com/photo-1600607686527-6fb886090705?w=800&auto=format&fit=crop&q=80" alt="Work 4" class="object-cover w-full h-full transform transition duration-700 group-hover:scale-105 filter grayscale group-hover:grayscale-0">
-                    </div>
-                    <div class="flex justify-between items-start">
-                        <div>
-                            <span class="text-xs font-bold tracking-widest uppercase text-accent mb-1 block">Editorial Design</span>
-                            <h3 class="text-2xl italic group-hover:translate-x-2 transition duration-300">Vogue Mockup</h3>
-                        </div>
-                        <span class="text-xs border border-stone-300 px-2 py-1 rounded-full text-stone-500">2023</span>
-                    </div>
-                </div>
-            </div>
-        </div> -->
-
+                 <!-- Project 4 (Motion) -->
                  <div class="work-item group cursor-pointer video-trigger reveal" data-category="film" data-video-id="uyn2Oa7K5J4">
-                   <!-- <div class="relative overflow-hidden aspect-[16/9] mb-6 bg-stone-100"> -->
                        <div class="relative overflow-hidden aspect-[4/5] mb-6 bg-stone-100">
                         <img src="images/Artboard-1.png" alt="Work 4" class="object-cover w-full h-full transform transition duration-700 group-hover:scale-105 filter grayscale group-hover:grayscale-0">
                         <div class="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition duration-500 flex items-center justify-center">
@@ -389,46 +374,29 @@
                         <span class="text-xs border border-stone-300 px-2 py-1 rounded-full text-stone-500">2024</span>
                     </div>
                 </div>
+            </div>
+        </div>
     </section> 
 
-     <!-- FEATURED SHOWREEL (ĐÃ KHÔI PHỤC) -->
+    <!-- 5. Showreel Section -->
     <section class="relative h-screen w-full flex items-center justify-center overflow-hidden bg-black">
         <!-- Video Background -->
         <video autoplay loop muted playsinline class="absolute inset-0 w-full h-full object-cover opacity-80">
-            <!-- 1. Link nội bộ của bạn (Ưu tiên chạy trước) -->
-            <!-- QUAN TRỌNG: Phải sửa type="mp4" thành type="video/mp4" thì trình duyệt mới hiểu -->
             <source src="videos/Ecopark1.mp4" type="video/mp4">
-            
-            <!-- 2. Link Online (Dự phòng) -->
-            <!-- Nếu không tìm thấy file nội bộ (ví dụ khi xem preview này), trình duyệt sẽ tự chạy link này -->
             <source src="https://videos.pexels.com/video-files/3129957/3129957-uhd_2560_1440_25fps.mp4" type="video/mp4">
-            
-            Your browser does not support the video tag.
         </video>
-        
-       <!-- Overlay Content -->
-     <!--   <div class="relative z-20 text-center text-white px-6">
-            <p class="text-sm md:text-base font-bold tracking-[0.5em] uppercase mb-4 animate-pulse">Showreel 2025</p>
-            <h2 class="text-6xl md:text-9xl font-serif italic tracking-tighter mix-blend-overlay">Emotion &<br>Motion</h2>
-    -->        
-            <!-- Play Button -->
-            <button class="mt-12 w-20 h-20 rounded-full border border-white/30 flex items-center justify-center hover:bg-white hover:text-black transition duration-500 group video-trigger mx-auto" data-video-id="tgbNymZ7vqY">
-                <i class="fas fa-play text-2xl pl-1 group-hover:scale-110 transition"></i>
-            </button>
-        </div>
-        
+        <!-- Play Button -->
+        <button class="mt-12 w-20 h-20 rounded-full border border-white/30 flex items-center justify-center hover:bg-white hover:text-black transition duration-500 group video-trigger mx-auto relative z-20" data-video-id="tgbNymZ7vqY">
+            <i class="fas fa-play text-2xl pl-1 group-hover:scale-110 transition"></i>
+        </button>
         <!-- Gradient Overlay -->
         <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent"></div>
         <div class="absolute inset-0 bg-gradient-to-b from-black via-transparent to-transparent"></div>
     </section>
 
-    <!-- Services (Minimalist Zigzag - Aligned Left/Right) -->
-    <!-- Thêm min-h-screen và flex items-center để gói gọn trong 1 màn hình -->
+    <!-- 6. Services (Minimalist Zigzag) -->
     <section id="services" class="relative z-10 min-h-screen flex items-center py-20 px-6 bg-white dark:bg-dark border-t border-stone-100 dark:border-stone-800">
         <div class="max-w-screen-xl mx-auto w-full">
-            
-            <!-- 1. Header Section -->
-             <!-- Giảm mb-32 xuống mb-16 để tiết kiệm không gian -->
              <div class="max-w-5xl mx-auto mb-10"> 
                 <div class="mb-8">
                     <span class="text-xs font-bold tracking-[0.2em] uppercase text-accent block mb-4" data-i18n="services.intro">What I do</span>
@@ -442,16 +410,12 @@
                 </div>
             </div>
 
-            <!-- 2. Services List -->
-            <!-- Giảm gap-24/32 xuống gap-16 để gọn hơn -->
             <div class="flex flex-col gap-10 md:gap-20 relative">
-                
-                <!-- Item 1: Post-Production (CANH TRÁI - Aligned Right items-end text-right) -->
+                <!-- Item 1: Post-Production -->
                 <div class="flex flex-col items-center text-center z-10 reveal md:w-1/2 md:ml-auto"> 
                     <div class="mb-4 text-4xl text-primary dark:text-white transition-transform duration-500 hover:-translate-y-2">
                         <i class="fas fa-film"></i>
                     </div>
-                    
                     <h3 class="text-2xl md:text-4xl font-serif italic font-bold mb-4" data-i18n="services.s1_title">Post-Production</h3>
                     <div class="w-24 h-px bg-stone-300 dark:bg-stone-700 mb-4"></div>
                     <p class="text-stone-500 font-light" data-i18n="services.s1_desc">
@@ -459,7 +423,7 @@
                     </p>
                 </div>
 
-                <!-- Item 2: VFX & Motion (CANH PHẢI - Aligned Left) -->
+                <!-- Item 2: VFX & Motion -->
                 <div class="flex flex-col items-center text-center z-10 reveal delay-100 md:w-1/2">
                      <div class="mb-4 text-4xl text-primary dark:text-white transition-transform duration-500 hover:-translate-y-2">
                          <i class="fas fa-cubes"></i>
@@ -471,7 +435,7 @@
                     </p>
                 </div>
 
-                <!-- Item 3: Art Direction (CANH TRÁI - Aligned Right - Thẳng hàng với Post-Production) -->
+                <!-- Item 3: Art Direction -->
                 <div class="flex flex-col items-center text-center z-10 reveal delay-100 md:w-1/2 md:ml-auto">
                     <div class="mb-4 text-4xl text-primary dark:text-white transition-transform duration-500 hover:-translate-y-2">
                         <i class="fas fa-compass"></i>
@@ -482,20 +446,18 @@
                         Defining the visual language and aesthetic strategy for brands, ensuring consistency across all media.
                     </p>
                 </div>
-
             </div>
         </div>
     </section>
 
- 
-
-    <!-- Client Logos -->
+    <!-- 7. Client Logos -->
     <section class="py-16 border-t border-stone-100 dark:border-stone-800 bg-paper dark:bg-dark overflow-hidden">
         <div class="max-w-screen-xl mx-auto px-6 mb-8 text-center"><p class="text-xs font-bold tracking-[0.2em] uppercase text-stone-400" data-i18n="logos.label">Trusted Partners</p></div>
         <div class="relative flex overflow-x-hidden group">
             <div class="absolute top-0 bottom-0 left-0 w-24 z-10 bg-gradient-to-r from-paper dark:from-dark to-transparent"></div>
             <div class="absolute top-0 bottom-0 right-0 w-24 z-10 bg-gradient-to-l from-paper dark:from-dark to-transparent"></div>
             <div class="py-4 animate-infinite-scroll whitespace-nowrap flex items-center gap-16 md:gap-24 pl-6">
+                <!-- Logos -->
                 <img src="https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg" class="h-8 w-auto object-contain grayscale opacity-40 hover:grayscale-0 hover:opacity-100 transition duration-300 cursor-pointer" alt="Google">
                 <img src="https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg" class="h-8 w-auto object-contain grayscale opacity-40 hover:grayscale-0 hover:opacity-100 transition duration-300 cursor-pointer" alt="Netflix">
                 <img src="https://upload.wikimedia.org/wikipedia/commons/a/a6/Logo_NIKE.svg" class="h-6 w-auto object-contain grayscale opacity-40 hover:grayscale-0 hover:opacity-100 transition duration-300 cursor-pointer" alt="Nike">
@@ -503,7 +465,8 @@
                 <img src="https://upload.wikimedia.org/wikipedia/commons/7/7b/Meta_Platforms_Inc._logo.svg" class="h-8 w-auto object-contain grayscale opacity-40 hover:grayscale-0 hover:opacity-100 transition duration-300 cursor-pointer" alt="Meta">
                 <img src="https://upload.wikimedia.org/wikipedia/commons/5/51/IBM_logo.svg" class="h-8 w-auto object-contain grayscale opacity-40 hover:grayscale-0 hover:opacity-100 transition duration-300 cursor-pointer" alt="IBM">
                 <img src="https://upload.wikimedia.org/wikipedia/commons/4/47/Samsung.svg" class="h-8 w-auto object-contain grayscale opacity-40 hover:grayscale-0 hover:opacity-100 transition duration-300 cursor-pointer" alt="Samsung">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg" class="h-8 w-auto object-contain grayscale opacity-40 hover:grayscale-0 hover:opacity-100 transition duration-300 cursor-pointer" alt="Google">
+                <!-- Duplicate for infinite scroll -->
+                 <img src="https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg" class="h-8 w-auto object-contain grayscale opacity-40 hover:grayscale-0 hover:opacity-100 transition duration-300 cursor-pointer" alt="Google">
                 <img src="https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg" class="h-8 w-auto object-contain grayscale opacity-40 hover:grayscale-0 hover:opacity-100 transition duration-300 cursor-pointer" alt="Netflix">
                 <img src="https://upload.wikimedia.org/wikipedia/commons/a/a6/Logo_NIKE.svg" class="h-6 w-auto object-contain grayscale opacity-40 hover:grayscale-0 hover:opacity-100 transition duration-300 cursor-pointer" alt="Nike">
                 <img src="https://upload.wikimedia.org/wikipedia/commons/2/20/Adidas_Logo.svg" class="h-10 w-auto object-contain grayscale opacity-40 hover:grayscale-0 hover:opacity-100 transition duration-300 cursor-pointer" alt="Adidas">
@@ -514,7 +477,7 @@
         </div>
     </section>
 
-    <!-- AI Studio -->
+    <!-- 8. AI Studio -->
     <section id="studio" class="py-32 px-6 bg-paper dark:bg-dark relative">
         <div class="absolute inset-0 bg-noise opacity-30 pointer-events-none"></div>
         <div class="max-w-4xl mx-auto relative z-10">
@@ -553,11 +516,12 @@
         <div class="flex justify-center mt-16 mb-4"><button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="text-stone-600 hover:text-stone-300 transition duration-500 p-2 animate-bounce opacity-50 hover:opacity-100" title="Back to Top"><i class="fas fa-chevron-up text-xl"></i></button></div>
         <div class="text-center text-xs text-stone-600 uppercase tracking-widest">© 2025 DzungLayout. All Rights Reserved.</div>
     </footer>
-
- 
+    </div>
     <!-- END MAIN PORTFOLIO VIEW -->
-    <!-- VIEW 2: BLOG MAIN LIST (Default Hidden, will auto-show) -->
-    <div id="blog-view" class="view-section hidden opacity-0 transition-opacity duration-500 pt-28 pb-20 px-6 min-h-screen bg-paper dark:bg-dark absolute inset-0">
+
+
+    <!-- VIEW 2: BLOG MAIN LIST (Hidden by default) -->
+    <div id="blog-view" class="hidden opacity-0 transition-opacity duration-500 pt-28 pb-20 px-6 min-h-screen bg-paper dark:bg-dark w-full">
         <div class="max-w-screen-2xl mx-auto">
             
             <!-- Blog Header -->
@@ -680,15 +644,25 @@
         </div>
     </div>
     <!-- END BLOG DETAIL -->        
+    
+    <!-- Video Modal -->
+    <div id="video-modal" class="fixed inset-0 z-[100] hidden bg-black/90 backdrop-blur-md flex items-center justify-center p-4">
+        <button id="close-modal" class="absolute top-6 right-6 text-white text-4xl hover:text-stone-400 transition focus:outline-none">&times;</button>
+        <div class="w-full max-w-5xl aspect-video bg-black shadow-2xl relative">
+            <iframe id="video-iframe" class="w-full h-full" src="" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+    </div>
+
     <!-- Scripts -->
     <script>
         const apiKey = ""; 
         const translations = {
             en: {
-                nav: { home: "Home", work: "Selected Work", services: "Services", studio: "AI Studio", profile: "Profile", resume: "Resume", contact: "Contact" },
+                nav: { home: "Home", work: "Selected Work", services: "Services", studio: "AI Studio", profile: "Profile", resume: "Resume", contact: "Contact", blog: "Blog" },
                 hero: { subtitle: "Portfolio 2025", title1: "Visual", title2: "Storyteller", intro: "I am", desc: "Crafting emotions through frames and pixels.", cta_work: "View Selected Work", cta_contact: "Get in touch", scroll: "Scroll" },
                 work: { title: "Selected Work", subtitle: "A collection of moments & brands.", filter_all: "All" },
                 project1: { title: "Talkshow Người Thắp Lửa" },
+                miniblog: { label: "Journal", title: "Latest Stories" },
                 services: { label: "What I do", title: "Services", desc: "Comprehensive visual solutions tailored for brands that value aesthetics and storytelling.", s1_title: "Post-Production", s1_desc: "Professional editing, sound design, and color grading for commercials, music videos, and documentaries.", s2_title: "Motion & VFX", s2_desc: "Elevating visuals with 2D/3D motion graphics, compositing, and visual effects that captivate.", s3_title: "Art Direction", s3_desc: "Defining the visual language and aesthetic strategy for brands, ensuring consistency across all media." },
                 ai: { label: "Experimental", title: "AI Creative Studio", desc: "Merging human intuition with machine intelligence. A suite of tools I use to spark inspiration.", t1_title: "Concept Generator", t1_desc: "Generate art direction & visual mood.", t1_placeholder: "Enter a subject (e.g. Noir City)...", t1_btn: "Ignite Spark", t2_title: "Draft Assistant", t2_desc: "Compose professional inquiries.", t2_placeholder: "Brief requirements...", t2_btn: "Compose" },
                 about: { intro: "The Person Behind", headline_1: "Visuals with", headline_2: "Soul & Purpose.", location: "Ho Chi Minh City", greeting: "Hi, I'm DzungLayout.", bio: "I am a Visual Director focused on storytelling through editing and motion. My approach is simple: strip away the unnecessary until only the essential emotion remains. I don't just edit videos; I engineer feelings.", philosophy: "\"Design is not just what it looks like and feels like. Design is how it works. I believe in minimalism that speaks volumes, and motion that evokes emotion.\"", expertise: "Expertise", recognition: "Recognition", stat_years: "Years Exp", stat_projects: "Projects", stat_happy: "Satisfaction" },
@@ -696,10 +670,11 @@
                 typing: ['DzungLayout', 'a Video Editor', 'a Designer', 'a Minimalist']
             },
             vi: {
-                nav: { home: "Trang chủ", work: "Dự án", services: "Dịch vụ", studio: "AI Studio", profile: "Về tôi", resume: "Hồ sơ", contact: "Liên hệ" },
+                nav: { home: "Trang chủ", work: "Dự án", services: "Dịch vụ", studio: "AI Studio", profile: "Về tôi", resume: "Hồ sơ", contact: "Liên hệ", blog: "Blog" },
                 hero: { subtitle: "Portfolio 2025", title1: "Nghệ thuật", title2: "kể chuyện", intro: "Tôi là", desc: "Chạm tới cảm xúc bằng hình ảnh và từng khung hình.", cta_work: "Xem Dự Án", cta_contact: "Liên hệ ngay", scroll: "Cuộn" },
                 work: { title: "Dự án tiêu biểu", subtitle: "Bộ sưu tập những khoảnh khắc & thương hiệu.", filter_all: "Tất cả" },
                 project1: { title: "Hành trình Tây Bắc" },
+                miniblog: { label: "Nhật ký", title: "Bài viết mới nhất" },
                 services: { label: "Lĩnh vực chuyên môn", title: "Dịch vụ", desc: "Giải pháp hình ảnh toàn diện dành cho những thương hiệu đề cao tính thẩm mỹ và câu chuyện.", s1_title: "Dựng Phim (Post-Production)", s1_desc: "Biên tập chuyên nghiệp, thiết kế âm thanh và chỉnh màu (Color Grading) cho TVC, MV và phim tài liệu.", s2_title: "Chuyển động & VFX", s2_desc: "Nâng tầm hình ảnh với đồ họa chuyển động 2D/3D, kỹ xảo điện ảnh đầy mê hoặc.", s3_title: "Chỉ đạo Nghệ thuật", s3_desc: "Định hình ngôn ngữ hình ảnh và chiến lược thẩm mỹ cho thương hiệu, đảm bảo sự nhất quán trên mọi nền tảng." },
                 ai: { label: "Thử nghiệm", title: "AI Creative Studio", desc: "Kết hợp trực giác con người và trí tuệ nhân tạo. Bộ công cụ tôi dùng để khơi nguồn cảm hứng.", t1_title: "Tạo Concept", t1_desc: "Gợi ý chỉ đạo nghệ thuật & mood hình ảnh.", t1_placeholder: "Nhập chủ đề (VD: Sài Gòn xưa)...", t1_btn: "Tạo ý tưởng", t2_title: "Trợ lý Soạn thảo", t2_desc: "Soạn email liên hệ chuyên nghiệp.", t2_placeholder: "Yêu cầu ngắn gọn...", t2_btn: "Soạn thảo" },
                 about: { intro: "Con người phía sau", headline_1: "Hình ảnh có", headline_2: "Tâm hồn & Mục đích.", location: "TP. Hồ Chí Minh", greeting: "Chào, tôi là DzungLayout.", bio: "Tôi là một Visual Director tập trung vào việc kể chuyện thông qua cắt dựng và chuyển động. Phương pháp của tôi rất đơn giản: loại bỏ những thứ không cần thiết cho đến khi chỉ còn lại cảm xúc cốt lõi.", philosophy: "\"Thiết kế không chỉ là trông nó như thế nào. Thiết kế là cách nó vận hành. Tôi tin vào sự tối giản nhưng sâu sắc, và những chuyển động khơi gợi cảm xúc.\"", expertise: "Chuyên môn", recognition: "Giải thưởng", stat_years: "Năm kinh nghiệm", stat_projects: "Dự án", stat_happy: "Hài lòng" },
@@ -802,7 +777,10 @@
             updateContent();
 
             // 1. DATA LOADING (Force V3 to ensure sample data is loaded)
-            let blogPosts = JSON.parse(localStorage.getItem('dzung_blog_posts_v3'));
+            let blogPosts = [];
+            try {
+                blogPosts = JSON.parse(localStorage.getItem('dzung_blog_posts_v3'));
+            } catch(e) { console.error('Error loading posts', e); }
             
             // If empty or null, load sample data
             if (!blogPosts || blogPosts.length === 0) {
@@ -822,36 +800,39 @@
             const nav = document.getElementById('main-nav');
 
             function switchView(viewName) {
-                // Hide all views first (fade out)
-                [mainView, blogView].forEach(view => {
-                    view.classList.add('opacity-0');
-                    view.classList.add('pointer-events-none'); // Prevent clicks while fading
-                });
+                // Simplified, robust switching
+                if (viewName === 'blog') {
+                    // Hide Main
+                    mainView.classList.add('opacity-0', 'pointer-events-none');
+                    setTimeout(() => mainView.classList.add('hidden'), 300);
 
-                // Wait for fade out, then hide and show new one
-                setTimeout(() => {
-                    [mainView, blogView].forEach(view => view.classList.add('hidden'));
+                    // Show Blog
+                    blogView.classList.remove('hidden');
+                    setTimeout(() => {
+                        blogView.classList.remove('opacity-0', 'pointer-events-none');
+                        renderBlogGrid(); 
+                    }, 50);
+
+                    // Update Nav
+                    window.scrollTo(0,0);
+                    nav.classList.remove('mix-blend-difference', 'text-white'); 
+                    nav.classList.add('text-primary', 'dark:text-white', 'bg-white/90', 'dark:bg-dark/90', 'backdrop-blur-sm');
+
+                } else {
+                    // Hide Blog
+                    blogView.classList.add('opacity-0', 'pointer-events-none');
+                    setTimeout(() => blogView.classList.add('hidden'), 300);
+
+                    // Show Main
+                    mainView.classList.remove('hidden');
+                    setTimeout(() => {
+                        mainView.classList.remove('opacity-0', 'pointer-events-none');
+                    }, 50);
                     
-                    if (viewName === 'blog') {
-                        blogView.classList.remove('hidden');
-                        // Slight delay to allow display:block to apply before opacity
-                        setTimeout(() => {
-                            blogView.classList.remove('opacity-0', 'pointer-events-none');
-                            renderBlogGrid(); // Re-render grid
-                        }, 50);
-                        window.scrollTo(0,0);
-                        nav.classList.remove('mix-blend-difference', 'text-white'); // Blog uses standard nav
-                        nav.classList.add('text-primary', 'dark:text-white', 'bg-white/90', 'dark:bg-dark/90', 'backdrop-blur-sm');
-                    } else {
-                        mainView.classList.remove('hidden');
-                        setTimeout(() => {
-                            mainView.classList.remove('opacity-0', 'pointer-events-none');
-                        }, 50);
-                        // Reset Nav style for Home
-                        nav.classList.add('mix-blend-difference', 'text-white');
-                        nav.classList.remove('text-primary', 'dark:text-white', 'bg-white/90', 'dark:bg-dark/90', 'backdrop-blur-sm');
-                    }
-                }, 300);
+                    // Reset Nav
+                    nav.classList.add('mix-blend-difference', 'text-white');
+                    nav.classList.remove('text-primary', 'dark:text-white', 'bg-white/90', 'dark:bg-dark/90', 'backdrop-blur-sm');
+                }
             }
 
             // 3. BLOG RENDERER
@@ -866,11 +847,10 @@
                 sorted.forEach(post => {
                     const el = document.createElement('div');
                     el.className = 'masonry-item group cursor-pointer reveal';
-                    // Inline Click Handler for robust binding
                     el.onclick = function() { openDetail(post.id); }; 
                     
-                    // Safe Content Preview (Strip HTML)
-                    const plainText = post.content.replace(/[#*`]/g, '');
+                    // Safe Content Preview
+                    const plainText = post.content ? post.content.replace(/[#*`]/g, '') : '';
                     
                     el.innerHTML = `
                         <div class="relative overflow-hidden mb-4 pointer-events-none">
@@ -885,7 +865,6 @@
                     `;
                     container.appendChild(el);
                     
-                    // Trigger simple animation
                     setTimeout(() => el.classList.add('active'), 100); 
                 });
             }
@@ -896,7 +875,6 @@
                 if (!track) return;
                 track.innerHTML = '';
                 
-                // Get 6 most recent posts
                 const recentPosts = [...blogPosts].sort((a,b) => b.id - a.id).slice(0, 6);
                 
                 recentPosts.forEach(post => {
@@ -928,14 +906,12 @@
 
             if(btnNextMini && miniContainer) {
                 btnNextMini.onclick = () => {
-                    const scrollAmount = 350; // approximate item width + gap
-                    miniContainer.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+                    miniContainer.scrollBy({ left: 350, behavior: 'smooth' });
                 };
             }
             if(btnPrevMini && miniContainer) {
                 btnPrevMini.onclick = () => {
-                    const scrollAmount = 350;
-                    miniContainer.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+                    miniContainer.scrollBy({ left: -350, behavior: 'smooth' });
                 };
             }
 
@@ -954,7 +930,6 @@
             function closeEditor() {
                 editorView.classList.add('opacity-0');
                 setTimeout(() => editorView.classList.add('hidden'), 300);
-                // Clear inputs
                 document.getElementById('editor-title').value = '';
                 document.getElementById('editor-content').value = '';
                 document.getElementById('editor-image').value = '';
@@ -993,7 +968,18 @@
                 document.getElementById('detail-title').innerText = post.title;
                 document.getElementById('detail-category').innerText = post.category;
                 document.getElementById('detail-date').innerText = post.date;
-                document.getElementById('detail-content').innerHTML = marked.parse(post.content);
+                
+                // Safe markdown parsing
+                try {
+                    if (typeof marked !== 'undefined') {
+                        document.getElementById('detail-content').innerHTML = marked.parse(post.content);
+                    } else {
+                        document.getElementById('detail-content').innerText = post.content;
+                        console.warn('Marked library not loaded');
+                    }
+                } catch(e) {
+                     document.getElementById('detail-content').innerText = post.content;
+                }
 
                 detailView.classList.remove('hidden');
                 setTimeout(() => detailView.classList.remove('opacity-0'), 10);
@@ -1010,24 +996,54 @@
             if(btnBack) btnBack.onclick = closeDetail;
             if(btnBackBottom) btnBackBottom.onclick = closeDetail;
 
-            // 6. NAVIGATOR
+            // 6. NAVIGATOR (FIXED AND ROBUST)
+            
+            // Explicit Listener for Desktop Blog Link
+            const blogLink = document.getElementById('nav-blog-link');
+            if(blogLink) {
+                blogLink.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    switchView('blog');
+                });
+            }
+             // Explicit Listener for Mobile Blog Link
+            const mobileBlogLink = document.getElementById('mobile-nav-blog-link');
+            if(mobileBlogLink) {
+                mobileBlogLink.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    switchView('blog');
+                    // Close mobile menu if open
+                    const mobileMenu = document.getElementById('mobile-menu');
+                    if(mobileMenu && !mobileMenu.classList.contains('hidden')) {
+                        mobileMenu.classList.add('hidden');
+                    }
+                });
+            }
+
+            // General Listener for other links
             const navLinks = document.querySelectorAll('.nav-link');
             navLinks.forEach(link => {
                 link.addEventListener('click', (e) => {
+                    // Skip if it's the specific blog link we handled above
+                    if (link.id === 'nav-blog-link' || link.id === 'mobile-nav-blog-link') return;
+
                     const target = link.getAttribute('data-target');
                     if(target === 'blog-view') {
                         e.preventDefault();
                         switchView('blog');
                     } else if (target === 'main-view') {
-                        // Let it scroll if it's an anchor, but verify view first
+                        // Logic for going back to main view
                         if(mainView.classList.contains('hidden')) {
                             switchView('main');
-                            // Wait for switch then scroll
+                            // Delay scrolling slightly to allow view to appear
                             const href = link.getAttribute('href');
-                            if(href.startsWith('#')) {
+                            if(href && href.startsWith('#')) {
                                 setTimeout(() => {
-                                    document.querySelector(href)?.scrollIntoView({behavior: 'smooth'});
-                                }, 400);
+                                    const el = document.querySelector(href);
+                                    if(el) el.scrollIntoView({behavior: 'smooth'});
+                                }, 100);
                             }
                         }
                     }
@@ -1088,15 +1104,13 @@
                 let isDeleting = false;
 
                 function type() {
-                    // Safety check: update phrases reference in case lang changed (optional)
-                    // But critical: ensure phrases is valid
+                    // Safety check
                     if (!phrases || phrases.length === 0) {
                         phrases = ["DzungLayout"];
                     }
 
                     const currentPhrase = phrases[phraseIndex % phrases.length];
                     
-                    // Extra safety for currentPhrase
                     if (typeof currentPhrase === 'undefined') {
                          phraseIndex = 0; // Reset
                          setTimeout(type, 500);
@@ -1308,57 +1322,3 @@
     </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
