@@ -443,6 +443,7 @@
 <div class="layout">
   <!-- SIDEBAR -->
   <aside>
+
     <!-- Accordion: Nguồn báo -->
     <div class="accordion open" id="acc-sources">
       <div class="accordion-header" onclick="toggleAccordion('acc-sources')">
@@ -462,11 +463,12 @@
           <input type="text" id="new-source-url" placeholder="RSS URL…">
           <button class="btn sm" style="width:100%;justify-content:center;margin-top:4px" onclick="addSource()">+ Thêm nguồn</button>
         </div>
-        <div style="display:flex;gap:6px;margin-top:8px">
-          <button class="btn sm" style="flex:1;justify-content:center" onclick="exportSources()">📤 Xuất .json</button>
-          <button class="btn sm" style="flex:1;justify-content:center" onclick="document.getElementById('src-file-input').click()">📥 Nhập .json</button>
-          <input type="file" id="src-file-input" accept=".json" style="display:none"
-            onchange="importSources(event); this.value=''">
+        <hr style="border:none;border-top:1px solid var(--border);margin:10px 0">
+        <p style="font-size:11px;color:var(--muted);margin-bottom:6px">Xuất/nhập toàn bộ nguồn báo + từ khoá</p>
+        <div style="display:flex;gap:6px">
+          <button class="btn sm" style="flex:1;justify-content:center" onclick="exportAll()">📤 Xuất</button>
+          <button class="btn sm" style="flex:1;justify-content:center" onclick="document.getElementById('import-file-input').click()">📥 Nhập</button>
+          <input type="file" id="import-file-input" accept=".json" style="display:none" onchange="importAll(event);this.value=''">
         </div>
       </div>
     </div>
@@ -493,60 +495,31 @@
       </div>
     </div>
 
-    <!-- Accordion: Xuất / nhập -->
-    <div class="accordion" id="acc-export">
-      <div class="accordion-header" onclick="toggleAccordion('acc-export')">
-        <div class="accordion-header-left">
-          <span class="accordion-icon">💾</span>
-          <span class="accordion-label">Xuất / nhập</span>
-        </div>
-        <svg class="accordion-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
-
     <!-- Accordion: Cloudflare Worker -->
-    <div class="accordion open" id="acc-worker">
+    <div class="accordion" id="acc-worker">
       <div class="accordion-header" onclick="toggleAccordion('acc-worker')">
         <div class="accordion-header-left">
           <span class="accordion-icon">⚙️</span>
           <span class="accordion-label">Cloudflare Worker</span>
-          <span id="worker-status-badge" style="font-size:10px;padding:1px 6px;border-radius:10px;background:var(--border);color:var(--muted)">chưa cài</span>
+          <span id="worker-status-badge" style="font-size:10px;padding:1px 6px;border-radius:10px;background:var(--border);color:var(--muted);flex-shrink:0">chưa cài</span>
         </div>
         <svg class="accordion-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
           <polyline points="6 9 12 15 18 9"/>
         </svg>
       </div>
       <div class="accordion-body">
-        <p style="font-size:12px;color:var(--muted);margin-bottom:8px;line-height:1.5;word-break:break-word">Dán URL Worker của bạn để fetch báo VN không bị chặn. <a href="#" onclick="showWorkerHelp();return false;" style="color:var(--accent)">Hướng dẫn →</a></p>
+        <p style="font-size:12px;color:var(--muted);margin-bottom:8px;line-height:1.5;word-break:break-word">Dán URL Worker để fetch báo VN không bị chặn. <a href="#" onclick="showWorkerHelp();return false;" style="color:var(--accent)">Hướng dẫn →</a></p>
         <input type="text" id="worker-url-input" placeholder="https://your-worker.workers.dev"
           style="width:100%;box-sizing:border-box;padding:7px 10px;border:1.5px solid var(--border);border-radius:6px;font-family:var(--sans);font-size:12px;background:var(--card);color:var(--ink);outline:none;margin-bottom:6px;min-width:0">
-        <div style="display:flex;gap:6px">
-          <button class="btn sm" style="flex:1;justify-content:center" onclick="saveWorkerUrl()">💾 Lưu</button>
-          <button class="btn sm" style="justify-content:center" onclick="testWorker()">🔍 Test</button>
+        <div style="display:flex;gap:6px;flex-wrap:wrap">
+          <button class="btn sm" style="flex:1;justify-content:center;min-width:52px" onclick="saveWorkerUrl()">💾 Lưu</button>
+          <button class="btn sm" style="flex:1;justify-content:center;min-width:52px" onclick="testWorker()">🔍 Test</button>
           <button class="btn sm" style="justify-content:center;color:var(--accent);border-color:var(--accent)" onclick="clearWorkerUrl()">✕</button>
         </div>
-        <div id="worker-test-result" style="font-size:11px;margin-top:6px;display:none;padding:6px 8px;border-radius:4px;line-height:1.4"></div>
+        <div id="worker-test-result" style="font-size:11px;margin-top:6px;display:none;padding:6px 8px;border-radius:4px;line-height:1.4;word-break:break-word"></div>
       </div>
     </div>
 
-    <!-- Accordion: Xuất / nhập -->
-    <div class="accordion" id="acc-export">
-      <div class="accordion-header" onclick="toggleAccordion('acc-export')">
-        <div class="accordion-header-left">
-          <span class="accordion-icon">💾</span>
-          <span class="accordion-label">Xuất / nhập</span>
-        </div>
-        <svg class="accordion-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
-          <polyline points="6 9 12 15 18 9"/>
-        </svg>
-      </div>
-      <div class="accordion-body">
-        <div style="display:flex;flex-direction:column;gap:6px">
-          <button class="btn sm" style="justify-content:center" onclick="exportKeywords()">📤 Xuất từ khoá .txt</button>
-          <button class="btn sm" style="justify-content:center" onclick="document.getElementById('kw-file-input').click()">📥 Nhập từ khoá .txt</button>
-          <input type="file" id="kw-file-input" accept=".txt" style="display:none"
-            onchange="importKeywords(event); this.value=''">
-        </div>
-      </div>
-    </div>
   </aside>
 
   <!-- MAIN -->
@@ -1178,68 +1151,62 @@ function removeKeyword(kw) {
   save(); renderKeywords(); updateFilterStats(); renderFeed();
 }
 
-function exportKeywords() {
-  if (!state.keywords.length) { toast('Chưa có từ khoá để xuất'); return; }
-  const blob = new Blob([state.keywords.join('\n')], { type: 'text/plain' });
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = 'newsfilter-keywords.txt';
-  a.click();
-}
-
-function importKeywords(event) {
-  const file = event.target.files[0];
-  if (!file) return;
-  const reader = new FileReader();
-  reader.onload = e => {
-    const lines = e.target.result.split('\n').map(l => l.trim().toLowerCase()).filter(Boolean);
-    let added = 0;
-    lines.forEach(kw => { if (!state.keywords.includes(kw)) { state.keywords.push(kw); added++; } });
-    save(); renderKeywords(); updateFilterStats(); renderFeed();
-    toast(`Đã nhập ${added} từ khoá mới`);
+// ── EXPORT / IMPORT (gộp nguồn báo + từ khoá) ──
+function exportAll() {
+  const data = {
+    version: 1,
+    exported: new Date().toISOString(),
+    sources: state.sources.map(({ name, url, color, enabled }) => ({ name, url, color, enabled })),
+    keywords: state.keywords,
   };
-  reader.readAsText(file);
-}
-
-// ── SOURCES EXPORT / IMPORT ──
-function exportSources() {
-  if (!state.sources.length) { toast('Chưa có nguồn nào để xuất'); return; }
-  // Chỉ xuất các trường cần thiết, bỏ id để tránh trùng khi import
-  const data = state.sources.map(({ name, url, color, enabled }) => ({ name, url, color, enabled }));
   const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
-  a.download = 'newsfilter-sources.json';
+  a.download = `newsfilter-backup-${new Date().toISOString().slice(0,10)}.json`;
   a.click();
-  toast(`Đã xuất ${data.length} nguồn báo`);
+  toast(`Đã xuất ${data.sources.length} nguồn + ${data.keywords.length} từ khoá`);
 }
 
-function importSources(event) {
+function importAll(event) {
   const file = event.target.files[0];
-  event.target.value = ''; // reset để có thể chọn lại cùng file
   if (!file) return;
   const reader = new FileReader();
   reader.onload = e => {
     try {
-      const list = JSON.parse(e.target.result);
-      if (!Array.isArray(list)) throw new Error('Không phải mảng JSON');
-      let added = 0, skipped = 0;
-      list.forEach(item => {
-        if (!item.name || !item.url) { skipped++; return; }
-        // Bỏ qua nếu URL đã tồn tại
-        if (state.sources.some(s => s.url === item.url)) { skipped++; return; }
+      const data = JSON.parse(e.target.result);
+
+      let srcAdded = 0, srcSkipped = 0, kwAdded = 0;
+
+      // Nhập nguồn báo
+      if (Array.isArray(data.sources)) {
         const colors = ['#8e44ad','#16a085','#d35400','#2980b9','#c0392b','#e84118','#0097e6','#27ae60'];
-        state.sources.push({
-          id: 'src_' + Date.now() + '_' + added,
-          name: item.name,
-          url: item.url,
-          color: item.color || colors[state.sources.length % colors.length],
-          enabled: item.enabled !== false, // mặc định bật nếu không có trường này
+        data.sources.forEach(item => {
+          if (!item.name || !item.url) { srcSkipped++; return; }
+          if (state.sources.some(s => s.url === item.url)) { srcSkipped++; return; }
+          state.sources.push({
+            id: 'src_' + Date.now() + '_' + srcAdded,
+            name: item.name, url: item.url,
+            color: item.color || colors[state.sources.length % colors.length],
+            enabled: item.enabled !== false,
+          });
+          srcAdded++;
         });
-        added++;
-      });
-      save(); renderSources();
-      toast(`Đã nhập ${added} nguồn mới${skipped ? `, bỏ qua ${skipped} trùng/lỗi` : ''}`);
+      }
+
+      // Nhập từ khoá
+      if (Array.isArray(data.keywords)) {
+        data.keywords.forEach(kw => {
+          const k = String(kw).trim().toLowerCase();
+          if (k && !state.keywords.includes(k)) { state.keywords.push(k); kwAdded++; }
+        });
+      }
+
+      save(); renderSources(); renderKeywords(); updateFilterStats(); renderFeed();
+      const parts = [];
+      if (srcAdded)   parts.push(`${srcAdded} nguồn mới`);
+      if (kwAdded)    parts.push(`${kwAdded} từ khoá mới`);
+      if (srcSkipped) parts.push(`bỏ qua ${srcSkipped} nguồn trùng`);
+      toast('Nhập: ' + (parts.join(', ') || 'không có gì mới'));
     } catch (err) {
       toast(`Lỗi đọc file: ${err.message}`);
     }
