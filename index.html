@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>NewsFilter — Đọc tin theo ý bạn</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@400;500&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
   :root {
     --ink: #0f0e0c;
@@ -16,8 +16,8 @@
     --muted: #7a7567;
     --border: #d4cfc4;
     --card: #faf8f4;
-    --serif: 'Roboto Slab', Georgia, serif;
-    --sans: 'Roboto', system-ui, sans-serif;
+    --serif: 'Instrument Serif', Georgia, serif;
+    --sans: 'DM Sans', system-ui, sans-serif;
     --r: 6px;
   }
   [data-theme="dark"] {
@@ -235,11 +235,11 @@
   .card-date { font-size: 11px; color: var(--muted); }
   .card-title {
     font-family: var(--serif);
-    font-size: 25px; line-height: 1.35;
+    font-size: 16px; line-height: 1.35;
     color: var(--ink);
   }
   .card-desc {
-    font-size: 20px; color: var(--muted);
+    font-size: 13px; color: var(--muted);
     line-height: 1.55;
     display: -webkit-box;
     -webkit-line-clamp: 3;
@@ -572,16 +572,29 @@ const PROXIES = [
     parse: (data, source) => {
       const json = typeof data === 'string' ? JSON.parse(data) : data;
       if (json.status !== 'ok' || !Array.isArray(json.items)) return null;
-      return json.items.slice(0, 20).map((item, i) => ({
-        id: `${source.id}_${i}_${Date.now()}`,
-        sourceId: source.id, sourceName: source.name, sourceColor: source.color,
-        title: item.title?.trim() || '',
-        link: item.link?.trim() || '',
-        desc: (item.description || item.content || '').replace(/<[^>]+>/g,'').trim(),
-        pubDate: item.pubDate ? new Date(item.pubDate) : new Date(),
-        img: item.thumbnail || item.enclosure?.link || '',
-        saved: false,
-      })).filter(a => a.title && a.link);
+      return json.items.slice(0, 20).map((item, i) => {
+        // Tìm ảnh: thumbnail → enclosure → đào trong description HTML
+        let img = item.thumbnail || item.enclosure?.link || '';
+        if (!img) {
+          const html = item.description || item.content || '';
+          const m = html.match(/<img[^>]+src=["']([^"']+\.(jpg|jpeg|png|webp|gif)[^"']*)/i);
+          if (m) img = m[1];
+        }
+        if (!img) {
+          const html = item.description || item.content || '';
+          const m = html.match(/https?:\/\/[^\s"'<>]+\.(jpg|jpeg|png|webp)(\?[^\s"'<>]*)?/i);
+          if (m) img = m[0];
+        }
+        return {
+          id: `${source.id}_${i}_${Date.now()}`,
+          sourceId: source.id, sourceName: source.name, sourceColor: source.color,
+          title: item.title?.trim() || '',
+          link: item.link?.trim() || '',
+          desc: (item.description || item.content || '').replace(/<[^>]+>/g,'').trim(),
+          pubDate: item.pubDate ? new Date(item.pubDate) : new Date(),
+          img, saved: false,
+        };
+      }).filter(a => a.title && a.link);
     },
     isJson: true,
   },
@@ -619,10 +632,7 @@ function parseXml(xmlText, source) {
       const link  = item.querySelector('link')?.textContent?.trim() || '';
       const desc  = (item.querySelector('description')?.textContent || '').replace(/<[^>]+>/g,'').trim();
       const pubDate = item.querySelector('pubDate')?.textContent?.trim() || '';
-      const enclosure = item.querySelector('enclosure');
-      const thumb = item.querySelector('thumbnail') || item.querySelector('[url]');
-      let img = enclosure?.getAttribute('url') || thumb?.getAttribute('url') || '';
-      if (!img) img = item.querySelector('content')?.getAttribute('url') || '';
+      const img = extractImageFromItem(item);
       return {
         id: `${source.id}_${i}_${Date.now()}`,
         sourceId: source.id, sourceName: source.name, sourceColor: source.color,
@@ -632,6 +642,41 @@ function parseXml(xmlText, source) {
       };
     }).filter(a => a.title && a.link);
   } catch { return []; }
+}
+
+// Tìm ảnh từ mọi dạng tag phổ biến trong RSS báo VN
+function extractImageFromItem(item) {
+  // 1. <enclosure url="..." type="image/..."/>
+  const enc = item.querySelector('enclosure');
+  if (enc?.getAttribute('url') && (enc.getAttribute('type') || '').startsWith('image')) {
+    return enc.getAttribute('url');
+  }
+  // 2. <media:thumbnail url="..."/> hoặc <media:content url="..."/>
+  const mediaTags = ['media\\:thumbnail', 'thumbnail', 'media\\:content'];
+  for (const tag of mediaTags) {
+    try {
+      const el = item.querySelector(tag);
+      const u = el?.getAttribute('url');
+      if (u) return u;
+    } catch {}
+  }
+  // 3. Fallback: querySelectorAll tìm bất kỳ element nào có attribute url trỏ tới ảnh
+  const allWithUrl = item.querySelectorAll('[url]');
+  for (const el of allWithUrl) {
+    const u = el.getAttribute('url');
+    if (u && /\.(jpg|jpeg|png|webp|gif)/i.test(u)) return u;
+  }
+  // 4. Đào trong nội dung description/content:encoded tìm thẻ <img src="...">
+  const rawHtml = item.querySelector('description')?.textContent
+    || item.querySelector('encoded')?.textContent // content:encoded
+    || '';
+  const imgMatch = rawHtml.match(/<img[^>]+src=["']([^"']+\.(jpg|jpeg|png|webp|gif)[^"']*)/i);
+  if (imgMatch) return imgMatch[1];
+  // 5. Tìm URL ảnh thô trong bất kỳ text nào của item
+  const fullText = item.textContent || '';
+  const urlMatch = fullText.match(/https?:\/\/[^\s"'<>]+\.(jpg|jpeg|png|webp)(\?[^\s"'<>]*)?/i);
+  if (urlMatch) return urlMatch[0];
+  return '';
 }
 
 // ── FETCH WITH TIMEOUT ──
@@ -1049,6 +1094,15 @@ function init() {
   const saved = localStorage.getItem('nf_theme');
   const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
   applyTheme(saved ? saved === 'dark' : prefersDark);
+
+  // Xoá cache nếu đang dùng parser version cũ (không có img tốt)
+  const PARSER_VER = 'v2';
+  if (localStorage.getItem('nf_parser_ver') !== PARSER_VER) {
+    Object.keys(localStorage)
+      .filter(k => k.startsWith('nf_cache_'))
+      .forEach(k => localStorage.removeItem(k));
+    localStorage.setItem('nf_parser_ver', PARSER_VER);
+  }
   renderSources();
   renderKeywords();
   updateFilterStats();
