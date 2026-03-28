@@ -456,7 +456,7 @@
     </svg>
     <input type="text" id="search-input" placeholder="Tìm kiếm bài viết…" oninput="renderFeed()">
   </div>
-  <button class="btn primary" onclick="fetchAll()">
+  <button class="btn primary" onclick="fetchAll(true)">
     <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
       <path d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
     </svg>
@@ -603,7 +603,7 @@ function save() {
 
 // ── FETCH CONFIG ──
 const CACHE_TTL = 5 * 60 * 1000; // 5 phút
-const FETCH_TIMEOUT = 8000;       // 8 giây per source
+const FETCH_TIMEOUT = 12000;      // 12 giây per source (tăng từ 8s để giảm false timeout)
 
 // rss2json: trả JSON sẵn, nhanh hơn allorigins nhiều
 // ── CACHE ──
@@ -647,7 +647,7 @@ function saveWorkerUrl() {
     .forEach(k => localStorage.removeItem(k));
   updateWorkerBadge();
   toast('✓ Đã lưu Worker URL — đang tải lại…');
-  setTimeout(fetchAll, 500);
+  setTimeout(() => fetchAll(true), 500);
 }
 
 function clearWorkerUrl() {
@@ -711,11 +711,19 @@ function showWorkerHelp() {
 // ── PROXY CHAIN ──
 const proxyPreference = JSON.parse(localStorage.getItem('nf_proxy_pref') || '{}');
 
+// Tạo ID ổn định từ link (không dùng Date.now() để tránh duplicate)
+function stableId(sourceId, link) {
+  let h = 0;
+  const s = sourceId + '|' + link;
+  for (let i = 0; i < s.length; i++) { h = (Math.imul(31, h) + s.charCodeAt(i)) | 0; }
+  return sourceId + '_' + Math.abs(h).toString(36);
+}
+
 // Parse Worker JSON response
 function parseWorkerResponse(json, source) {
   if (json.status !== 'ok' || !Array.isArray(json.items)) return null;
-  return json.items.map((item, i) => ({
-    id: `${source.id}_${i}_${Date.now()}`,
+  return json.items.map(item => ({
+    id: stableId(source.id, item.link?.trim() || item.title || ''),
     sourceId: source.id, sourceName: source.name, sourceColor: source.color,
     title: item.title?.trim() || '',
     link:  item.link?.trim()  || '',
@@ -729,7 +737,7 @@ function parseWorkerResponse(json, source) {
 // Parse rss2json.com JSON
 function parseRss2jsonResponse(json, source) {
   if (json.status !== 'ok' || !Array.isArray(json.items)) return null;
-  return json.items.slice(0, 20).map((item, i) => {
+  return json.items.slice(0, 20).map(item => {
     let img = item.thumbnail || item.enclosure?.link || '';
     if (!img) {
       const html = item.description || item.content || '';
@@ -737,7 +745,7 @@ function parseRss2jsonResponse(json, source) {
       if (m) img = m[1];
     }
     return {
-      id: `${source.id}_${i}_${Date.now()}`,
+      id: stableId(source.id, item.link?.trim() || item.title || ''),
       sourceId: source.id, sourceName: source.name, sourceColor: source.color,
       title: item.title?.trim() || '',
       link:  item.link?.trim()  || '',
@@ -755,6 +763,19 @@ function fetchWithTimeout(url, ms) {
   return fetch(url, { signal: ctrl.signal }).finally(() => clearTimeout(id));
 }
 
+// ── FETCH WITH RETRY (1 lần retry sau 1s khi gặp lỗi mạng tạm thời) ──
+async function fetchWithRetry(url, ms, retries = 1) {
+  for (let i = 0; i <= retries; i++) {
+    try {
+      const res = await fetchWithTimeout(url, ms);
+      return res;
+    } catch (e) {
+      if (i === retries) throw e;
+      await new Promise(r => setTimeout(r, 1000));
+    }
+  }
+}
+
 // ── FETCH ONE SOURCE ──
 async function fetchSource(source) {
   setSourceStatus(source.id, 'loading');
@@ -764,7 +785,7 @@ async function fetchSource(source) {
   if (workerBase) {
     try {
       const url = `${workerBase}/proxy?url=${encodeURIComponent(source.url)}`;
-      const res = await fetchWithTimeout(url, FETCH_TIMEOUT);
+      const res = await fetchWithRetry(url, FETCH_TIMEOUT);
       if (res.ok) {
         const json = await res.json();
         const articles = parseWorkerResponse(json, source);
@@ -778,51 +799,70 @@ async function fetchSource(source) {
     } catch {}
   }
 
-  // ── 2. rss2json.com ──
+  // Danh sách proxy XML thử lần lượt
+  const xmlProxies = [
+    // allorigins — ổn định, hỗ trợ CORS tốt
+    async () => {
+      const url = `https://api.allorigins.win/get?url=${encodeURIComponent(source.url)}&timestamp=${Date.now()}`;
+      const res = await fetchWithRetry(url, FETCH_TIMEOUT);
+      if (!res.ok) return null;
+      const json = await res.json();
+      return json.contents ? parseXml(json.contents, source) : null;
+    },
+    // corsproxy.io
+    async () => {
+      const url = `https://corsproxy.io/?url=${encodeURIComponent(source.url)}`;
+      const res = await fetchWithRetry(url, FETCH_TIMEOUT);
+      if (!res.ok) return null;
+      return parseXml(await res.text(), source);
+    },
+    // thingproxy — proxy dự phòng
+    async () => {
+      const url = `https://thingproxy.freeboard.io/fetch/${source.url}`;
+      const res = await fetchWithRetry(url, FETCH_TIMEOUT);
+      if (!res.ok) return null;
+      return parseXml(await res.text(), source);
+    },
+    // cors.bridged.cc — proxy dự phòng thứ 3
+    async () => {
+      const url = `https://cors.bridged.cc/${source.url}`;
+      const res = await fetchWithRetry(url, FETCH_TIMEOUT);
+      if (!res.ok) return null;
+      return parseXml(await res.text(), source);
+    },
+  ];
+
+  // ── 2. rss2json.com (nhanh, JSON sẵn, nhưng rate-limit free tier) ──
   try {
     const url = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(source.url)}&count=20`;
-    const res = await fetchWithTimeout(url, FETCH_TIMEOUT);
+    const res = await fetchWithRetry(url, FETCH_TIMEOUT);
     if (res.ok) {
       const json = await res.json();
-      const articles = parseRss2jsonResponse(json, source);
+      // Nếu bị rate-limit (status: "error") → bỏ qua, thử proxy XML
+      if (json.status === 'ok') {
+        const articles = parseRss2jsonResponse(json, source);
+        if (articles && articles.length > 0) {
+          writeCache(source.id, articles);
+          setSourceStatus(source.id, 'ok');
+          return articles;
+        }
+      }
+    }
+  } catch {}
+
+  // ── 3-6. Thử lần lượt các XML proxy ──
+  for (const proxyFn of xmlProxies) {
+    try {
+      const articles = await proxyFn();
       if (articles && articles.length > 0) {
         writeCache(source.id, articles);
         setSourceStatus(source.id, 'ok');
         return articles;
       }
-    }
-  } catch {}
+    } catch {}
+  }
 
-  // ── 3. allorigins ──
-  try {
-    const url = `https://api.allorigins.win/get?url=${encodeURIComponent(source.url)}`;
-    const res = await fetchWithTimeout(url, FETCH_TIMEOUT);
-    if (res.ok) {
-      const json = await res.json();
-      const articles = parseXml(json.contents, source);
-      if (articles.length > 0) {
-        writeCache(source.id, articles);
-        setSourceStatus(source.id, 'ok');
-        return articles;
-      }
-    }
-  } catch {}
-
-  // ── 4. corsproxy.io ──
-  try {
-    const url = `https://corsproxy.io/?${encodeURIComponent(source.url)}`;
-    const res = await fetchWithTimeout(url, FETCH_TIMEOUT);
-    if (res.ok) {
-      const articles = parseXml(await res.text(), source);
-      if (articles.length > 0) {
-        writeCache(source.id, articles);
-        setSourceStatus(source.id, 'ok');
-        return articles;
-      }
-    }
-  } catch {}
-
-  // ── 5. Stale cache ──
+  // ── Cuối cùng: Stale cache ──
   setSourceStatus(source.id, 'error');
   return readStaleCache(source.id) || [];
 }
@@ -832,23 +872,44 @@ function parseXml(xmlText, source) {
   if (!xmlText) return [];
   try {
     const doc = new DOMParser().parseFromString(xmlText, 'text/xml');
-    if (doc.querySelector('parsererror')) return [];
-    return [...doc.querySelectorAll('item')].slice(0, 20).map((item, i) => {
-      const title   = item.querySelector('title')?.textContent?.trim() || '';
-      const link    = item.querySelector('link')?.textContent?.trim() || '';
-      const pubDate = item.querySelector('pubDate')?.textContent?.trim() || '';
-      const rawDesc = item.querySelector('description')?.textContent || '';
-      const desc    = rawDesc.replace(/<[^>]+>/g,'').trim().slice(0, 300);
-      const img     = extractImageFromItem(item, rawDesc);
-      return {
-        id: `${source.id}_${i}_${Date.now()}`,
-        sourceId: source.id, sourceName: source.name, sourceColor: source.color,
-        title, link, desc,
-        pubDate: pubDate ? new Date(pubDate) : new Date(),
-        img, saved: false,
-      };
-    }).filter(a => a.title && a.link);
+    if (doc.querySelector('parsererror')) {
+      // Thử parse lại với text/html nếu text/xml thất bại
+      const doc2 = new DOMParser().parseFromString(xmlText, 'text/html');
+      if (!doc2.querySelector('item')) return [];
+      return parseXmlDoc(doc2, source);
+    }
+    return parseXmlDoc(doc, source);
   } catch { return []; }
+}
+
+function parseXmlDoc(doc, source) {
+  return [...doc.querySelectorAll('item')].slice(0, 20).map(item => {
+    const title = item.querySelector('title')?.textContent?.trim() || '';
+    // Một số feed RSS dùng <link> là CDATA hoặc attribute, cần lấy đúng
+    let link = '';
+    const linkEl = item.querySelector('link');
+    if (linkEl) {
+      link = linkEl.textContent?.trim() || linkEl.getAttribute('href') || '';
+    }
+    if (!link) {
+      const atomLink = item.querySelector('[rel="alternate"]');
+      link = atomLink?.getAttribute('href') || '';
+    }
+    const pubDate = item.querySelector('pubDate')?.textContent?.trim() || 
+                    item.querySelector('updated')?.textContent?.trim() || '';
+    const rawDesc = item.querySelector('description')?.textContent || 
+                    item.querySelector('summary')?.textContent || 
+                    item.querySelector('content')?.textContent || '';
+    const desc = rawDesc.replace(/<[^>]+>/g,'').trim().slice(0, 300);
+    const img  = extractImageFromItem(item, rawDesc);
+    return {
+      id: stableId(source.id, link || title),
+      sourceId: source.id, sourceName: source.name, sourceColor: source.color,
+      title, link, desc,
+      pubDate: pubDate ? new Date(pubDate) : new Date(),
+      img, saved: false,
+    };
+  }).filter(a => a.title && a.link);
 }
 
 function extractImageFromItem(item, rawDesc = '') {
@@ -895,9 +956,20 @@ function setSourceStatus(sourceId, status) {
 }
 
 // ── FETCH ALL (stale-while-revalidate) ──
-async function fetchAll() {
+let _fetchAllRunning = false;
+
+async function fetchAll(forceRefresh = false) {
   const enabled = state.sources.filter(s => s.enabled);
   if (!enabled.length) { toast('Không có nguồn nào được bật!'); return; }
+
+  // Nếu đang fetch thì bỏ qua (tránh race condition)
+  if (_fetchAllRunning && !forceRefresh) return;
+  _fetchAllRunning = true;
+
+  // Xoá cache nếu người dùng bấm Tải lại
+  if (forceRefresh) {
+    enabled.forEach(s => localStorage.removeItem(cacheKey(s.id)));
+  }
 
   // Bước 1: hiện cache ngay lập tức nếu có → UX nhanh
   const cached = [];
@@ -912,38 +984,49 @@ async function fetchAll() {
     state.articles = cached;
     state.articles.forEach(a => { a.saved = state.saved.some(s => s.link === a.link); });
     renderFeed(); updateFilterStats();
-    if (allCached) {
-      toast('Đang dùng cache — đang tải mới nền…');
-    }
   } else {
     showLoading();
   }
 
   // Bước 2: fetch thật song song, cập nhật dần khi từng source xong
-  state.articles = [...cached]; // giữ cache trong lúc chờ
+  const freshArticlesMap = {};
+  enabled.forEach(s => {
+    const c = readCache(s.id);
+    if (c) c.forEach(a => { freshArticlesMap[a.id] = a; });
+  });
+
   let freshCount = 0;
 
   const promises = enabled.map(async s => {
-    // skip nếu cache còn mới
     const c = readCache(s.id);
-    if (c) return; // đã có, không cần fetch lại ngay
+    if (c && !forceRefresh) return; // cache còn mới, bỏ qua
 
     const articles = await fetchSource(s);
     if (articles.length > 0) {
-      // thay thế bài cũ của source này bằng bài mới
-      state.articles = state.articles.filter(a => a.sourceId !== s.id);
-      state.articles.push(...articles);
-      state.articles.forEach(a => { a.saved = state.saved.some(sv => sv.link === a.link); });
+      // Xoá bài cũ của source này, thêm bài mới
+      Object.keys(freshArticlesMap).forEach(k => {
+        if (freshArticlesMap[k].sourceId === s.id) delete freshArticlesMap[k];
+      });
+      articles.forEach(a => { freshArticlesMap[a.id] = a; });
       freshCount++;
-      renderFeed(); updateFilterStats(); // cập nhật UI ngay khi có nguồn mới
+
+      // Cập nhật state và render ngay
+      state.articles = Object.values(freshArticlesMap);
+      state.articles.forEach(a => { a.saved = state.saved.some(sv => sv.link === a.link); });
+      renderFeed(); updateFilterStats();
     }
   });
 
   await Promise.allSettled(promises);
+  _fetchAllRunning = false;
 
-  if (freshCount > 0) toast(`Đã cập nhật ${freshCount} nguồn mới`);
-  else if (cached.length > 0) toast('Tin tức đã được cập nhật');
-  else toast('Không tải được tin — kiểm tra mạng');
+  if (forceRefresh) {
+    if (freshCount > 0) toast(`Đã cập nhật ${freshCount} nguồn`);
+    else if (cached.length > 0) toast('Tin tức đã mới nhất');
+    else toast('Không tải được tin — kiểm tra mạng');
+  } else if (freshCount > 0) {
+    toast(`Đã cập nhật ${freshCount} nguồn mới`);
+  }
 }
 
 // ── FILTER ──
@@ -1370,7 +1453,7 @@ function init() {
   applyTheme(saved ? saved === 'dark' : prefersDark);
 
   // Xoá cache nếu đang dùng parser version cũ (không có img tốt)
-  const PARSER_VER = 'v2';
+  const PARSER_VER = 'v3';
   if (localStorage.getItem('nf_parser_ver') !== PARSER_VER) {
     Object.keys(localStorage)
       .filter(k => k.startsWith('nf_cache_'))
@@ -1402,8 +1485,11 @@ function init() {
       </div>`;
   }
 
-  // Fetch mới nền
-  fetchAll();
+  // Fetch mới nền (không forceRefresh — dùng cache nếu còn mới)
+  fetchAll(false);
+
+  // Auto-refresh mỗi 10 phút
+  setInterval(() => fetchAll(false), 10 * 60 * 1000);
 }
 
 init();
