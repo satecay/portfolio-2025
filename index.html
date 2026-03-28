@@ -484,9 +484,13 @@
       <div class="accordion-body">
         <div id="source-list"></div>
         <div class="add-source" style="margin-top:10px">
-          <input type="text" id="new-source-name" placeholder="Tên nguồn (VD: VnExpress)">
-          <input type="text" id="new-source-url" placeholder="RSS URL…">
-          <button class="btn sm" style="width:100%;justify-content:center;margin-top:4px" onclick="addSource()">+ Thêm nguồn</button>
+          <input type="text" id="new-source-name" placeholder="Tên nguồn (VD: VnExpress)" onkeydown="if(event.key==='Enter')addSource()">
+          <div style="position:relative">
+            <input type="text" id="new-source-url" placeholder="RSS URL (để trống để tự tìm)…" onkeydown="if(event.key==='Enter')addSource()" style="width:100%;padding-right:32px">
+            <span id="rss-search-spinner" style="display:none;position:absolute;right:8px;top:50%;transform:translateY(-50%);font-size:13px;animation:spin .8s linear infinite">⟳</span>
+          </div>
+          <div id="rss-hint" style="font-size:11px;color:var(--muted);margin-top:3px;min-height:16px;line-height:1.4"></div>
+          <button class="btn sm" id="add-source-btn" style="width:100%;justify-content:center;margin-top:4px" onclick="addSource()">+ Thêm nguồn</button>
         </div>
         <hr style="border:none;border-top:1px solid var(--border);margin:10px 0">
         <p style="font-size:11px;color:var(--muted);margin-bottom:6px">Xuất/nhập toàn bộ nguồn báo + từ khoá</p>
@@ -1294,18 +1298,200 @@ function removeSource(id) {
   save(); renderFeed();
 }
 
-function addSource() {
+// ── RSS AUTO-SEARCH ──
+
+// Database RSS phổ biến Việt Nam và quốc tế
+const RSS_DATABASE = {
+  // Báo Việt Nam
+  'vnexpress':        'https://vnexpress.net/rss/tin-moi-nhat.rss',
+  'tuổi trẻ':         'https://tuoitre.vn/rss/tin-moi-nhat.rss',
+  'tuoi tre':         'https://tuoitre.vn/rss/tin-moi-nhat.rss',
+  'thanh niên':       'https://thanhnien.vn/rss/home.rss',
+  'thanh nien':       'https://thanhnien.vn/rss/home.rss',
+  'dân trí':          'https://dantri.com.vn/rss/home.rss',
+  'dan tri':          'https://dantri.com.vn/rss/home.rss',
+  'zing news':        'https://zingnews.vn/timeline-pub/home.rss',
+  'zing':             'https://zingnews.vn/timeline-pub/home.rss',
+  'vietnamnet':       'https://vietnamnet.vn/rss/home.rss',
+  'vtv':              'https://vtv.vn/trong-nuoc.rss',
+  'vtv news':         'https://vtv.vn/trong-nuoc.rss',
+  'kenh14':           'https://kenh14.vn/index.rss',
+  'cafef':            'https://cafef.vn/rss/home.rss',
+  'cafebiz':          'https://cafebiz.vn/rss/home.rss',
+  'tienphong':        'https://tienphong.vn/rss/home.rss',
+  'tiền phong':       'https://tienphong.vn/rss/home.rss',
+  'laodong':          'https://laodong.vn/rss/home.rss',
+  'lao động':         'https://laodong.vn/rss/home.rss',
+  'nld':              'https://nld.com.vn/rss/home.rss',
+  'người lao động':   'https://nld.com.vn/rss/home.rss',
+  'nguoi lao dong':   'https://nld.com.vn/rss/home.rss',
+  'sức khỏe đời sống':'https://suckhoedoisong.vn/rss/home.rss',
+  'genk':             'https://genk.vn/index.rss',
+  'ictnews':          'https://ictnews.vietnamnet.vn/rss/home.rss',
+  'nhịp cầu đầu tư':  'https://nhipcaudautu.vn/rss/home.rss',
+  'the gioi':         'https://baoquocte.vn/rss/tin-tuc.rss',
+  'thế giới':         'https://baoquocte.vn/rss/tin-tuc.rss',
+  'nhandan':          'https://nhandan.vn/rss/home.rss',
+  'nhân dân':         'https://nhandan.vn/rss/home.rss',
+  // Báo quốc tế
+  'bbc':              'https://feeds.bbci.co.uk/news/rss.xml',
+  'bbc việt':         'https://feeds.bbci.co.uk/vietnamese/rss.xml',
+  'bbc vietnamese':   'https://feeds.bbci.co.uk/vietnamese/rss.xml',
+  'reuters':          'https://feeds.reuters.com/reuters/topNews',
+  'cnn':              'http://rss.cnn.com/rss/edition.rss',
+  'techcrunch':       'https://techcrunch.com/feed/',
+  'the verge':        'https://www.theverge.com/rss/index.xml',
+  'wired':            'https://www.wired.com/feed/rss',
+  'ars technica':     'http://feeds.arstechnica.com/arstechnica/index',
+  'hacker news':      'https://news.ycombinator.com/rss',
+  'bloomberg':        'https://feeds.bloomberg.com/markets/news.rss',
+  'ft':               'https://www.ft.com/?format=rss',
+  'financial times':  'https://www.ft.com/?format=rss',
+  'new york times':   'https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml',
+  'nyt':              'https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml',
+  'guardian':         'https://www.theguardian.com/world/rss',
+  'the guardian':     'https://www.theguardian.com/world/rss',
+  'washington post':  'https://feeds.washingtonpost.com/rss/world',
+  'nature':           'https://www.nature.com/nature.rss',
+  'science':          'https://www.science.org/rss/news_current.xml',
+  'mit tech review':  'https://www.technologyreview.com/feed/',
+};
+
+// Tìm trong DB nội bộ trước
+function lookupRssDb(name) {
+  const key = name.toLowerCase().trim();
+  // Khớp chính xác
+  if (RSS_DATABASE[key]) return RSS_DATABASE[key];
+  // Khớp một phần
+  for (const [k, v] of Object.entries(RSS_DATABASE)) {
+    if (key.includes(k) || k.includes(key)) return v;
+  }
+  return null;
+}
+
+// Dùng Claude API tìm RSS URL
+async function findRssViaClaude(name) {
+  try {
+    const resp = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 200,
+        system: 'You are an RSS feed expert. When given a news source name, reply with ONLY the RSS feed URL (starting with http or https). If you are not sure or the source has no RSS feed, reply with exactly: NOT_FOUND. No explanation, no markdown, just the URL or NOT_FOUND.',
+        messages: [{ role: 'user', content: `What is the RSS feed URL for: ${name}` }],
+      }),
+    });
+    if (!resp.ok) return null;
+    const data = await resp.json();
+    const text = (data.content?.[0]?.text || '').trim();
+    if (text === 'NOT_FOUND' || !text.startsWith('http')) return null;
+    return text;
+  } catch { return null; }
+}
+
+// Kiểm tra RSS URL có hoạt động không (thử qua allorigins)
+async function validateRssUrl(url) {
+  try {
+    const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`;
+    const res = await fetchWithTimeout(proxyUrl, 8000);
+    if (!res.ok) return false;
+    const json = await res.json();
+    return isValidRssXml(json.contents || '');
+  } catch { return false; }
+}
+
+function setRssHint(msg, type = 'info') {
+  const el = document.getElementById('rss-hint');
+  if (!el) return;
+  const colors = { info: 'var(--muted)', ok: 'var(--accent2)', error: 'var(--accent)', loading: 'var(--muted)' };
+  el.style.color = colors[type] || 'var(--muted)';
+  el.textContent = msg;
+}
+
+function setAddBtnLoading(loading) {
+  const btn = document.getElementById('add-source-btn');
+  const spinner = document.getElementById('rss-search-spinner');
+  if (btn) { btn.disabled = loading; btn.textContent = loading ? '⟳ Đang tìm RSS…' : '+ Thêm nguồn'; }
+  if (spinner) spinner.style.display = loading ? 'inline' : 'none';
+}
+
+async function addSource() {
   const name = document.getElementById('new-source-name').value.trim();
-  const url = document.getElementById('new-source-url').value.trim();
-  if (!name || !url) { toast('Vui lòng nhập tên và URL RSS'); return; }
-  const colors = ['#8e44ad','#16a085','#d35400','#2980b9','#c0392b'];
+  let url = document.getElementById('new-source-url').value.trim();
+
+  if (!name) { toast('Vui lòng nhập tên nguồn'); return; }
+
+  // Nếu có URL rồi → thêm thẳng
+  if (url) {
+    doAddSource(name, url);
+    return;
+  }
+
+  // Không có URL → tự tìm
+  setAddBtnLoading(true);
+  setRssHint('🔍 Đang tìm địa chỉ RSS…', 'loading');
+
+  // 1. Tra database nội bộ trước (nhanh, offline)
+  const dbResult = lookupRssDb(name);
+  if (dbResult) {
+    setRssHint(`✓ Tìm thấy trong database`, 'ok');
+    document.getElementById('new-source-url').value = dbResult;
+    setAddBtnLoading(false);
+    doAddSource(name, dbResult);
+    return;
+  }
+
+  // 2. Hỏi Claude API
+  setRssHint('🤖 Đang tra cứu qua AI…', 'loading');
+  const claudeResult = await findRssViaClaude(name);
+
+  if (claudeResult) {
+    // Validate URL tìm được
+    setRssHint('🔗 Đang xác minh địa chỉ RSS…', 'loading');
+    const valid = await validateRssUrl(claudeResult);
+    if (valid) {
+      document.getElementById('new-source-url').value = claudeResult;
+      setRssHint(`✓ Tìm thấy và xác minh thành công`, 'ok');
+      setAddBtnLoading(false);
+      doAddSource(name, claudeResult);
+      return;
+    } else {
+      // AI tìm được nhưng URL không hợp lệ — vẫn cho dùng, có thể proxy bị block
+      document.getElementById('new-source-url').value = claudeResult;
+      setRssHint(`⚠ Tìm được nhưng chưa xác minh được — đã điền vào ô, bạn có thể kiểm tra lại`, 'info');
+      setAddBtnLoading(false);
+      return;
+    }
+  }
+
+  // 3. Không tìm thấy
+  setAddBtnLoading(false);
+  setRssHint(`✕ Không tìm thấy địa chỉ RSS cho "${name}". Vui lòng nhập URL thủ công.`, 'error');
+  toast(`Không tìm thấy RSS cho "${name}"`);
+}
+
+function doAddSource(name, url) {
+  if (state.sources.some(s => s.url === url)) {
+    toast('Nguồn này đã tồn tại!'); setAddBtnLoading(false); return;
+  }
+  const colors = ['#8e44ad','#16a085','#d35400','#2980b9','#c0392b','#e84118','#0097e6','#27ae60'];
   const color = colors[state.sources.length % colors.length];
   const id = 'src_' + Date.now();
   state.sources.push({ id, name, url, color, enabled: true });
   document.getElementById('new-source-name').value = '';
   document.getElementById('new-source-url').value = '';
+  setRssHint('');
   save(); renderSources();
-  toast(`Đã thêm: ${name}`);
+  toast(`✓ Đã thêm: ${name}`);
+  // Fetch ngay source mới
+  fetchSource(state.sources.at(-1)).then(articles => {
+    if (articles.length > 0) {
+      state.articles.push(...articles);
+      state.articles.forEach(a => { a.saved = state.saved.some(sv => sv.link === a.link); });
+      renderFeed(); updateFilterStats();
+    }
+  });
 }
 
 // ── KEYWORDS ──
