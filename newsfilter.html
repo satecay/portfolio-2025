@@ -1,13 +1,31 @@
 <!DOCTYPE html>
-
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>NewsFilter — Đọc tin theo ý bạn</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@400;500&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
+  /* ============================================================
+     ✏️  TYPOGRAPHY — chỉnh tại đây, áp dụng toàn app
+     ============================================================ */
+  :root {
+    /* Font families */
+    --serif: 'Roboto Slab', Georgia, serif;   /* tiêu đề bài */
+    --sans:  'Roboto', system-ui, sans-serif; /* body, UI    */
+
+    /* Card sizes */
+    --title-size: 25px;   /* .card-title  */
+    --desc-size:  20px;   /* .card-desc   */
+
+    /* UI sizes (sidebar, badge, button…) — thường không cần đổi */
+    --ui-sm:  11px;
+    --ui-md:  13px;
+    --ui-lg:  15px;
+  }
+  /* ============================================================ */
+
   :root {
     --ink: #0f0e0c;
     --paper: #f5f2ec;
@@ -17,10 +35,19 @@
     --muted: #7a7567;
     --border: #d4cfc4;
     --card: #faf8f4;
-    --serif: 'Instrument Serif', Georgia, serif;
-    --sans: 'DM Sans', system-ui, sans-serif;
     --r: 6px;
   }
+  [data-theme="dark"] {
+    --ink: #e8e4db;
+    --paper: #181714;
+    --paper2: #201f1b;
+    --accent: #e8654a;
+    --accent2: #4caf7d;
+    --muted: #8a8679;
+    --border: #2e2d29;
+    --card: #22211e;
+  }
+  body { transition: background .25s, color .25s; }
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   html { font-size: 16px; scroll-behavior: smooth; }
   body {
@@ -30,342 +57,394 @@
     min-height: 100vh;
   }
 
-/* ── TOPBAR ── */
-header {
-position: sticky; top: 0; z-index: 100;
-background: var(–paper);
-border-bottom: 1.5px solid var(–ink);
-display: flex; align-items: center; gap: 16px;
-padding: 0 24px; height: 56px;
-}
-.logo {
-font-family: var(–serif);
-font-size: 22px; letter-spacing: -0.5px;
-white-space: nowrap;
-}
-.logo span { color: var(–accent); font-style: italic; }
-.search-bar {
-flex: 1; position: relative;
-max-width: 420px;
-}
-.search-bar input {
-width: 100%; padding: 7px 12px 7px 36px;
-border: 1.5px solid var(–border);
-border-radius: 20px;
-background: var(–card);
-font-family: var(–sans); font-size: 14px;
-color: var(–ink); outline: none;
-transition: border-color .2s;
-}
-.search-bar input:focus { border-color: var(–accent); }
-.search-bar svg { position: absolute; left: 11px; top: 50%; transform: translateY(-50%); opacity: .4; }
-.btn {
-display: inline-flex; align-items: center; gap: 6px;
-padding: 7px 14px; border-radius: 20px;
-border: 1.5px solid var(–ink);
-font-family: var(–sans); font-size: 13px; font-weight: 500;
-cursor: pointer; background: transparent; color: var(–ink);
-transition: background .15s, color .15s;
-white-space: nowrap;
-}
-.btn:hover { background: var(–ink); color: var(–paper); }
-.btn.primary { background: var(–accent); border-color: var(–accent); color: #fff; }
-.btn.primary:hover { background: #a33a21; border-color: #a33a21; }
-.btn.sm { padding: 4px 10px; font-size: 12px; }
+  /* ── TOPBAR ── */
+  header {
+    position: sticky; top: 0; z-index: 100;
+    background: var(--paper);
+    border-bottom: 1.5px solid var(--ink);
+    display: flex; align-items: center; gap: 16px;
+    padding: 0 24px; height: 56px;
+  }
+  .logo {
+    font-family: var(--serif);
+    font-size: 22px; letter-spacing: -0.5px;
+    white-space: nowrap;
+  }
+  .logo span { color: var(--accent); font-style: italic; }
+  .search-bar {
+    flex: 1; position: relative;
+    max-width: 420px;
+  }
+  .search-bar input {
+    width: 100%; padding: 7px 12px 7px 36px;
+    border: 1.5px solid var(--border);
+    border-radius: 20px;
+    background: var(--card);
+    font-family: var(--sans); font-size: 14px;
+    color: var(--ink); outline: none;
+    transition: border-color .2s;
+  }
+  .search-bar input:focus { border-color: var(--accent); }
+  .search-bar svg { position: absolute; left: 11px; top: 50%; transform: translateY(-50%); opacity: .4; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 7px 14px; border-radius: 20px;
+    border: 1.5px solid var(--ink);
+    font-family: var(--sans); font-size: 13px; font-weight: 500;
+    cursor: pointer; background: transparent; color: var(--ink);
+    transition: background .15s, color .15s;
+    white-space: nowrap;
+  }
+  .btn:hover { background: var(--ink); color: var(--paper); }
+  .btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .btn.primary:hover { background: #a33a21; border-color: #a33a21; }
+  .btn.sm { padding: 4px 10px; font-size: 12px; }
 
-/* ── LAYOUT ── */
-.layout { display: grid; grid-template-columns: 240px 1fr; min-height: calc(100vh - 56px); }
+  /* ── LAYOUT ── */
+  .layout { display: grid; grid-template-columns: 280px 1fr; min-height: calc(100vh - 56px); }
 
-/* ── SIDEBAR ── */
-aside {
-border-right: 1.5px solid var(–ink);
-padding: 20px 16px;
-position: sticky; top: 56px; height: calc(100vh - 56px);
-overflow-y: auto;
-background: var(–paper2);
-}
-.sidebar-section { margin-bottom: 28px; }
-.sidebar-title {
-font-size: 10px; font-weight: 500; letter-spacing: 1.5px;
-text-transform: uppercase; color: var(–muted);
-margin-bottom: 10px;
-}
+  /* ── SIDEBAR ── */
+  aside {
+    border-right: 1.5px solid var(--ink);
+    padding: 12px 10px;
+    position: sticky; top: 56px; height: calc(100vh - 56px);
+    overflow-y: auto;
+    background: var(--paper2);
+    min-width: 0;
+  }
+  .sidebar-section { margin-bottom: 28px; }
+  .sidebar-title {
+    font-size: 10px; font-weight: 500; letter-spacing: 1.5px;
+    text-transform: uppercase; color: var(--muted);
+    margin-bottom: 10px;
+  }
 
-/* Sources list */
-.source-item {
-display: flex; align-items: center; justify-content: space-between;
-padding: 6px 8px; border-radius: var(–r);
-cursor: pointer; font-size: 13px;
-transition: background .12s;
-user-select: none;
-}
-.source-item:hover { background: var(–border); }
-.source-item.active { background: var(–ink); color: var(–paper); }
-.source-dot {
-width: 8px; height: 8px; border-radius: 50%;
-margin-right: 8px; flex-shrink: 0;
-}
-.source-left { display: flex; align-items: center; }
-.source-count {
-font-size: 11px; opacity: .5;
-background: rgba(0,0,0,.08); border-radius: 10px;
-padding: 1px 6px;
-}
+  /* Sources list */
+  .source-item {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 6px 8px; border-radius: var(--r);
+    cursor: pointer; font-size: 13px;
+    transition: background .12s;
+    user-select: none;
+  }
+  .source-item:hover { background: var(--border); }
+  .source-item.active { background: var(--ink); color: var(--paper); }
+  .source-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    margin-right: 8px; flex-shrink: 0;
+  }
+  .source-left { display: flex; align-items: center; }
+  .source-count {
+    font-size: 11px; opacity: .5;
+    background: rgba(0,0,0,.08); border-radius: 10px;
+    padding: 1px 6px;
+  }
 
-/* Add source form */
-.add-source { margin-top: 8px; }
-.add-source input {
-width: 100%; padding: 7px 10px;
-border: 1.5px solid var(–border); border-radius: var(–r);
-font-family: var(–sans); font-size: 13px;
-background: var(–card); color: var(–ink); outline: none;
-margin-bottom: 6px;
-transition: border-color .2s;
-}
-.add-source input:focus { border-color: var(–accent); }
+  /* Add source form */
+  .add-source { margin-top: 8px; }
+  .add-source input {
+    width: 100%; padding: 7px 10px; box-sizing: border-box;
+    border: 1.5px solid var(--border); border-radius: var(--r);
+    font-family: var(--sans); font-size: 13px;
+    background: var(--card); color: var(--ink); outline: none;
+    margin-bottom: 6px; min-width: 0;
+    transition: border-color .2s;
+  }
+  .add-source input:focus { border-color: var(--accent); }
 
-/* Keyword filter */
-.keyword-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 8px; }
-.keyword-tag {
-display: inline-flex; align-items: center; gap: 4px;
-padding: 3px 8px; border-radius: 12px;
-background: #ffddcc; color: #7a2a10;
-font-size: 12px; font-weight: 500;
-}
-.keyword-tag .rm {
-cursor: pointer; font-size: 14px; line-height: 1;
-opacity: .6; transition: opacity .15s;
-}
-.keyword-tag .rm:hover { opacity: 1; }
-.kw-input-row { display: flex; gap: 6px; }
-.kw-input-row input {
-flex: 1; padding: 7px 10px;
-border: 1.5px solid var(–border); border-radius: var(–r);
-font-family: var(–sans); font-size: 13px;
-background: var(–card); color: var(–ink); outline: none;
-transition: border-color .2s;
-}
-.kw-input-row input:focus { border-color: var(–accent); }
+  /* Keyword filter */
+  .keyword-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 8px; }
+  .keyword-tag {
+    display: inline-flex; align-items: center; gap: 4px;
+    padding: 3px 8px; border-radius: 12px;
+    background: #ffddcc; color: #7a2a10;
+    font-size: 12px; font-weight: 500;
+  }
+  .keyword-tag .rm {
+    cursor: pointer; font-size: 14px; line-height: 1;
+    opacity: .6; transition: opacity .15s;
+  }
+  .keyword-tag .rm:hover { opacity: 1; }
+  .kw-input-row { display: flex; gap: 6px; }
+  .kw-input-row input {
+    flex: 1; padding: 7px 10px; box-sizing: border-box; min-width: 0;
+    border: 1.5px solid var(--border); border-radius: var(--r);
+    font-family: var(--sans); font-size: 13px;
+    background: var(--card); color: var(--ink); outline: none;
+    transition: border-color .2s;
+  }
+  .kw-input-row input:focus { border-color: var(--accent); }
 
-.filter-stats {
-font-size: 12px; color: var(–muted);
-padding: 8px; border-radius: var(–r);
-background: var(–card); border: 1px solid var(–border);
-text-align: center; margin-top: 8px;
-}
-.filter-stats strong { color: var(–accent); }
+  .filter-stats {
+    font-size: 12px; color: var(--muted);
+    padding: 8px; border-radius: var(--r);
+    background: var(--card); border: 1px solid var(--border);
+    text-align: center; margin-top: 8px;
+  }
+  .filter-stats strong { color: var(--accent); }
 
-/* ── MAIN FEED ── */
-main { padding: 0; overflow: hidden; }
+  /* ── MAIN FEED ── */
+  main { padding: 0; overflow: hidden; }
 
-.feed-header {
-padding: 16px 28px 12px;
-border-bottom: 1px solid var(–border);
-display: flex; align-items: center; justify-content: space-between;
-gap: 12px;
-}
-.feed-title { font-family: var(–serif); font-size: 20px; }
-.controls { display: flex; gap: 8px; align-items: center; }
-.sort-select {
-padding: 6px 10px; border: 1.5px solid var(–border);
-border-radius: 20px; font-family: var(–sans); font-size: 13px;
-background: var(–card); color: var(–ink); cursor: pointer; outline: none;
-}
+  .feed-header {
+    padding: 16px 28px 12px;
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 12px;
+  }
+  .feed-title { font-family: var(--serif); font-size: 20px; }
+  .controls { display: flex; gap: 8px; align-items: center; }
+  .sort-select {
+    padding: 6px 10px; border: 1.5px solid var(--border);
+    border-radius: 20px; font-family: var(--sans); font-size: 13px;
+    background: var(--card); color: var(--ink); cursor: pointer; outline: none;
+  }
 
-/* News grid */
-#feed {
-padding: 20px 28px;
-display: grid;
-grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-gap: 16px;
-align-content: start;
-max-height: calc(100vh - 130px);
-overflow-y: auto;
-}
+  /* News grid */
+  #feed {
+    padding: 20px 28px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 16px;
+    align-content: start;
+    max-height: calc(100vh - 130px);
+    overflow-y: auto;
+  }
 
-/* Article card */
-.article-card {
-background: var(–card);
-border: 1.5px solid var(–border);
-border-radius: 10px;
-overflow: hidden;
-display: flex; flex-direction: column;
-transition: border-color .2s, transform .15s, box-shadow .15s;
-animation: fadeUp .3s ease both;
-}
-@keyframes fadeUp {
-from { opacity: 0; transform: translateY(10px); }
-to   { opacity: 1; transform: translateY(0); }
-}
-.article-card:hover {
-border-color: var(–ink);
-transform: translateY(-2px);
-box-shadow: 0 6px 20px rgba(0,0,0,.08);
-}
-.card-img {
-width: 100%; height: 160px; object-fit: cover;
-border-bottom: 1px solid var(–border);
-display: block;
-background: var(–paper2);
-}
-.card-img-placeholder {
-width: 100%; height: 120px;
-background: var(–paper2);
-display: flex; align-items: center; justify-content: center;
-font-size: 28px; color: var(–border);
-}
-.card-body { padding: 10px 16px; flex: 1; display: flex; flex-direction: column; gap: 8px; }
-.card-source-row { display: flex; align-items: center; justify-content: space-between; }
-.card-source-badge {
-font-size: 10px; font-weight: 500; letter-spacing: .8px;
-text-transform: uppercase; padding: 2px 8px;
-border-radius: 10px; border: 1px solid var(–border);
-color: var(–muted);
-}
-.card-date { font-size: 11px; color: var(–muted); }
-.card-title {
-font-family: var(–serif);
-font-size: 28px; line-height: 1.35;
-color: var(–ink);
-}
-.card-desc {
-font-size: 13px; color: var(–muted);
-line-height: 1.55;
-display: -webkit-box;
--webkit-line-clamp: 3;
--webkit-box-orient: vertical;
-overflow: hidden;
-}
-.card-footer {
-display: flex; gap: 6px; align-items: center;
-padding: 10px 16px 12px;
-border-top: 1px solid var(–border);
-}
-.card-footer a {
-font-size: 12px; font-weight: 500;
-color: var(–accent); text-decoration: none;
-flex: 1;
-}
-.card-footer a:hover { text-decoration: underline; }
-.save-btn {
-width: 28px; height: 28px; border-radius: 50%;
-border: 1.5px solid var(–border);
-background: transparent; cursor: pointer;
-display: flex; align-items: center; justify-content: center;
-transition: background .15s, border-color .15s;
-font-size: 14px;
-}
-.save-btn:hover, .save-btn.saved { background: var(–ink); border-color: var(–ink); color: var(–paper); }
+  /* Article card */
+  .article-card {
+    background: var(--card);
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    display: flex; flex-direction: column;
+    transition: border-color .2s, transform .15s, box-shadow .15s;
+    animation: fadeUp .3s ease both;
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .article-card:hover {
+    border-color: var(--ink);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0,0,0,.08);
+  }
+  .card-img {
+    width: 100%; height: 160px; object-fit: cover;
+    border-bottom: 1px solid var(--border);
+    display: block;
+    background: var(--paper2);
+  }
+  .card-img-placeholder {
+    width: 100%; height: 120px;
+    background: var(--paper2);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 28px; color: var(--border);
+  }
+  .card-body { padding: 14px 16px; flex: 1; display: flex; flex-direction: column; gap: 8px; }
+  .card-source-row { display: flex; align-items: center; justify-content: space-between; }
+  .card-source-badge {
+    font-size: 10px; font-weight: 500; letter-spacing: .8px;
+    text-transform: uppercase; padding: 2px 8px;
+    border-radius: 10px; border: 1px solid var(--border);
+    color: var(--muted);
+  }
+  .card-date { font-size: 11px; color: var(--muted); }
+  .card-title {
+    font-family: var(--serif);
+    font-size: var(--title-size); line-height: 1.3;
+    color: var(--ink);
+  }
+  .card-desc {
+    font-size: var(--desc-size); color: var(--muted);
+    line-height: 1.55;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .card-footer {
+    display: flex; gap: 6px; align-items: center;
+    padding: 10px 16px 12px;
+    border-top: 1px solid var(--border);
+  }
+  .card-footer a {
+    font-size: 12px; font-weight: 500;
+    color: var(--accent); text-decoration: none;
+    flex: 1;
+  }
+  .card-footer a:hover { text-decoration: underline; }
+  .save-btn {
+    width: 28px; height: 28px; border-radius: 50%;
+    border: 1.5px solid var(--border);
+    background: transparent; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: background .15s, border-color .15s;
+    font-size: 14px;
+  }
+  .save-btn:hover, .save-btn.saved { background: var(--ink); border-color: var(--ink); color: var(--paper); }
 
-/* Highlight match */
-.highlight { background: #ffe0a0; border-radius: 2px; padding: 0 1px; }
+  /* Translate */
+  .translate-btn {
+    width: 28px; height: 28px; border-radius: 50%;
+    border: 1.5px solid var(--border);
+    background: transparent; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: background .15s, border-color .15s;
+    font-size: 13px; flex-shrink: 0;
+  }
+  .translate-btn:hover { background: var(--paper2); border-color: var(--ink); }
+  .translate-btn.translating { animation: spin .8s linear infinite; }
+  .card-translated {
+    font-size: var(--desc-size); color: var(--ink);
+    line-height: 1.55; margin-top: 6px;
+    padding: 8px 10px;
+    background: var(--paper2);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 4px 4px 0;
+  }
+  .card-translated .tl-label {
+    font-size: 10px; font-weight: 500; letter-spacing: .8px;
+    text-transform: uppercase; color: var(--muted);
+    display: block; margin-bottom: 4px;
+  }
 
-/* States */
-.empty-state {
-grid-column: 1/-1;
-text-align: center; padding: 60px 20px;
-color: var(–muted);
-}
-.empty-state h3 { font-family: var(–serif); font-size: 22px; margin-bottom: 8px; color: var(–ink); }
-.loading-spinner {
-grid-column: 1/-1;
-display: flex; justify-content: center; padding: 40px;
-}
-.spinner {
-width: 32px; height: 32px;
-border: 2.5px solid var(–border);
-border-top-color: var(–accent);
-border-radius: 50%;
-animation: spin .8s linear infinite;
-}
-@keyframes spin { to { transform: rotate(360deg); } }
+  /* Highlight match */
+  .highlight { background: #ffe0a0; border-radius: 2px; padding: 0 1px; }
 
-/* Toast */
-#toast {
-position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
-background: var(–ink); color: var(–paper);
-padding: 10px 20px; border-radius: 20px;
-font-size: 13px; font-weight: 500;
-opacity: 0; pointer-events: none;
-transition: opacity .25s;
-z-index: 9999;
-}
-#toast.show { opacity: 1; }
+  /* States */
+  .empty-state {
+    grid-column: 1/-1;
+    text-align: center; padding: 60px 20px;
+    color: var(--muted);
+  }
+  .empty-state h3 { font-family: var(--serif); font-size: 22px; margin-bottom: 8px; color: var(--ink); }
+  .loading-spinner {
+    grid-column: 1/-1;
+    display: flex; justify-content: center; padding: 40px;
+  }
+  .spinner {
+    width: 32px; height: 32px;
+    border: 2.5px solid var(--border);
+    border-top-color: var(--accent);
+    border-radius: 50%;
+    animation: spin .8s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
 
-/* Saved view */
-.view-tabs {
-display: flex; gap: 0;
-border-bottom: 1.5px solid var(–ink);
-}
-.view-tab {
-padding: 10px 20px; font-size: 13px; font-weight: 500;
-cursor: pointer; border: none; background: transparent;
-border-bottom: 2px solid transparent; margin-bottom: -1.5px;
-color: var(–muted); transition: color .15s;
-font-family: var(–sans);
-}
-.view-tab.active { color: var(–ink); border-bottom-color: var(–accent); }
+  /* Toast */
+  #toast {
+    position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
+    background: var(--ink); color: var(--paper);
+    padding: 10px 20px; border-radius: 20px;
+    font-size: 13px; font-weight: 500;
+    opacity: 0; pointer-events: none;
+    transition: opacity .25s;
+    z-index: 9999;
+  }
+  #toast.show { opacity: 1; }
 
-/* ── ACCORDION ── */
-.accordion { margin-bottom: 6px; border: 1.5px solid var(–border); border-radius: 8px; overflow: hidden; }
-.accordion-header {
-display: flex; align-items: center; justify-content: space-between;
-padding: 9px 12px;
-cursor: pointer; user-select: none;
-background: var(–card);
-transition: background .15s;
-}
-.accordion-header:hover { background: var(–border); }
-.accordion-header-left { display: flex; align-items: center; gap: 8px; }
-.accordion-icon { font-size: 14px; }
-.accordion-label {
-font-size: 12px; font-weight: 500; letter-spacing: .4px;
-color: var(–ink);
-}
-.accordion-badge {
-font-size: 10px; background: var(–accent); color: #fff;
-border-radius: 10px; padding: 1px 6px; font-weight: 500;
-}
-.accordion-chevron {
-width: 16px; height: 16px; flex-shrink: 0;
-transition: transform .22s ease;
-color: var(–muted);
-}
-.accordion.open .accordion-chevron { transform: rotate(180deg); }
-.accordion-body {
-max-height: 0; overflow: hidden;
-transition: max-height .28s ease, padding .28s ease;
-background: var(–paper2);
-padding: 0 12px;
-}
-.accordion.open .accordion-body {
-max-height: 600px;
-padding: 12px 12px 14px;
-}
+  /* Saved view */
+  .view-tabs {
+    display: flex; gap: 0;
+    border-bottom: 1.5px solid var(--ink);
+  }
+  .view-tab {
+    padding: 10px 20px; font-size: 13px; font-weight: 500;
+    cursor: pointer; border: none; background: transparent;
+    border-bottom: 2px solid transparent; margin-bottom: -1.5px;
+    color: var(--muted); transition: color .15s;
+    font-family: var(--sans);
+  }
+  .view-tab.active { color: var(--ink); border-bottom-color: var(--accent); }
 
-/* ── SCROLL TO TOP ── */
-#scroll-top {
-position: fixed; bottom: 28px; right: 28px; z-index: 200;
-width: 42px; height: 42px; border-radius: 50%;
-background: var(–ink); color: var(–paper);
-border: none; cursor: pointer;
-display: flex; align-items: center; justify-content: center;
-box-shadow: 0 4px 16px rgba(0,0,0,.18);
-opacity: 0; pointer-events: none;
-transform: translateY(10px);
-transition: opacity .25s, transform .25s;
-}
-#scroll-top.visible { opacity: 1; pointer-events: auto; transform: translateY(0); }
-#scroll-top:hover { background: var(–accent); }
+  /* ── ACCORDION ── */
+  .accordion { margin-bottom: 6px; border: 1.5px solid var(--border); border-radius: 8px; overflow: hidden; min-width: 0; }
+  .accordion-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 9px 10px;
+    cursor: pointer; user-select: none;
+    background: var(--card);
+    transition: background .15s;
+    min-width: 0;
+  }
+  .accordion-header:hover { background: var(--border); }
+  .accordion-header-left { display: flex; align-items: center; gap: 6px; min-width: 0; flex: 1; overflow: hidden; }
+  .accordion-icon { font-size: 14px; flex-shrink: 0; }
+  .accordion-label {
+    font-size: 12px; font-weight: 500; letter-spacing: .4px;
+    color: var(--ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .accordion-badge {
+    font-size: 10px; background: var(--accent); color: #fff;
+    border-radius: 10px; padding: 1px 6px; font-weight: 500;
+    flex-shrink: 0;
+  }
+  .accordion-chevron {
+    width: 16px; height: 16px; flex-shrink: 0;
+    transition: transform .22s ease;
+    color: var(--muted);
+  }
+  .accordion.open .accordion-chevron { transform: rotate(180deg); }
+  .accordion-body {
+    max-height: 0; overflow: hidden;
+    transition: max-height .3s ease, padding .3s ease;
+    background: var(--paper2);
+    padding: 0 10px;
+    box-sizing: border-box;
+    width: 100%;
+  }
+  .accordion.open .accordion-body {
+    max-height: 800px;
+    padding: 10px 10px 12px;
+  }
+  /* Mọi input/button trong accordion body chiếm full width, không tràn */
+  .accordion-body input[type="text"] {
+    width: 100%; box-sizing: border-box; min-width: 0;
+  }
+  .accordion-body .btn { white-space: nowrap; min-width: 0; box-sizing: border-box; }
 
-/* Responsive */
-@media (max-width: 700px) {
-.layout { grid-template-columns: 1fr; }
-aside { position: static; height: auto; border-right: none; border-bottom: 1.5px solid var(–ink); }
-#feed { max-height: none; }
-}
+  /* ── THEME TOGGLE ── */
+  .theme-toggle {
+    width: 36px; height: 36px; border-radius: 50%;
+    border: 1.5px solid var(--border);
+    background: var(--card);
+    cursor: pointer; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px;
+    transition: border-color .2s, background .2s, transform .2s;
+    line-height: 1;
+  }
+  .theme-toggle:hover { border-color: var(--ink); transform: rotate(20deg); }
+
+  /* ── SCROLL TO TOP ── */
+  #scroll-top {
+    position: fixed; bottom: 28px; right: 28px; z-index: 200;
+    width: 42px; height: 42px; border-radius: 50%;
+    background: var(--ink); color: var(--paper);
+    border: none; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 4px 16px rgba(0,0,0,.18);
+    opacity: 0; pointer-events: none;
+    transform: translateY(10px);
+    transition: opacity .25s, transform .25s;
+  }
+  #scroll-top.visible { opacity: 1; pointer-events: auto; transform: translateY(0); }
+  #scroll-top:hover { background: var(--accent); }
+
+  /* Responsive */
+  @media (max-width: 780px) {
+    .layout { grid-template-columns: 1fr; }
+    aside {
+      position: static; height: auto;
+      border-right: none; border-bottom: 1.5px solid var(--ink);
+      padding: 10px 8px;
+    }
+    #feed { max-height: none; }
+    .search-bar { max-width: none; }
+  }
 </style>
-
 </head>
 <body>
 
@@ -383,11 +462,13 @@ aside { position: static; height: auto; border-right: none; border-bottom: 1.5px
     </svg>
     Tải lại
   </button>
+  <button class="theme-toggle" id="theme-btn" onclick="toggleTheme()" title="Đổi giao diện sáng/tối">🌙</button>
 </header>
 
 <div class="layout">
   <!-- SIDEBAR -->
   <aside>
+
     <!-- Accordion: Nguồn báo -->
     <div class="accordion open" id="acc-sources">
       <div class="accordion-header" onclick="toggleAccordion('acc-sources')">
@@ -407,59 +488,66 @@ aside { position: static; height: auto; border-right: none; border-bottom: 1.5px
           <input type="text" id="new-source-url" placeholder="RSS URL…">
           <button class="btn sm" style="width:100%;justify-content:center;margin-top:4px" onclick="addSource()">+ Thêm nguồn</button>
         </div>
+        <hr style="border:none;border-top:1px solid var(--border);margin:10px 0">
+        <p style="font-size:11px;color:var(--muted);margin-bottom:6px">Xuất/nhập toàn bộ nguồn báo + từ khoá</p>
+        <div style="display:flex;gap:6px">
+          <button class="btn sm" style="flex:1;justify-content:center" onclick="exportAll()">📤 Xuất</button>
+          <button class="btn sm" style="flex:1;justify-content:center" onclick="document.getElementById('import-file-input').click()">📥 Nhập</button>
+          <input type="file" id="import-file-input" accept=".json" style="display:none" onchange="importAll(event);this.value=''">
+        </div>
       </div>
     </div>
 
-```
-<!-- Accordion: Chặn từ khoá -->
-<div class="accordion open" id="acc-keywords">
-  <div class="accordion-header" onclick="toggleAccordion('acc-keywords')">
-    <div class="accordion-header-left">
-      <span class="accordion-icon">🚫</span>
-      <span class="accordion-label">Chặn từ khoá</span>
-      <span class="accordion-badge" id="acc-kw-badge" style="display:none">0</span>
+    <!-- Accordion: Chặn từ khoá -->
+    <div class="accordion open" id="acc-keywords">
+      <div class="accordion-header" onclick="toggleAccordion('acc-keywords')">
+        <div class="accordion-header-left">
+          <span class="accordion-icon">🚫</span>
+          <span class="accordion-label">Chặn từ khoá</span>
+          <span class="accordion-badge" id="acc-kw-badge" style="display:none">0</span>
+        </div>
+        <svg class="accordion-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+          <polyline points="6 9 12 15 18 9"/>
+        </svg>
+      </div>
+      <div class="accordion-body">
+        <div class="keyword-tags" id="kw-tags"></div>
+        <div class="kw-input-row">
+          <input type="text" id="kw-input" placeholder="Nhập từ khoá…" onkeydown="if(event.key==='Enter')addKeyword()">
+          <button class="btn sm" onclick="addKeyword()">+</button>
+        </div>
+        <div class="filter-stats" id="filter-stats">Chưa có từ khoá bị chặn</div>
+      </div>
     </div>
-    <svg class="accordion-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
-      <polyline points="6 9 12 15 18 9"/>
-    </svg>
-  </div>
-  <div class="accordion-body">
-    <div class="keyword-tags" id="kw-tags"></div>
-    <div class="kw-input-row">
-      <input type="text" id="kw-input" placeholder="Nhập từ khoá…" onkeydown="if(event.key==='Enter')addKeyword()">
-      <button class="btn sm" onclick="addKeyword()">+</button>
-    </div>
-    <div class="filter-stats" id="filter-stats">Chưa có từ khoá bị chặn</div>
-  </div>
-</div>
 
-<!-- Accordion: Xuất / nhập -->
-<div class="accordion" id="acc-export">
-  <div class="accordion-header" onclick="toggleAccordion('acc-export')">
-    <div class="accordion-header-left">
-      <span class="accordion-icon">💾</span>
-      <span class="accordion-label">Xuất / nhập</span>
+    <!-- Accordion: Cloudflare Worker -->
+    <div class="accordion" id="acc-worker">
+      <div class="accordion-header" onclick="toggleAccordion('acc-worker')">
+        <div class="accordion-header-left">
+          <span class="accordion-icon">⚙️</span>
+          <span class="accordion-label">Cloudflare Worker</span>
+          <span id="worker-status-badge" style="font-size:10px;padding:1px 6px;border-radius:10px;background:var(--border);color:var(--muted);flex-shrink:0">chưa cài</span>
+        </div>
+        <svg class="accordion-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+          <polyline points="6 9 12 15 18 9"/>
+        </svg>
+      </div>
+      <div class="accordion-body">
+        <p style="font-size:12px;color:var(--muted);margin-bottom:8px;line-height:1.5;word-break:break-word">Dán URL Worker để fetch báo VN không bị chặn. <a href="#" onclick="showWorkerHelp();return false;" style="color:var(--accent)">Hướng dẫn →</a></p>
+        <input type="text" id="worker-url-input" placeholder="https://your-worker.workers.dev"
+          style="width:100%;box-sizing:border-box;padding:7px 10px;border:1.5px solid var(--border);border-radius:6px;font-family:var(--sans);font-size:12px;background:var(--card);color:var(--ink);outline:none;margin-bottom:6px;min-width:0">
+        <div style="display:flex;gap:6px;flex-wrap:wrap">
+          <button class="btn sm" style="flex:1;justify-content:center;min-width:52px" onclick="saveWorkerUrl()">💾 Lưu</button>
+          <button class="btn sm" style="flex:1;justify-content:center;min-width:52px" onclick="testWorker()">🔍 Test</button>
+          <button class="btn sm" style="justify-content:center;color:var(--accent);border-color:var(--accent)" onclick="clearWorkerUrl()">✕</button>
+        </div>
+        <div id="worker-test-result" style="font-size:11px;margin-top:6px;display:none;padding:6px 8px;border-radius:4px;line-height:1.4;word-break:break-word"></div>
+      </div>
     </div>
-    <svg class="accordion-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
-      <polyline points="6 9 12 15 18 9"/>
-    </svg>
-  </div>
-  <div class="accordion-body">
-    <div style="display:flex;flex-direction:column;gap:6px">
-      <button class="btn sm" style="justify-content:center" onclick="exportKeywords()">📤 Xuất từ khoá .txt</button>
-      <label class="btn sm" style="justify-content:center;cursor:pointer">
-        📥 Nhập từ khoá .txt
-        <input type="file" accept=".txt" style="display:none" onchange="importKeywords(event)">
-      </label>
-    </div>
-  </div>
-</div>
-```
 
   </aside>
 
   <!-- MAIN -->
-
   <main>
     <div class="view-tabs">
       <button class="view-tab active" onclick="switchView('feed', this)">📰 Tất cả tin</button>
@@ -513,71 +601,340 @@ function save() {
   localStorage.setItem('nf_saved', JSON.stringify(state.saved));
 }
 
-// ── PROXY ──
-// Using allorigins for CORS bypass
-function proxyUrl(url) {
-  return `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`;
+// ── FETCH CONFIG ──
+const CACHE_TTL     = 5 * 60 * 1000; // 5 phút
+const FETCH_TIMEOUT = 5000;           // 5s (giảm từ 8s)
+const PROXY_TIMEOUT = 4000;           // 4s per proxy attempt
+
+// ── DEBOUNCED RENDER — gộp nhiều update thành 1 lần render ──
+let _renderTimer = null;
+function scheduleRender() {
+  clearTimeout(_renderTimer);
+  _renderTimer = setTimeout(() => { renderFeed(); updateFilterStats(); }, 80);
+}
+// ── CACHE ──
+function cacheKey(sourceId) { return `nf_cache_${sourceId}`; }
+
+function readCache(sourceId) {
+  try {
+    const raw = localStorage.getItem(cacheKey(sourceId));
+    if (!raw) return null;
+    const { ts, articles } = JSON.parse(raw);
+    if (Date.now() - ts > CACHE_TTL) return null;
+    return articles;
+  } catch { return null; }
 }
 
-// ── RSS PARSER ──
-function parseRSS(xmlText, source) {
+function writeCache(sourceId, articles) {
   try {
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(xmlText, 'text/xml');
-    const items = [...doc.querySelectorAll('item')];
-    return items.slice(0, 20).map((item, i) => {
-      const title = item.querySelector('title')?.textContent?.trim() || '';
-      const link = item.querySelector('link')?.textContent?.trim() || '';
-      const desc = item.querySelector('description')?.textContent?.replace(/<[^>]+>/g,'').trim() || '';
-      const pubDate = item.querySelector('pubDate')?.textContent?.trim() || '';
-      const enclosure = item.querySelector('enclosure');
-      const mediaThumbnail = item.querySelector('thumbnail') || item.querySelector('[url]');
-      let img = enclosure?.getAttribute('url') || mediaThumbnail?.getAttribute('url') || '';
-      // try media:content
-      if (!img) {
-        const mc = item.querySelector('content');
-        img = mc?.getAttribute('url') || '';
-      }
-      return {
-        id: `${source.id}_${i}_${Date.now()}`,
-        sourceId: source.id,
-        sourceName: source.name,
-        sourceColor: source.color,
-        title,
-        link,
-        desc,
-        pubDate: pubDate ? new Date(pubDate) : new Date(),
-        img,
-        saved: false,
-      };
-    }).filter(a => a.title && a.link);
-  } catch(e) { return []; }
+    localStorage.setItem(cacheKey(sourceId), JSON.stringify({ ts: Date.now(), articles }));
+  } catch {}
 }
 
-// ── FETCH ──
-async function fetchSource(source) {
+function readStaleCache(sourceId) {
   try {
-    const res = await fetch(proxyUrl(source.url));
+    const raw = localStorage.getItem(cacheKey(sourceId));
+    return raw ? JSON.parse(raw).articles : null;
+  } catch { return null; }
+}
+
+// ── WORKER SETTINGS ──
+function getWorkerUrl() {
+  return (localStorage.getItem('nf_worker_url') || '').trim().replace(/\/$/, '');
+}
+
+function saveWorkerUrl() {
+  const raw = document.getElementById('worker-url-input').value.trim().replace(/\/$/, '');
+  if (!raw) { toast('Vui lòng nhập URL Worker'); return; }
+  try { new URL(raw); } catch { toast('URL không hợp lệ'); return; }
+  localStorage.setItem('nf_worker_url', raw);
+  // xoá cache proxy để fetch lại qua worker
+  Object.keys(localStorage).filter(k => k.startsWith('nf_cache_') || k === 'nf_proxy_pref')
+    .forEach(k => localStorage.removeItem(k));
+  updateWorkerBadge();
+  toast('✓ Đã lưu Worker URL — đang tải lại…');
+  setTimeout(fetchAll, 500);
+}
+
+function clearWorkerUrl() {
+  localStorage.removeItem('nf_worker_url');
+  document.getElementById('worker-url-input').value = '';
+  updateWorkerBadge();
+  toast('Đã xoá Worker URL');
+}
+
+async function testWorker() {
+  const url = getWorkerUrl();
+  const resultEl = document.getElementById('worker-test-result');
+  resultEl.style.display = 'block';
+  if (!url) {
+    resultEl.style.background = '#fff3cd'; resultEl.style.color = '#856404';
+    resultEl.textContent = '⚠ Chưa nhập URL Worker'; return;
+  }
+  resultEl.style.background = 'var(--paper2)'; resultEl.style.color = 'var(--muted)';
+  resultEl.textContent = '⟳ Đang test…';
+  try {
+    const testRss = 'https://vnexpress.net/rss/tin-moi-nhat.rss';
+    const res = await fetchWithTimeout(`${url}/proxy?url=${encodeURIComponent(testRss)}`, 10000);
     const json = await res.json();
-    return parseRSS(json.contents, source);
-  } catch(e) {
-    console.warn('Failed:', source.name, e);
-    return [];
+    if (json.status === 'ok' && json.items?.length > 0) {
+      resultEl.style.background = '#d1e7dd'; resultEl.style.color = '#0a3622';
+      resultEl.textContent = `✓ Hoạt động! Lấy được ${json.items.length} bài từ VnExpress.`;
+      updateWorkerBadge(true);
+    } else {
+      resultEl.style.background = '#f8d7da'; resultEl.style.color = '#58151c';
+      resultEl.textContent = `✕ Worker phản hồi nhưng không có dữ liệu: ${JSON.stringify(json).slice(0,80)}`;
+    }
+  } catch (e) {
+    resultEl.style.background = '#f8d7da'; resultEl.style.color = '#58151c';
+    resultEl.textContent = `✕ Lỗi kết nối: ${e.message}`;
   }
 }
 
+function updateWorkerBadge(ok) {
+  const badge = document.getElementById('worker-status-badge');
+  const url = getWorkerUrl();
+  const input = document.getElementById('worker-url-input');
+  if (input && url) input.value = url;
+  if (!badge) return;
+  if (!url) {
+    badge.style.background = 'var(--border)'; badge.style.color = 'var(--muted)';
+    badge.textContent = 'chưa cài'; return;
+  }
+  if (ok === true) {
+    badge.style.background = '#d1e7dd'; badge.style.color = '#0a3622';
+    badge.textContent = 'hoạt động';
+  } else {
+    badge.style.background = '#cfe2ff'; badge.style.color = '#084298';
+    badge.textContent = 'đã cài';
+  }
+}
+
+function showWorkerHelp() {
+  toast('Xem file DEPLOY.md đã tải về cùng app để biết cách deploy Worker miễn phí!');
+}
+
+// ── PROXY CHAIN ──
+const proxyPreference = JSON.parse(localStorage.getItem('nf_proxy_pref') || '{}');
+
+// Parse Worker JSON response
+function parseWorkerResponse(json, source) {
+  if (json.status !== 'ok' || !Array.isArray(json.items)) return null;
+  return json.items.map((item, i) => ({
+    id: `${source.id}_${i}_${Date.now()}`,
+    sourceId: source.id, sourceName: source.name, sourceColor: source.color,
+    title: item.title?.trim() || '',
+    link:  item.link?.trim()  || '',
+    desc:  item.desc  || '',
+    pubDate: item.pubDate ? new Date(item.pubDate) : new Date(),
+    img: item.img || '',
+    saved: false,
+  })).filter(a => a.title && a.link);
+}
+
+// Parse rss2json.com JSON
+function parseRss2jsonResponse(json, source) {
+  if (json.status !== 'ok' || !Array.isArray(json.items)) return null;
+  return json.items.slice(0, 20).map((item, i) => {
+    let img = item.thumbnail || item.enclosure?.link || '';
+    if (!img) {
+      const html = item.description || item.content || '';
+      const m = html.match(/<img[^>]+src=["']([^"']+)/i);
+      if (m) img = m[1];
+    }
+    return {
+      id: `${source.id}_${i}_${Date.now()}`,
+      sourceId: source.id, sourceName: source.name, sourceColor: source.color,
+      title: item.title?.trim() || '',
+      link:  item.link?.trim()  || '',
+      desc:  (item.description || item.content || '').replace(/<[^>]+>/g,'').trim().slice(0,300),
+      pubDate: item.pubDate ? new Date(item.pubDate) : new Date(),
+      img, saved: false,
+    };
+  }).filter(a => a.title && a.link);
+}
+
+// ── FETCH WITH TIMEOUT ──
+function fetchWithTimeout(url, ms) {
+  const ctrl = new AbortController();
+  const id = setTimeout(() => ctrl.abort(), ms);
+  return fetch(url, { signal: ctrl.signal }).finally(() => clearTimeout(id));
+}
+
+// ── FETCH ONE SOURCE ──
+async function fetchSource(source) {
+  setSourceStatus(source.id, 'loading');
+  const workerBase = getWorkerUrl();
+
+  // Helper: fetch một proxy, trả articles hoặc null
+  const tryProxy = async (url, parse, timeout = PROXY_TIMEOUT) => {
+    try {
+      const res = await fetchWithTimeout(url, timeout);
+      if (!res.ok) return null;
+      const data = res.headers.get('content-type')?.includes('json')
+        ? await res.json() : await res.text();
+      const articles = parse(data, source);
+      return (articles && articles.length > 0) ? articles : null;
+    } catch { return null; }
+  };
+
+  // ── Bước 1: Race Worker + rss2json song song — lấy cái nào về trước ──
+  const racers = [];
+  if (workerBase) {
+    racers.push(tryProxy(
+      `${workerBase}/proxy?url=${encodeURIComponent(source.url)}`,
+      (data) => parseWorkerResponse(typeof data === 'string' ? JSON.parse(data) : data, source)
+    ));
+  }
+  racers.push(tryProxy(
+    `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(source.url)}&count=20`,
+    (data) => parseRss2jsonResponse(typeof data === 'string' ? JSON.parse(data) : data, source)
+  ));
+
+  // Promise.any: lấy kết quả đầu tiên thành công, bỏ qua lỗi
+  try {
+    const winner = await Promise.any(racers.map(p => p.then(r => r || Promise.reject())));
+    if (winner) {
+      writeCache(source.id, winner);
+      setSourceStatus(source.id, 'ok');
+      if (workerBase) updateWorkerBadge(true);
+      return winner;
+    }
+  } catch {}
+
+  // ── Bước 2: Fallback allorigins + corsproxy song song ──
+  try {
+    const fallbacks = await Promise.any([
+      tryProxy(
+        `https://api.allorigins.win/get?url=${encodeURIComponent(source.url)}`,
+        (data) => { const d = typeof data === 'string' ? JSON.parse(data) : data; return parseXml(d.contents, source); }
+      ).then(r => r || Promise.reject()),
+      tryProxy(
+        `https://corsproxy.io/?${encodeURIComponent(source.url)}`,
+        (data) => parseXml(data, source),
+        PROXY_TIMEOUT
+      ).then(r => r || Promise.reject()),
+    ]);
+    if (fallbacks) {
+      writeCache(source.id, fallbacks);
+      setSourceStatus(source.id, 'ok');
+      return fallbacks;
+    }
+  } catch {}
+
+  // ── Bước 3: Stale cache ──
+  setSourceStatus(source.id, 'error');
+  return readStaleCache(source.id) || [];
+}
+
+// ── XML PARSER (dùng cho allorigins / corsproxy) ──
+function parseXml(xmlText, source) {
+  if (!xmlText) return [];
+  try {
+    const doc = new DOMParser().parseFromString(xmlText, 'text/xml');
+    if (doc.querySelector('parsererror')) return [];
+    return [...doc.querySelectorAll('item')].slice(0, 20).map((item, i) => {
+      const title   = item.querySelector('title')?.textContent?.trim() || '';
+      const link    = item.querySelector('link')?.textContent?.trim() || '';
+      const pubDate = item.querySelector('pubDate')?.textContent?.trim() || '';
+      const rawDesc = item.querySelector('description')?.textContent || '';
+      const desc    = rawDesc.replace(/<[^>]+>/g,'').trim().slice(0, 300);
+      const img     = extractImageFromItem(item, rawDesc);
+      return {
+        id: `${source.id}_${i}_${Date.now()}`,
+        sourceId: source.id, sourceName: source.name, sourceColor: source.color,
+        title, link, desc,
+        pubDate: pubDate ? new Date(pubDate) : new Date(),
+        img, saved: false,
+      };
+    }).filter(a => a.title && a.link);
+  } catch { return []; }
+}
+
+function extractImageFromItem(item, rawDesc = '') {
+  // 1. <enclosure type="image/...">
+  const enc = item.querySelector('enclosure');
+  if (enc?.getAttribute('url') && (enc.getAttribute('type') || '').includes('image'))
+    return enc.getAttribute('url');
+
+  // 2. <media:thumbnail> / <media:content> / <thumbnail>
+  for (const tag of ['media\\:thumbnail','thumbnail','media\\:content']) {
+    try {
+      const u = item.querySelector(tag)?.getAttribute('url');
+      if (u) return u;
+    } catch {}
+  }
+
+  // 3. Bất kỳ [url] attribute trỏ tới ảnh
+  for (const el of item.querySelectorAll('[url]')) {
+    const u = el.getAttribute('url');
+    if (u && /\.(jpg|jpeg|png|webp|gif)/i.test(u)) return u;
+  }
+
+  // 4. <img src="..."> trong description (Google News để ảnh ở đây)
+  const descHtml = rawDesc || item.querySelector('description')?.textContent || '';
+  const imgTag = descHtml.match(/<img[^>]+src=["']([^"']+)/i);
+  if (imgTag) return imgTag[1];
+
+  // 5. URL ảnh thô trong toàn bộ text item
+  const fullText = item.textContent || '';
+  const rawUrl = fullText.match(/https?:\/\/[^\s"'<>]+\.(jpg|jpeg|png|webp)(\?[^\s"'<>]*)?/i);
+  if (rawUrl) return rawUrl[0];
+
+  return '';
+}
+
+// ── SOURCE STATUS INDICATOR ──
+function setSourceStatus(sourceId, status) {
+  const el = document.getElementById(`src-status-${sourceId}`);
+  if (!el) return;
+  const map = { loading: '⟳', ok: '✓', error: '✕' };
+  const col = { loading: 'var(--muted)', ok: 'var(--accent2)', error: 'var(--accent)' };
+  el.textContent = map[status] || '';
+  el.style.color = col[status] || '';
+}
+
+// ── FETCH ALL ──
 async function fetchAll() {
   const enabled = state.sources.filter(s => s.enabled);
   if (!enabled.length) { toast('Không có nguồn nào được bật!'); return; }
-  showLoading();
-  state.articles = [];
-  const results = await Promise.allSettled(enabled.map(s => fetchSource(s)));
-  results.forEach(r => { if(r.status === 'fulfilled') state.articles.push(...r.value); });
-  // Mark saved
-  state.articles.forEach(a => { a.saved = state.saved.some(s => s.link === a.link); });
-  renderFeed();
-  updateFilterStats();
-  toast(`Đã tải ${state.articles.length} bài từ ${enabled.length} nguồn`);
+
+  // Hiện cache cũ ngay lập tức
+  const cached = [];
+  enabled.forEach(s => {
+    const c = readCache(s.id);
+    if (c) cached.push(...c);
+  });
+  if (cached.length > 0) {
+    state.articles = cached;
+    state.articles.forEach(a => { a.saved = state.saved.some(s => s.link === a.link); });
+    renderFeed(); updateFilterStats();
+  } else {
+    showLoading();
+  }
+
+  // Fetch song song tất cả — không giới hạn concurrency vì đã có timeout per-proxy
+  state.articles = [...cached];
+  let freshCount = 0;
+
+  await Promise.allSettled(enabled.map(async s => {
+    if (readCache(s.id)) return; // cache còn mới, bỏ qua
+
+    const articles = await fetchSource(s);
+    if (articles.length > 0) {
+      state.articles = state.articles.filter(a => a.sourceId !== s.id);
+      state.articles.push(...articles);
+      state.articles.forEach(a => { a.saved = state.saved.some(sv => sv.link === a.link); });
+      freshCount++;
+      scheduleRender(); // debounced — không render mỗi source nữa
+    }
+  }));
+
+  // Render lần cuối chắc chắn sau khi tất cả xong
+  renderFeed(); updateFilterStats(); renderSources();
+  if (freshCount > 0) toast(`✓ Cập nhật ${freshCount} nguồn`);
+  else if (cached.length > 0) toast('Đang dùng cache');
+  else toast('Không tải được — kiểm tra mạng');
 }
 
 // ── FILTER ──
@@ -655,7 +1012,7 @@ function renderFeed() {
     const desc = a.desc ? (search ? highlight(a.desc.slice(0,160), search) : a.desc.slice(0,160)) : '';
     const delay = (idx % 12) * 0.03;
     return `
-      <div class="article-card" style="animation-delay:${delay}s">
+      <div class="article-card" style="animation-delay:${delay}s" data-id="${a.id}">
         ${a.img
           ? `<img class="card-img" src="${a.img}" alt="" loading="lazy" onerror="this.style.display='none'">`
           : `<div class="card-img-placeholder">📰</div>`}
@@ -666,16 +1023,18 @@ function renderFeed() {
           </div>
           <div class="card-title">${title}</div>
           ${desc ? `<div class="card-desc">${desc}…</div>` : ''}
+          <div class="card-translated" id="tl-${a.id}" style="display:none"></div>
         </div>
         <div class="card-footer">
           <a href="${a.link}" target="_blank" rel="noopener">Đọc bài →</a>
+          <button class="translate-btn" id="tlbtn-${a.id}" onclick="translateCard('${a.id}')" title="Dịch sang tiếng Việt">🌐</button>
           <button class="save-btn ${savedClass}" onclick="toggleSave('${a.id}')" title="${savedClass ? 'Bỏ lưu' : 'Lưu lại'}">🔖</button>
         </div>
       </div>`;
   }).join('');
 
-  // Update source counts
-  renderSources();
+  // Update source counts — tách riêng, không gọi trong renderFeed
+  // renderSources() được gọi sau fetchAll và khi thay đổi source list
 }
 
 function highlight(text, query) {
@@ -737,6 +1096,7 @@ function renderSources() {
         ${s.name}
       </div>
       <div style="display:flex;gap:4px;align-items:center">
+        <span id="src-status-${s.id}" style="font-size:11px;min-width:12px;text-align:center"></span>
         ${s.enabled ? `<span class="source-count">${count}</span>` : ''}
         <button onclick="toggleSource('${s.id}')" style="background:none;border:none;cursor:pointer;font-size:12px;opacity:.6" title="${s.enabled?'Tắt':'Bật'}">
           ${s.enabled ? '●' : '○'}
@@ -809,25 +1169,65 @@ function removeKeyword(kw) {
   save(); renderKeywords(); updateFilterStats(); renderFeed();
 }
 
-function exportKeywords() {
-  if (!state.keywords.length) { toast('Chưa có từ khoá để xuất'); return; }
-  const blob = new Blob([state.keywords.join('\n')], { type: 'text/plain' });
+// ── EXPORT / IMPORT (gộp nguồn báo + từ khoá) ──
+function exportAll() {
+  const data = {
+    version: 1,
+    exported: new Date().toISOString(),
+    sources: state.sources.map(({ name, url, color, enabled }) => ({ name, url, color, enabled })),
+    keywords: state.keywords,
+  };
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
-  a.download = 'newsfilter-keywords.txt';
+  a.download = `newsfilter-backup-${new Date().toISOString().slice(0,10)}.json`;
   a.click();
+  toast(`Đã xuất ${data.sources.length} nguồn + ${data.keywords.length} từ khoá`);
 }
 
-function importKeywords(event) {
+function importAll(event) {
   const file = event.target.files[0];
   if (!file) return;
   const reader = new FileReader();
   reader.onload = e => {
-    const lines = e.target.result.split('\n').map(l => l.trim().toLowerCase()).filter(Boolean);
-    let added = 0;
-    lines.forEach(kw => { if (!state.keywords.includes(kw)) { state.keywords.push(kw); added++; } });
-    save(); renderKeywords(); updateFilterStats(); renderFeed();
-    toast(`Đã nhập ${added} từ khoá mới`);
+    try {
+      const data = JSON.parse(e.target.result);
+
+      let srcAdded = 0, srcSkipped = 0, kwAdded = 0;
+
+      // Nhập nguồn báo
+      if (Array.isArray(data.sources)) {
+        const colors = ['#8e44ad','#16a085','#d35400','#2980b9','#c0392b','#e84118','#0097e6','#27ae60'];
+        data.sources.forEach(item => {
+          if (!item.name || !item.url) { srcSkipped++; return; }
+          if (state.sources.some(s => s.url === item.url)) { srcSkipped++; return; }
+          state.sources.push({
+            id: 'src_' + Date.now() + '_' + srcAdded,
+            name: item.name, url: item.url,
+            color: item.color || colors[state.sources.length % colors.length],
+            enabled: item.enabled !== false,
+          });
+          srcAdded++;
+        });
+      }
+
+      // Nhập từ khoá
+      if (Array.isArray(data.keywords)) {
+        data.keywords.forEach(kw => {
+          const k = String(kw).trim().toLowerCase();
+          if (k && !state.keywords.includes(k)) { state.keywords.push(k); kwAdded++; }
+        });
+      }
+
+      save(); renderSources(); renderKeywords(); updateFilterStats(); renderFeed();
+      const parts = [];
+      if (srcAdded)   parts.push(`${srcAdded} nguồn mới`);
+      if (kwAdded)    parts.push(`${kwAdded} từ khoá mới`);
+      if (srcSkipped) parts.push(`bỏ qua ${srcSkipped} nguồn trùng`);
+      toast('Nhập: ' + (parts.join(', ') || 'không có gì mới'));
+    } catch (err) {
+      toast(`Lỗi đọc file: ${err.message}`);
+    }
   };
   reader.readAsText(file);
 }
@@ -840,46 +1240,164 @@ function toast(msg) {
   setTimeout(() => el.classList.remove('show'), 2500);
 }
 
+// ── THEME ──
+function applyTheme(dark) {
+  document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
+  document.getElementById('theme-btn').textContent = dark ? '☀️' : '🌙';
+  localStorage.setItem('nf_theme', dark ? 'dark' : 'light');
+}
+
+function toggleTheme() {
+  const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+  applyTheme(!isDark);
+}
+
 // ── ACCORDION ──
 function toggleAccordion(id) {
   document.getElementById(id).classList.toggle('open');
 }
 
-// ── SCROLL TO TOP ──
-function scrollToTop() {
-  document.getElementById('feed').scrollTo({ top: 0, behavior: 'smooth' });
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+// ── TRANSLATE ──
+// Dùng Google Translate unofficial endpoint — miễn phí, không cần API key
+// Chỉ dịch title + desc, không gọi khi đã dịch rồi
+const translateCache = {}; // { articleId: { title, desc } }
+
+async function translateCard(id) {
+  const btn = document.getElementById(`tlbtn-${id}`);
+  const box = document.getElementById(`tl-${id}`);
+  if (!btn || !box) return;
+
+  // Toggle: nếu đang hiện thì ẩn đi
+  if (box.style.display !== 'none') {
+    box.style.display = 'none';
+    btn.textContent = '🌐';
+    return;
+  }
+
+  // Nếu đã có cache thì hiện lại ngay
+  if (translateCache[id]) {
+    showTranslation(id, translateCache[id]);
+    return;
+  }
+
+  // Tìm bài viết
+  const article = [...state.articles, ...state.saved].find(a => a.id === id);
+  if (!article) return;
+
+  // Kiểm tra ngôn ngữ — chỉ dịch nếu không phải tiếng Việt
+  const isVietnamese = /[àáạảãăắặẳẵâấậẩẫèéẹẻẽêếệểễìíịỉĩòóọỏõôốộổỗơớợởỡùúụủũưứựửữỳýỵỷỹđ]/i.test(article.title);
+  if (isVietnamese) {
+    toast('Bài này đã là tiếng Việt');
+    return;
+  }
+
+  btn.textContent = '⟳';
+  btn.classList.add('translating');
+
+  try {
+    const textToTranslate = [article.title, article.desc || ''].filter(Boolean).join('\n\n---\n\n');
+    const translated = await googleTranslate(textToTranslate, 'vi');
+    const parts = translated.split('\n\n---\n\n');
+    const result = { title: parts[0] || '', desc: parts[1] || '' };
+    translateCache[id] = result;
+    showTranslation(id, result);
+  } catch (e) {
+    toast('Không dịch được — kiểm tra mạng');
+    console.warn('Translate error:', e);
+  } finally {
+    btn.textContent = '🌐';
+    btn.classList.remove('translating');
+  }
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+function showTranslation(id, result) {
+  const box = document.getElementById(`tl-${id}`);
+  if (!box) return;
+  box.innerHTML = `
+    <span class="tl-label">🇻🇳 Bản dịch</span>
+    <strong style="display:block;margin-bottom:4px;font-size:calc(var(--title-size)*0.85);line-height:1.3">${result.title}</strong>
+    ${result.desc ? `<span>${result.desc}</span>` : ''}
+  `;
+  box.style.display = 'block';
+  document.getElementById(`tlbtn-${id}`)?.setAttribute('title', 'Ẩn bản dịch');
+}
+
+async function googleTranslate(text, targetLang) {
+  // Unofficial Google Translate endpoint
+  const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=${targetLang}&dt=t&q=${encodeURIComponent(text)}`;
+  const res = await fetch(url);
+  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  const json = await res.json();
+  // Ghép các đoạn dịch lại
+  return json[0].map(chunk => chunk[0]).join('');
+}
+
+// ── SCROLL TO TOP ──
+function scrollToTop() {
+  // Cuộn cả window lẫn #feed
+  window.scrollTo({ top: 0, behavior: 'smooth' });
   const feed = document.getElementById('feed');
+  if (feed) feed.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// Hiện nút khi cuộn xuống > 300px (theo dõi cả window + #feed)
+function initScrollTop() {
   const btn = document.getElementById('scroll-top');
-  // Watch both window and feed div scroll
-  function onScroll() {
-    const y = window.scrollY || feed.scrollTop;
-    btn.classList.toggle('visible', y > 200);
-  }
-  window.addEventListener('scroll', onScroll);
-  feed.addEventListener('scroll', onScroll);
-});
+  if (!btn) return;
+  const feed = document.getElementById('feed');
+  const check = () => {
+    const y = Math.max(window.scrollY, feed ? feed.scrollTop : 0);
+    btn.classList.toggle('visible', y > 300);
+  };
+  window.addEventListener('scroll', check, { passive: true });
+  if (feed) feed.addEventListener('scroll', check, { passive: true });
+}
 
 // ── INIT ──
 function init() {
+  // Áp dụng theme đã lưu, hoặc theo hệ điều hành
+  const saved = localStorage.getItem('nf_theme');
+  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  applyTheme(saved ? saved === 'dark' : prefersDark);
+
+  // Xoá cache nếu đang dùng parser version cũ (không có img tốt)
+  const PARSER_VER = 'v2';
+  if (localStorage.getItem('nf_parser_ver') !== PARSER_VER) {
+    Object.keys(localStorage)
+      .filter(k => k.startsWith('nf_cache_'))
+      .forEach(k => localStorage.removeItem(k));
+    localStorage.setItem('nf_parser_ver', PARSER_VER);
+  }
   renderSources();
   renderKeywords();
   updateFilterStats();
-  // Show empty state, prompt user to load
-  document.getElementById('feed').innerHTML = `
-    <div class="empty-state">
-      <h3>Chào mừng đến NewsFilter 👋</h3>
-      <p>Bấm <strong>Tải lại</strong> để lấy tin tức từ các nguồn báo.</p>
-    </div>`;
-  // Auto-fetch on load
+  updateWorkerBadge();
+  initScrollTop();
+
+  // Hiện cache cũ ngay lập tức (nếu có) → không thấy màn hình trắng
+  const allStale = [];
+  state.sources.filter(s => s.enabled).forEach(s => {
+    const c = readStaleCache(s.id);
+    if (c) allStale.push(...c);
+  });
+
+  if (allStale.length > 0) {
+    state.articles = allStale;
+    state.articles.forEach(a => { a.saved = state.saved.some(s => s.link === a.link); });
+    renderFeed(); updateFilterStats();
+  } else {
+    document.getElementById('feed').innerHTML = `
+      <div class="empty-state">
+        <h3>Chào mừng đến NewsFilter 👋</h3>
+        <p>Đang tải tin tức…</p>
+      </div>`;
+  }
+
+  // Fetch mới nền
   fetchAll();
 }
 
 init();
 </script>
-
 </body>
 </html>
